@@ -45,7 +45,7 @@ export function LoginForm() {
 						</div>
 					</div>
 					<a
-						className='self-stretch text-right text-base font-medium text-gray-500'
+						className='self-stretch text-right text-base font-medium text-gray-500 underline'
 						href='/#'
 					>
 						Esqueci minha senha
