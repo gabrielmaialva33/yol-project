@@ -62,7 +62,8 @@
 						"noUnknownAtRule": "off",
 						"useExplicitType": "off",
 						"useForComponent": "off",
-						"useExportsLast": "off"
+						"useExportsLast": "off",
+						"useSortedClasses": "off"
 					},
 					"suspicious": {
 						"noReactSpecificProps": "off"
