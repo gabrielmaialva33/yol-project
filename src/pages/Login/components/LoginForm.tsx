@@ -4,7 +4,7 @@ export function LoginForm() {
 	const emailId = useId()
 	const passwordId = useId()
 	return (
-		<div className='flex h-[607px] w-[490px] flex-col items-center justify-center gap-10 rounded-lg bg-white p-[75px] font-sans shadow-lg'>
+		<div className='flex h-[607px] w-[490px] flex-col items-center justify-center gap-10 rounded-lg bg-white px-[32.5px] font-sans shadow-lg'>
 			<div className='flex flex-col items-center gap-[15px] self-stretch'>
 				<h2 className='self-stretch text-center text-[40px] font-semibold leading-[0.6em] tracking-[-0.01em] text-gray-900'>
 					Fazer login
