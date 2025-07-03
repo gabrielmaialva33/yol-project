@@ -13,7 +13,7 @@ export function LoginPage() {
 						src='/logo-yol.svg'
 					/>
 				</div>
-				<div className='z-10 w-full max-w-md'>
+				<div className='z-10 w-full max-w-[490px]'>
 					<LoginForm />
 				</div>
 			</div>
