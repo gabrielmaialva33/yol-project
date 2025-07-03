@@ -6,7 +6,7 @@ export function LoginForm() {
 	return (
 		<div className='flex h-[607px] w-[490px] flex-col items-center justify-center gap-10 rounded-lg bg-white p-[75px] font-sans shadow-lg'>
 			<div className='flex flex-col items-center gap-[15px] self-stretch'>
-				<h2 className='self-stretch text-center text-4xl font-semibold text-gray-900'>
+				<h2 className='self-stretch text-center text-[40px] font-semibold leading-[0.6em] tracking-[-0.01em] text-gray-900'>
 					Fazer login
 				</h2>
 			</div>
