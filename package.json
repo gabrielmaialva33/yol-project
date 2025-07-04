@@ -16,6 +16,7 @@
 		"lint": "pnpm run \"/lint:./\"",
 		"format": "biome format",
 		"validate": "pnpm lint && pnpm test:ci && pnpm test:e2e:ci",
+		"prebuild": "npx msw init public/",
 		"build": "vite build",
 		"preview": "vite preview"
 	},
