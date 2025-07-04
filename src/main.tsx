@@ -5,8 +5,11 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter} from 'react-router'
 import {App} from './App'
+import {worker} from './mocks/browser'
 
 const queryClient = new QueryClient()
+
+worker.start()
 
 const container = document.querySelector('#root')
 if (container) {
