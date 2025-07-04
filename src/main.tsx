@@ -9,8 +9,8 @@ import {worker} from './mocks/browser'
 
 const queryClient = new QueryClient()
 
-// Only start MSW in development
-if (import.meta.env.DEV) {
+// Start MSW in development or when deployed on GitHub Pages
+if (import.meta.env.DEV || window.location.hostname.includes('github.io')) {
   worker.start({
     serviceWorker: {
       url: '/yol-project/mockServiceWorker.js'
