@@ -6,6 +6,7 @@ import {defineConfig} from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(() => ({
+	base: '/yol-project/',
 	plugins: [tsconfigPaths(), react(), tailwindcss()],
 	test: {
 		bail: 1,
