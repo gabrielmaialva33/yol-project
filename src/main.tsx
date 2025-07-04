@@ -18,7 +18,7 @@ if (container) {
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={false} />
-				<BrowserRouter>
+				<BrowserRouter basename='/yol-project/'>
 					<App />
 				</BrowserRouter>
 			</QueryClientProvider>
