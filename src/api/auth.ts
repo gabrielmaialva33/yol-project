@@ -7,7 +7,7 @@ const Auth = v.object({
 export type Auth = v.InferOutput<typeof Auth>
 
 export async function login(data: Auth) {
-	const response = await fetch('login', {
+	const response = await fetch('/api/login', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
