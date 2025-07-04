@@ -13,7 +13,7 @@ export function LoginForm() {
 			<form className='flex flex-col items-start gap-5 self-stretch'>
 				<div className='flex flex-col items-start gap-5 self-stretch'>
 					<div className='flex h-[50px] items-center gap-2.5 self-stretch rounded-md border border-default px-3 py-2.5'>
-						<div className='flex flex-col items-start justify-center'>
+						<div className='flex w-full flex-col items-start justify-center'>
 							<label className='sr-only' htmlFor={emailId}>
 								E-mail
 							</label>
@@ -29,7 +29,7 @@ export function LoginForm() {
 						</div>
 					</div>
 					<div className='flex h-[50px] items-center gap-2.5 self-stretch rounded-md border border-default px-3 py-2.5'>
-						<div className='flex flex-col items-start justify-center'>
+						<div className='flex w-full flex-col items-start justify-center'>
 							<label className='sr-only' htmlFor={passwordId}>
 								Senha
 							</label>
