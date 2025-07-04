@@ -1,4 +1,11 @@
 import {useState} from 'react'
+import downIcon from '/icons/down.svg'
+import foldersIcon from '/icons/folders.svg'
+import leftSquareIcon from '/icons/left-square.svg'
+import logoCollapsed from '/icons/logo.svg'
+import magnifierIcon from '/icons/magnifier.svg'
+import overviewIcon from '/icons/overview.svg'
+import logoExpanded from '/logo-yol.svg'
 import {SidebarItem} from './SidebarItem'
 
 interface MenuItem {
@@ -12,12 +19,12 @@ interface MenuItem {
 
 const pages: MenuItem[] = [
 	{
-		icon: '/icons/overview.svg',
+		icon: overviewIcon,
 		text: 'Visão Geral',
 		active: true
 	},
 	{
-		icon: '/icons/folders.svg',
+		icon: foldersIcon,
 		text: 'Pastas',
 		subItems: [{text: 'Cadastro'}, {text: 'Consulta'}]
 	}
@@ -73,14 +80,14 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 			className={`cursor-pointer duration-500 ${
 				props.isCollapsed ? 'w-10' : 'w-[159px] ml-4'
 			}`}
-			src={props.isCollapsed ? '/icons/logo.svg' : '/logo-yol.svg'}
+			src={props.isCollapsed ? logoCollapsed : logoExpanded}
 		/>
 		{!props.isCollapsed && (
 			<button onClick={props.toggle} type='button'>
 				<img
 					alt='Toggle Sidebar'
 					className='transition-transform duration-300'
-					src='/icons/left-square.svg'
+					src={leftSquareIcon}
 				/>
 			</button>
 		)}
@@ -90,11 +97,7 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 const SearchInput = (props: {isCollapsed: boolean}) =>
 	props.isCollapsed ? null : (
 		<div className='flex items-center rounded-md bg-[#86878B] mt-6 px-4 py-2'>
-			<img
-				alt='Search'
-				className='w-4 h-4 text-white'
-				src='/icons/magnifier.svg'
-			/>
+			<img alt='Search' className='w-4 h-4 text-white' src={magnifierIcon} />
 			<input
 				className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
 				placeholder='Search'
@@ -189,7 +192,7 @@ const MenuList = (props: {
 						className={`w-4 h-4 transition-transform ${
 							showAll ? 'rotate-180' : ''
 						}`}
-						src='/icons/down.svg'
+						src={downIcon}
 					/>
 					<span className='ml-2 text-sm text-white font-semibold'>
 						{showAll ? 'Show less' : 'Show more'}
@@ -221,7 +224,7 @@ const Sidebar = () => {
 					<img
 						alt='Toggle Sidebar'
 						className='transition-transform duration-300 rotate-180'
-						src='/icons/left-square.svg'
+						src={leftSquareIcon}
 					/>
 				</button>
 			)}

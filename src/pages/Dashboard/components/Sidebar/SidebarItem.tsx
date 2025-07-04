@@ -1,3 +1,5 @@
+import downIcon from '/icons/down.svg'
+
 interface SidebarItemProps {
 	icon: string
 	text: string
@@ -60,7 +62,7 @@ const SidebarItem = (props: SidebarItemProps) => {
 					className={`w-5 h-5 ml-auto transition-transform ${
 						props.isOpen && 'rotate-180'
 					}`}
-					src='/icons/down.svg'
+					src={downIcon}
 				/>
 			)}
 			{!props.isCollapsed && props.badge && (
