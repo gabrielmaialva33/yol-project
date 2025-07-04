@@ -1,7 +1,10 @@
 import {HttpResponse, http} from 'msw'
 
 export const handlers = [
-	http.get('/', () => {
-		return HttpResponse.json([])
+	http.post('/login', () => {
+		return HttpResponse.json({
+			email: 'example@email.com',
+			password: 'password'
+		})
 	})
 ]
