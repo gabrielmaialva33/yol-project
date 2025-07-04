@@ -5,46 +5,46 @@
 		{
 			"purpose": "maskable",
 			"sizes": "192x192",
-			"src": "/icon-192x192.png",
+			"src": "/yol-project/icon-192x192.png",
 			"type": "image/png"
 		},
 		{
 			"sizes": "512x512",
-			"src": "/icon-512x512.png",
+			"src": "/yol-project/icon-512x512.png",
 			"type": "image/png"
 		}
 	],
-	"id": "/",
+	"id": "/yol-project/",
 	"lang": "en",
 	"name": "Vitamin",
-	"scope": "/",
+	"scope": "/yol-project/",
 	"screenshots": [
 		{
 			"form_factor": "narrow",
 			"sizes": "585x1266",
-			"src": "/screenshot-1.webp",
+			"src": "/yol-project/screenshot-1.webp",
 			"type": "image/png"
 		},
 		{
 			"form_factor": "narrow",
 			"sizes": "585x1266",
-			"src": "/screenshot-2.webp",
+			"src": "/yol-project/screenshot-2.webp",
 			"type": "image/png"
 		},
 		{
 			"form_factor": "wide",
 			"sizes": "1366x768",
-			"src": "/screenshot-3.webp",
+			"src": "/yol-project/screenshot-3.webp",
 			"type": "image/png"
 		},
 		{
 			"form_factor": "wide",
 			"sizes": "1366x768",
-			"src": "/screenshot-4.webp",
+			"src": "/yol-project/screenshot-4.webp",
 			"type": "image/png"
 		}
 	],
 	"short_name": "Vitamin",
-	"start_url": "/",
+	"start_url": "/yol-project/",
 	"theme_color": "#BD34FE"
 }
