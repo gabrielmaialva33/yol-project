@@ -9,7 +9,14 @@ import {worker} from './mocks/browser'
 
 const queryClient = new QueryClient()
 
-worker.start()
+// Only start MSW in development
+if (import.meta.env.DEV) {
+  worker.start({
+    serviceWorker: {
+      url: '/yol-project/mockServiceWorker.js'
+    }
+  })
+}
 
 const container = document.querySelector('#root')
 if (container) {
