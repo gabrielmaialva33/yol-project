@@ -1,8 +1,27 @@
+import {useMutation} from '@tanstack/react-query'
+import {login} from 'api/auth'
 import {useId} from 'react'
+import {useNavigate} from 'react-router'
 
 export function LoginForm() {
 	const emailId = useId()
 	const passwordId = useId()
+	const navigate = useNavigate()
+	const {mutateAsync} = useMutation({
+		mutationFn: login,
+		onSuccess: () => {
+			navigate('/dashboard')
+		}
+	})
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
+		const formData = new FormData(event.currentTarget)
+		const email = formData.get('email') as string
+		const password = formData.get('password') as string
+		await mutateAsync({email, password})
+	}
+
 	return (
 		<div className='flex w-full flex-col items-center justify-center gap-10 rounded-[15px] bg-white p-8 font-sans shadow-lg md:h-[607px] md:px-[32.5px] md:py-16'>
 			<div className='flex flex-col items-center gap-[15px] self-stretch'>
@@ -10,7 +29,10 @@ export function LoginForm() {
 					Fazer login
 				</h2>
 			</div>
-			<form className='flex flex-col items-start gap-5 self-stretch'>
+			<form
+				className='flex flex-col items-start gap-5 self-stretch'
+				onSubmit={handleSubmit}
+			>
 				<div className='flex flex-col items-start gap-5 self-stretch'>
 					<div className='flex h-[50px] items-center gap-2.5 self-stretch rounded-md border border-default px-3 py-2.5'>
 						<div className='flex w-full flex-col items-start justify-center'>
