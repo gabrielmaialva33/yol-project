@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
 @theme {
 	--font-sans: "Montserrat", sans-serif;
 	--font-work-sans: "Work Sans", sans-serif;
@@ -14,4 +16,26 @@
 .filter-orange {
 	filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg)
 		brightness(101%) contrast(101%);
+}
+
+@keyframes zoom-in-50 {
+	from {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes zoom-in-95 {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
