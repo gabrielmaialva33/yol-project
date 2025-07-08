@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
-import {useId, useState} from 'react'
+import {useEffect, useId, useState} from 'react'
 import {
 	Area,
 	AreaChart,
@@ -27,10 +27,14 @@ export function RequestsCard() {
 		queryKey: ['requests'],
 		queryFn: getRequests
 	})
-	const [currentMonthIndex, setCurrentMonthIndex] = useState(
-		requests.length > 0 ? requests.length - 1 : 0
-	)
+	const [currentMonthIndex, setCurrentMonthIndex] = useState(0)
 	const id = useId()
+
+	useEffect(() => {
+		if (requests.length > 0) {
+			setCurrentMonthIndex(requests.length - 1)
+		}
+	}, [requests.length])
 
 	const handlePrevMonth = () => {
 		setCurrentMonthIndex(prev => (prev > 0 ? prev - 1 : prev))
