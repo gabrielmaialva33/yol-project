@@ -63,7 +63,8 @@
 						"useExplicitType": "off",
 						"useForComponent": "off",
 						"useExportsLast": "off",
-						"useSortedClasses": "off"
+						"useSortedClasses": "off",
+						"noSecrets": "off"
 					},
 					"suspicious": {
 						"noReactSpecificProps": "off"
