@@ -11,11 +11,11 @@ const queryClient = new QueryClient()
 
 // Start MSW in development or when deployed on GitHub Pages
 if (import.meta.env.DEV || window.location.hostname.includes('github.io')) {
-  worker.start({
-    serviceWorker: {
-      url: '/yol-project/mockServiceWorker.js'
-    }
-  })
+	worker.start({
+		serviceWorker: {
+			url: '/yol-project/mockServiceWorker.js'
+		}
+	})
 }
 
 const container = document.querySelector('#root')
