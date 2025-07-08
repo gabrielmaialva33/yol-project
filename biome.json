@@ -53,6 +53,9 @@
 			"includes": ["**/*"],
 			"linter": {
 				"rules": {
+					"complexity": {
+						"noVoid": "off"
+					},
 					"correctness": {
 						"useImportExtensions": "off",
 						"noUndeclaredDependencies": "off"
