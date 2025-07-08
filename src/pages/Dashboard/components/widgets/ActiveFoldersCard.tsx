@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
-import {Line, LineChart, ResponsiveContainer} from 'recharts'
+import {CartesianGrid, Line, LineChart, ResponsiveContainer} from 'recharts'
 
 interface FolderData {
 	active: number
@@ -27,35 +27,34 @@ export function ActiveFoldersCard() {
 	})
 
 	return (
-		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
-			<h3 className='text-lg font-semibold text-gray-900 mb-2'>
-				Pastas ativas
-			</h3>
-			<div className='flex items-end justify-between mb-4'>
-				<div>
-					<div className='text-3xl font-bold text-gray-900'>
-						{folders?.active}
-					</div>
-					<div className='text-sm text-gray-500'>
-						{folders?.newThisMonth} novos neste mês
-					</div>
+		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200 flex flex-col justify-between'>
+			<div>
+				<h3 className='text-lg font-semibold text-gray-900 mb-2'>
+					Pastas ativas
+				</h3>
+				<div className='text-5xl font-bold text-[#1F2A37]'>
+					{folders?.active}
 				</div>
-				<div className='w-32 h-16'>
-					<ResponsiveContainer height='100%' width='100%'>
-						<LineChart data={folders?.history}>
-							<Line
-								dataKey='value'
-								dot={false}
-								stroke='#06B6D4'
-								strokeWidth={2}
-								type='monotone'
-							/>
-						</LineChart>
-					</ResponsiveContainer>
+				<div className='text-sm text-[#5E6278]'>
+					{folders?.newThisMonth} novos neste mês
 				</div>
 			</div>
+			<div className='h-24 -mx-6 mb-2'>
+				<ResponsiveContainer height='100%' width='100%'>
+					<LineChart data={folders?.history}>
+						<CartesianGrid strokeDasharray='3 3' vertical={false} />
+						<Line
+							dataKey='value'
+							dot={false}
+							stroke='#06B6D4'
+							strokeWidth={2}
+							type='monotone'
+						/>
+					</LineChart>
+				</ResponsiveContainer>
+			</div>
 			<button
-				className='text-cyan-500 text-sm font-medium hover:text-cyan-600'
+				className='text-sm font-medium text-[#1CD6F4] underline'
 				type='button'
 			>
 				Visualizar pastas

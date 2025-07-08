@@ -24,7 +24,7 @@ export function AreaDivisionCard() {
 				Divisão por áreas
 			</h3>
 			<div className='flex items-center justify-between'>
-				<div className='w-32 h-32'>
+				<div className='w-40 h-40'>
 					<ResponsiveContainer height='100%' width='100%'>
 						<PieChart>
 							<Pie
@@ -50,6 +50,7 @@ export function AreaDivisionCard() {
 									const y = cy + radius * Math.sin(-midAngle * Radian)
 									return (
 										<text
+											className='text-sm font-semibold'
 											dominantBaseline='central'
 											fill='white'
 											textAnchor='middle'
@@ -61,7 +62,7 @@ export function AreaDivisionCard() {
 									)
 								}}
 								labelLine={false}
-								outerRadius={70}
+								outerRadius={60}
 							>
 								{areaDivision.map(entry => (
 									<Cell fill={entry.color} key={entry.name} stroke='white' />

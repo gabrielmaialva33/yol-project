@@ -19,7 +19,7 @@ export function TasksCard() {
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200 relative'>
 			<div className='flex items-center justify-between mb-4'>
 				<h3 className='text-lg font-semibold text-gray-900'>Suas tarefas</h3>
-				<div className='flex items-center space-x-2 text-sm text-gray-500'>
+				<div className='flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 rounded-md p-2'>
 					<span>
 						{dateRange?.from
 							? `${formatDate(dateRange.from)} - ${

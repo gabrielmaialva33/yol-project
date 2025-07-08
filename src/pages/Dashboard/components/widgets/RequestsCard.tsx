@@ -70,20 +70,20 @@ export function RequestsCard() {
 					</button>
 				</div>
 			</div>
-			<div className='text-sm text-gray-500 mb-2'>Requisições por período</div>
+			<div className='text-sm text-[#A1A5B7] mb-2'>Requisições por período</div>
 			<div className='mb-4'>
-				<div className='text-sm font-medium text-gray-600 mb-1'>
+				<div className='text-base font-semibold text-[#1F2A37] mb-1'>
 					Novas neste mês
 				</div>
 				<div className='flex items-center space-x-2'>
-					<span className='text-2xl font-bold text-gray-900'>6</span>
+					<span className='text-4xl font-bold text-gray-900'>6</span>
 					<div className='flex-1 bg-gray-200 rounded-full h-2'>
 						<div
-							className='bg-teal-500 h-2 rounded-full'
+							className='bg-[#1CD6F4] h-2 rounded-full'
 							style={{width: '62%'}}
 						/>
 					</div>
-					<span className='text-sm font-medium text-teal-600'>62%</span>
+					<span className='text-sm font-medium text-[#A1A5B7]'>62%</span>
 				</div>
 			</div>
 			<div className='h-32'>
@@ -96,12 +96,6 @@ export function RequestsCard() {
 							tickLine={false}
 						/>
 						<CartesianGrid strokeDasharray='3 3' vertical={false} />
-						<XAxis
-							axisLine={false}
-							dataKey='month'
-							tick={{fontSize: 12, fill: '#6B7280'}}
-							tickLine={false}
-						/>
 						<YAxis
 							axisLine={false}
 							tick={{fontSize: 12, fill: '#6B7280'}}
