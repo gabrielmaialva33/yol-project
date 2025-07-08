@@ -15,8 +15,8 @@ const generateHearingData = (label: string, color: string) => {
 }
 
 export const hearings = [
-	generateHearingData('Audiências', '#004B50'),
-	generateHearingData('Prazos Jud.', '#92D7CF'),
-	generateHearingData('Extra Jud.', '#92D7CF'),
-	generateHearingData('Fatais', '#004B50')
+	generateHearingData('Audiências', '#008980'),
+	generateHearingData('Prazos Jud.', '#BAE3E0'),
+	generateHearingData('Extra Jud.', '#BAE3E0'),
+	generateHearingData('Fatais', '#008980')
 ]
