@@ -11,3 +11,4 @@ coverage
 /playwright/.cache/
 .idea
 tmp
+logs
