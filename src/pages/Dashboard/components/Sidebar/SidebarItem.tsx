@@ -11,37 +11,45 @@ interface SidebarItemProps {
 	isOpen?: boolean
 }
 
-const SidebarItem = (props: SidebarItemProps) => {
-	const activeClasses = props.isCollapsed
-		? 'text-[#EC6553]'
-		: 'bg-[#EC6553] text-white'
-	const hoverClasses = props.isCollapsed
-		? 'hover:text-[#EC6553]'
-		: 'hover:bg-[#EC6553] hover:text-white'
+const getActiveClasses = (isCollapsed: boolean) => {
+	return isCollapsed ? 'text-[#EC6553]' : 'bg-[#EC6553] text-white'
+}
+
+const getHoverClasses = (isCollapsed: boolean) => {
+	return isCollapsed ? 'hover:text-[#EC6553]' : 'hover:bg-[#EC6553] hover:text-white'
+}
+
+const getIconClasses = (active: boolean, isCollapsed: boolean) => {
+	if (active && !isCollapsed) return 'w-6 h-6 brightness-0 invert'
+	if (active && isCollapsed) return 'w-6 h-6 filter-orange'
+	return 'w-6 h-6'
+}
+
+const renderIcon = (props: SidebarItemProps) => {
+	if (props.color) {
+		return (
+			<span
+				className='w-2.5 h-2.5 rounded-full'
+				style={{backgroundColor: props.color}}
+			/>
+		)
+	}
 
 	return (
-		<li
-			className={`
-      relative flex items-center py-2 px-3 my-1
-      font-semibold rounded-md cursor-pointer
-      transition-colors group text-base
-      ${props.active ? activeClasses : `text-white ${hoverClasses}`}
-  `}
-		>
-			{props.color ? (
-				<span
-					className='w-2.5 h-2.5 rounded-full'
-					style={{backgroundColor: props.color}}
-				/>
-			) : (
-				<img
-					alt={props.text}
-					className={`w-6 h-6 ${
-						props.active && !props.isCollapsed ? 'brightness-0 invert' : ''
-					} ${props.active && props.isCollapsed ? 'filter-orange' : ''}`}
-					src={props.icon || '/placeholder.svg'}
-				/>
-			)}
+		<img
+			alt={props.text}
+			className={getIconClasses(props.active || false, props.isCollapsed)}
+			src={props.icon || '/placeholder.svg'}
+		/>
+	)
+}
+
+const SidebarItem = (props: SidebarItemProps) => {
+	const activeClasses = getActiveClasses(props.isCollapsed)
+	const hoverClasses = getHoverClasses(props.isCollapsed)
+
+	return (
+		<>
 			<style>
 				{`
         .filter-orange {
@@ -49,28 +57,38 @@ const SidebarItem = (props: SidebarItemProps) => {
         }
       `}
 			</style>
-			<span
-				className={`overflow-hidden transition-all ${
-					props.isCollapsed ? 'w-0' : 'w-52 ml-4'
-				}`}
+			<li
+				className={`
+      relative flex items-center py-2 px-3 my-1
+      font-semibold rounded-md cursor-pointer
+      transition-colors group text-base
+      ${props.active ? activeClasses : `text-white ${hoverClasses}`}
+  `}
 			>
-				{props.text}
-			</span>
-			{props.hasSubItems && !props.isCollapsed && (
-				<img
-					alt='Dropdown'
-					className={`w-5 h-5 ml-auto transition-transform ${
-						props.isOpen ? 'rotate-180' : ''
+				{renderIcon(props)}
+				<span
+					className={`overflow-hidden transition-all ${
+						props.isCollapsed ? 'w-0' : 'w-52 ml-4'
 					}`}
-					src={downIcon || '/placeholder.svg'}
-				/>
-			)}
-			{!props.isCollapsed && props.badge && (
-				<div className='ml-auto text-xs bg-[#475569] text-white rounded-md px-2 py-1'>
-					{props.badge}
-				</div>
-			)}
-		</li>
+				>
+					{props.text}
+				</span>
+				{props.hasSubItems && !props.isCollapsed && (
+					<img
+						alt='Dropdown'
+						className={`w-5 h-5 ml-auto transition-transform ${
+							props.isOpen ? 'rotate-180' : ''
+						}`}
+						src={downIcon || '/placeholder.svg'}
+					/>
+				)}
+				{!props.isCollapsed && props.badge && (
+					<div className='ml-auto text-xs bg-[#475569] text-white rounded-md px-2 py-1'>
+						{props.badge}
+					</div>
+				)}
+			</li>
+		</>
 	)
 }
 
