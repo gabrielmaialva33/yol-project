@@ -41,7 +41,9 @@ export function AreaDivisionCard() {
 									outerRadius,
 									value
 								}) => {
-									if (midAngle === undefined) return null
+									if (midAngle === undefined) {
+										return null
+									}
 									const Radian = Math.PI / 180
 									const radius = innerRadius + (outerRadius - innerRadius) * 0.5
 									const x = cx + radius * Math.cos(-midAngle * Radian)

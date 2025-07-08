@@ -1,59 +1,37 @@
 'use client'
 
-import {useQuery} from '@tanstack/react-query'
+import {DateTime} from 'luxon'
 import {useState} from 'react'
+import {DayPicker} from 'react-day-picker'
+import 'react-day-picker/dist/style.css'
 import {TaskItem} from './TaskItem'
-
-interface Task {
-	id: string
-	title: string
-	category: string
-	completed: boolean
-	color: string
-}
-
-async function getTasks(): Promise<Task[]> {
-	const response = await fetch('/api/tasks')
-	return response.json()
-}
+import {useTasks} from './useTasks'
 
 export function TasksCard() {
-	const {data: tasks = []} = useQuery<Task[]>({
-		queryKey: ['tasks'],
-		queryFn: getTasks
-	})
-	const [optimisticTasks, setOptimisticTasks] = useState<Task[]>([])
+	const {displayTasks, dateRange, setDateRange, toggleTask} = useTasks()
+	const [showDatePicker, setShowDatePicker] = useState(false)
 
-	const toggleTask = (id: string) => {
-		setOptimisticTasks(prev => {
-			const existingTask = prev.find(task => task.id === id)
-			if (existingTask) {
-				return prev.map(task =>
-					task.id === id ? {...task, completed: !task.completed} : task
-				)
-			}
-			const originalTask = tasks.find(task => task.id === id)
-			if (originalTask) {
-				return [...prev, {...originalTask, completed: !originalTask.completed}]
-			}
-			return prev
-		})
+	const formatDate = (date: Date) => {
+		return DateTime.fromJSDate(date).toFormat('dd/MM/yyyy')
 	}
 
-	const displayTasks = tasks.map(task => {
-		const optimisticTask = optimisticTasks.find(
-			optimistic => optimistic.id === task.id
-		)
-		return optimisticTask || task
-	})
-
 	return (
-		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200 relative'>
 			<div className='flex items-center justify-between mb-4'>
 				<h3 className='text-lg font-semibold text-gray-900'>Suas tarefas</h3>
 				<div className='flex items-center space-x-2 text-sm text-gray-500'>
-					<span>9 Jan 2023 - 7 Fev 2023</span>
-					<button className='p-1' type='button'>
+					<span>
+						{dateRange?.from
+							? `${formatDate(dateRange.from)} - ${
+									dateRange.to ? formatDate(dateRange.to) : ''
+								}`
+							: 'Selecione um período'}
+					</span>
+					<button
+						className='p-1'
+						onClick={() => setShowDatePicker(!showDatePicker)}
+						type='button'
+					>
 						<svg
 							className='w-4 h-4'
 							fill='none'
@@ -71,6 +49,23 @@ export function TasksCard() {
 					</button>
 				</div>
 			</div>
+			{showDatePicker && (
+				<div className='absolute top-16 right-0 bg-gray-50 border rounded-lg shadow-lg z-10'>
+					<DayPicker
+						className='bg-gray-50'
+						classNames={{
+							// biome-ignore lint/style/useNamingConvention: <explanation>
+							day_selected:
+								'bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600',
+							// biome-ignore lint/style/useNamingConvention: <explanation>
+							day_today: 'bg-blue-100 text-blue-600'
+						}}
+						mode='range'
+						onSelect={setDateRange}
+						selected={dateRange}
+					/>
+				</div>
+			)}
 			<div className='space-y-3'>
 				{displayTasks.map(task => (
 					<TaskItem key={task.id} task={task} toggleTask={toggleTask} />
