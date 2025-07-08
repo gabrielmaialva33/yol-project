@@ -29,10 +29,13 @@ const getPastMonths = (count: number) => {
 	return pastMonths
 }
 
+const HISTORY_MONTHS_COUNT = 6
+const PERCENTAGE_MULTIPLIER = 100
+
 export const folders = {
 	active: faker.number.int({min: 400, max: 500}),
 	newThisMonth: faker.number.int({min: 50, max: 100}),
-	history: getPastMonths(6).map(month => ({
+	history: getPastMonths(HISTORY_MONTHS_COUNT).map(month => ({
 		month,
 		value: faker.number.int({min: 300, max: 450})
 	}))
@@ -76,12 +79,12 @@ export const folderActivity = [
 		label: 'ATRASADAS',
 		value: overdue,
 		color: 'bg-red-500',
-		percentage: (overdue / inProgress) * 100
+		percentage: (overdue / inProgress) * PERCENTAGE_MULTIPLIER
 	},
 	{
-		label: 'SOLUCIONADAS',
+		label: 'Resolvidas',
 		value: solved,
 		color: 'bg-green-500',
-		percentage: (solved / inProgress) * 100
+		percentage: (solved / inProgress) * PERCENTAGE_MULTIPLIER
 	}
 ]
