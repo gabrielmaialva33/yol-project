@@ -129,24 +129,27 @@ const skinColor = [
 	'Black'
 ]
 
-export const birthdays = Array.from({length: 10}, () => ({
-	avatar: `https://avataaars.io/?avatarStyle=Circle&topType=${faker.helpers.arrayElement(
-		topType
-	)}&accessoriesType=${faker.helpers.arrayElement(
-		accessoriesType
-	)}&hairColor=${faker.helpers.arrayElement(
-		hairColor
-	)}&facialHairType=${faker.helpers.arrayElement(
-		facialHairType
-	)}&clotheType=${faker.helpers.arrayElement(
-		clotheType
-	)}&eyeType=${faker.helpers.arrayElement(
-		eyeType
-	)}&eyebrowType=${faker.helpers.arrayElement(
-		eyebrowType
-	)}&mouthType=${faker.helpers.arrayElement(
-		mouthType
-	)}&skinColor=${faker.helpers.arrayElement(skinColor)}`,
-	name: faker.person.fullName(),
-	email: faker.internet.email()
-}))
+export const birthdays = Array.from(
+	{length: faker.number.int({min: 3, max: 10})},
+	() => ({
+		avatar: `https://avataaars.io/?avatarStyle=Circle&topType=${faker.helpers.arrayElement(
+			topType
+		)}&accessoriesType=${faker.helpers.arrayElement(
+			accessoriesType
+		)}&hairColor=${faker.helpers.arrayElement(
+			hairColor
+		)}&facialHairType=${faker.helpers.arrayElement(
+			facialHairType
+		)}&clotheType=${faker.helpers.arrayElement(
+			clotheType
+		)}&eyeType=${faker.helpers.arrayElement(
+			eyeType
+		)}&eyebrowType=${faker.helpers.arrayElement(
+			eyebrowType
+		)}&mouthType=${faker.helpers.arrayElement(
+			mouthType
+		)}&skinColor=${faker.helpers.arrayElement(skinColor)}`,
+		name: faker.person.fullName(),
+		email: faker.internet.email()
+	})
+)
