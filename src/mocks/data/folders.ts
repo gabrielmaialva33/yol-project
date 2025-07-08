@@ -42,22 +42,22 @@ export const areaDivision = [
 	{
 		name: 'Penal',
 		value: faker.number.int({min: 10, max: 50}),
-		color: '#EF4444'
+		color: '#EC6553'
 	},
 	{
 		name: 'Trabalhista',
 		value: faker.number.int({min: 10, max: 50}),
-		color: '#10B981'
+		color: '#2FAC68'
 	},
 	{
 		name: 'Cível',
 		value: faker.number.int({min: 10, max: 50}),
-		color: '#06B6D4'
+		color: '#1CD6F4'
 	},
 	{
 		name: 'Cível Contencioso',
 		value: faker.number.int({min: 10, max: 50}),
-		color: '#F59E0B'
+		color: '#F6C000'
 	}
 ]
 
@@ -69,7 +69,7 @@ export const folderActivity = [
 	{
 		label: 'EM ANDAMENTO',
 		value: inProgress,
-		color: 'bg-yellow-400',
+		color: 'bg-orange-400',
 		percentage: 100
 	},
 	{
