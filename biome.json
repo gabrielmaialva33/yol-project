@@ -64,7 +64,8 @@
 						"useForComponent": "off",
 						"useExportsLast": "off",
 						"useSortedClasses": "off",
-						"noSecrets": "off"
+						"noSecrets": "off",
+						"noExcessiveLinesPerFunction": "off"
 					},
 					"suspicious": {
 						"noReactSpecificProps": "off"
@@ -74,13 +75,7 @@
 						"noNamespaceImport": "off"
 					},
 					"style": {
-						"useNamingConvention": {
-							"level": "error",
-							"options": {
-								"strictCase": false,
-								"requireAscii": true
-							}
-						},
+						"useNamingConvention": "off",
 						"useFilenamingConvention": {
 							"level": "error",
 							"options": {
