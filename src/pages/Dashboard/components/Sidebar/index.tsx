@@ -1,3 +1,5 @@
+'use client'
+
 import {useState} from 'react'
 import downIcon from '/icons/down.svg'
 import foldersIcon from '/icons/folders.svg'
@@ -78,7 +80,7 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 		<img
 			alt='Logo'
 			className={`cursor-pointer duration-500 ${
-				props.isCollapsed ? 'w-10' : 'w-[159px] ml-4'
+				props.isCollapsed ? 'w-10' : 'w-[159px]'
 			}`}
 			src={props.isCollapsed ? logoCollapsed : logoExpanded}
 		/>
@@ -87,7 +89,7 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 				<img
 					alt='Toggle Sidebar'
 					className='transition-transform duration-300'
-					src={leftSquareIcon}
+					src={leftSquareIcon || '/placeholder.svg'}
 				/>
 			</button>
 		)}
@@ -96,8 +98,12 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 
 const SearchInput = (props: {isCollapsed: boolean}) =>
 	props.isCollapsed ? null : (
-		<div className='flex items-center rounded-md bg-[#86878B] mt-6 px-4 py-2'>
-			<img alt='Search' className='w-4 h-4 text-white' src={magnifierIcon} />
+		<div className='flex items-center rounded-md bg-[#475569] mt-6 px-4 py-2'>
+			<img
+				alt='Search'
+				className='w-4 h-4 text-white'
+				src={magnifierIcon || '/placeholder.svg'}
+			/>
 			<input
 				className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
 				placeholder='Search'
@@ -166,7 +172,7 @@ const MenuList = (props: {
 	return (
 		<ul className='pt-2'>
 			<p
-				className={`text-white font-semibold text-sm mt-4 mb-2 ${
+				className={`text-sm font-semibold text-[#A1A5B7] mt-4 mb-2 ${
 					props.isCollapsed ? 'hidden' : 'block'
 				}`}
 			>
@@ -192,9 +198,9 @@ const MenuList = (props: {
 						className={`w-4 h-4 transition-transform ${
 							showAll ? 'rotate-180' : ''
 						}`}
-						src={downIcon}
+						src={downIcon || '/placeholder.svg'}
 					/>
-					<span className='ml-2 text-sm text-white font-semibold'>
+					<span className='ml-2 text-sm text-[#A1A5B7] font-semibold'>
 						{showAll ? 'Show less' : 'Show more'}
 					</span>
 				</button>
@@ -210,21 +216,21 @@ const Sidebar = () => {
 
 	return (
 		<aside
-			className={`bg-[#373737] text-white ${
+			className={`bg-[#1F2A37] text-white ${
 				isCollapsed ? 'w-24 items-center' : 'w-[340px]'
 			} py-10 transition-all duration-300 ease-in-out flex flex-col gap-y-6`}
 		>
 			<SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
 			{isCollapsed && (
 				<button
-					className='bg-[#373737] text-white rounded-full p-1'
+					className='bg-[#1F2A37] text-white rounded-full p-1'
 					onClick={toggleSidebar}
 					type='button'
 				>
 					<img
 						alt='Toggle Sidebar'
 						className='transition-transform duration-300 rotate-180'
-						src={leftSquareIcon}
+						src={leftSquareIcon || '/placeholder.svg'}
 					/>
 				</button>
 			)}

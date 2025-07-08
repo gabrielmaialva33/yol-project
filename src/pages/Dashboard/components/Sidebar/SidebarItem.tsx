@@ -13,20 +13,20 @@ interface SidebarItemProps {
 
 const SidebarItem = (props: SidebarItemProps) => {
 	const activeClasses = props.isCollapsed
-		? 'text-orange-500'
-		: 'bg-orange-500 text-white'
+		? 'text-[#EC6553]'
+		: 'bg-[#EC6553] text-white'
 	const hoverClasses = props.isCollapsed
-		? 'hover:text-orange-500'
-		: 'hover:bg-orange-500 hover:text-white'
+		? 'hover:text-[#EC6553]'
+		: 'hover:bg-[#EC6553] hover:text-white'
 
 	return (
 		<li
 			className={`
-        relative flex items-center py-2 px-3 my-1
-        font-semibold rounded-md cursor-pointer
-        transition-colors group text-base
-        ${props.active ? activeClasses : `text-gray-400 ${hoverClasses}`}
-    `}
+      relative flex items-center py-2 px-3 my-1
+      font-semibold rounded-md cursor-pointer
+      transition-colors group text-base
+      ${props.active ? activeClasses : `text-white ${hoverClasses}`}
+  `}
 		>
 			{props.color ? (
 				<span
@@ -39,15 +39,15 @@ const SidebarItem = (props: SidebarItemProps) => {
 					className={`w-6 h-6 ${
 						props.active && !props.isCollapsed ? 'brightness-0 invert' : ''
 					} ${props.active && props.isCollapsed ? 'filter-orange' : ''}`}
-					src={props.icon}
+					src={props.icon || '/placeholder.svg'}
 				/>
 			)}
 			<style>
 				{`
-          .filter-orange {
-            filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg) brightness(101%) contrast(101%);
-          }
-        `}
+        .filter-orange {
+          filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg) brightness(101%) contrast(101%);
+        }
+      `}
 			</style>
 			<span
 				className={`overflow-hidden transition-all ${
@@ -62,11 +62,11 @@ const SidebarItem = (props: SidebarItemProps) => {
 					className={`w-5 h-5 ml-auto transition-transform ${
 						props.isOpen ? 'rotate-180' : ''
 					}`}
-					src={downIcon}
+					src={downIcon || '/placeholder.svg'}
 				/>
 			)}
 			{!props.isCollapsed && props.badge && (
-				<div className='ml-auto text-xs bg-[#BABBC1] text-[#1E293B] rounded-md px-2 py-1'>
+				<div className='ml-auto text-xs bg-[#475569] text-white rounded-md px-2 py-1'>
 					{props.badge}
 				</div>
 			)}
