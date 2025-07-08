@@ -1,5 +1,6 @@
 'use client'
 
+import {useQuery} from '@tanstack/react-query'
 import {useState} from 'react'
 import {TaskItem} from './TaskItem'
 
@@ -11,60 +12,40 @@ interface Task {
 	color: string
 }
 
-const initialTasks: Task[] = [
-	{
-		id: '1',
-		title: 'Agendamento do processo 7845',
-		category: 'Physics',
-		completed: true,
-		color: 'border-green-500'
-	},
-	{
-		id: '2',
-		title: 'Finalização da pasta 48575',
-		category: 'Mathematic',
-		completed: false,
-		color: 'border-gray-300'
-	},
-	{
-		id: '3',
-		title: 'Audiência do processo 7845',
-		category: 'Chemistry',
-		completed: true,
-		color: 'border-green-500'
-	},
-	{
-		id: '4',
-		title: 'Atualização de cadastro 9088',
-		category: 'History',
-		completed: false,
-		color: 'border-gray-300'
-	},
-	{
-		id: '5',
-		title: 'Finalização da pasta 48575',
-		category: 'English Language',
-		completed: false,
-		color: 'border-gray-300'
-	}
-]
+async function getTasks(): Promise<Task[]> {
+	const response = await fetch('/api/tasks')
+	return response.json()
+}
 
 export function TasksCard() {
-	const [tasks, setTasks] = useState<Task[]>(initialTasks)
+	const {data: tasks = []} = useQuery<Task[]>({
+		queryKey: ['tasks'],
+		queryFn: getTasks
+	})
+	const [optimisticTasks, setOptimisticTasks] = useState<Task[]>([])
 
 	const toggleTask = (id: string) => {
-		setTasks(
-			tasks.map(task =>
-				task.id === id
-					? {
-							...task,
-							completed: !task.completed,
-							color: task.completed ? 'border-gray-300' : 'border-green-500'
-						}
-					: task
-			)
-		)
+		setOptimisticTasks(prev => {
+			const existingTask = prev.find(task => task.id === id)
+			if (existingTask) {
+				return prev.map(task =>
+					task.id === id ? {...task, completed: !task.completed} : task
+				)
+			}
+			const originalTask = tasks.find(task => task.id === id)
+			if (originalTask) {
+				return [...prev, {...originalTask, completed: !originalTask.completed}]
+			}
+			return prev
+		})
 	}
+
+	const displayTasks = tasks.map(task => {
+		const optimisticTask = optimisticTasks.find(
+			optimistic => optimistic.id === task.id
+		)
+		return optimisticTask || task
+	})
 
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
@@ -91,7 +72,7 @@ export function TasksCard() {
 				</div>
 			</div>
 			<div className='space-y-3'>
-				{tasks.map(task => (
+				{displayTasks.map(task => (
 					<TaskItem key={task.id} task={task} toggleTask={toggleTask} />
 				))}
 			</div>

@@ -1,14 +1,22 @@
+import {useQuery} from '@tanstack/react-query'
+
+interface FolderActivity {
+	label: string
+	value: number
+	color: string
+	percentage: number
+}
+
+async function getFolderActivity(): Promise<FolderActivity[]> {
+	const response = await fetch('/api/folder-activity')
+	return response.json()
+}
+
 export function FolderActivityCard() {
-	const activities = [
-		{
-			label: 'EM ANDAMENTO',
-			value: 420,
-			color: 'bg-yellow-400',
-			percentage: 100
-		},
-		{label: 'ATRASADAS', value: 89, color: 'bg-red-500', percentage: 21},
-		{label: 'SOLUCIONADAS', value: 212, color: 'bg-green-500', percentage: 50}
-	]
+	const {data: activities = []} = useQuery<FolderActivity[]>({
+		queryKey: ['folderActivity'],
+		queryFn: getFolderActivity
+	})
 
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>

@@ -1,12 +1,22 @@
-import {faker} from '@faker-js/faker'
+import {useQuery} from '@tanstack/react-query'
 
-const birthdays = Array.from({length: 2}, () => ({
-	avatar: faker.image.avatar(),
-	name: faker.person.fullName(),
-	email: faker.internet.email()
-}))
+interface Birthday {
+	avatar: string
+	name: string
+	email: string
+}
+
+async function getBirthdays(): Promise<Birthday[]> {
+	const response = await fetch('/api/birthdays')
+	return response.json()
+}
 
 export function BirthdaysCard() {
+	const {data: birthdays = []} = useQuery<Birthday[]>({
+		queryKey: ['birthdays'],
+		queryFn: getBirthdays
+	})
+
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
 			<div className='flex items-center justify-between mb-4'>
@@ -22,7 +32,7 @@ export function BirthdaysCard() {
 				Colegas que fazem aniversário este mês
 			</p>
 			<div className='space-y-4'>
-				{birthdays.map(user => (
+				{birthdays.slice(0, 2).map(user => (
 					<div className='flex items-center space-x-3' key={user.email}>
 						<img
 							alt={user.name}

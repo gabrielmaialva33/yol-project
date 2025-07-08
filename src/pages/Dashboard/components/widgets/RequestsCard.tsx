@@ -1,14 +1,22 @@
+import {useQuery} from '@tanstack/react-query'
 import {Line, LineChart, ResponsiveContainer, XAxis} from 'recharts'
 
-const data = [
-	{month: 'Jan', value: 14},
-	{month: 'Fev', value: 17},
-	{month: 'Mar', value: 21},
-	{month: 'Abr', value: 24},
-	{month: 'Mai', value: 18}
-]
+interface Request {
+	month: string
+	value: number
+}
+
+async function getRequests(): Promise<Request[]> {
+	const response = await fetch('/api/requests')
+	return response.json()
+}
 
 export function RequestsCard() {
+	const {data: requests = []} = useQuery<Request[]>({
+		queryKey: ['requests'],
+		queryFn: getRequests
+	})
+
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
 			<div className='flex items-center justify-between mb-4'>
@@ -72,7 +80,7 @@ export function RequestsCard() {
 			</div>
 			<div className='h-32'>
 				<ResponsiveContainer height='100%' width='100%'>
-					<LineChart data={data}>
+					<LineChart data={requests}>
 						<XAxis
 							axisLine={false}
 							dataKey='month'
