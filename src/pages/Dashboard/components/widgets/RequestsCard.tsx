@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
-import {Line, LineChart, ResponsiveContainer, XAxis} from 'recharts'
+import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis} from 'recharts'
 
 interface Request {
 	month: string
@@ -94,6 +94,7 @@ export function RequestsCard() {
 							strokeWidth={2}
 							type='monotone'
 						/>
+						<Tooltip />
 					</LineChart>
 				</ResponsiveContainer>
 			</div>

@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
-import {Cell, Pie, PieChart, ResponsiveContainer} from 'recharts'
+import {Cell, Pie, PieChart, ResponsiveContainer, Tooltip} from 'recharts'
 
 interface AreaDivision {
 	name: string
@@ -39,6 +39,7 @@ export function AreaDivisionCard() {
 									<Cell fill={entry.color} key={entry.name} />
 								))}
 							</Pie>
+							<Tooltip />
 						</PieChart>
 					</ResponsiveContainer>
 				</div>
