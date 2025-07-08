@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
-import {useId} from 'react'
+import {useId, useState} from 'react'
 import {
 	Area,
 	AreaChart,
@@ -13,6 +13,8 @@ import {
 interface Request {
 	month: string
 	value: number
+	new: number
+	percentage: number
 }
 
 async function getRequests(): Promise<Request[]> {
@@ -25,16 +27,33 @@ export function RequestsCard() {
 		queryKey: ['requests'],
 		queryFn: getRequests
 	})
+	const [currentMonthIndex, setCurrentMonthIndex] = useState(
+		requests.length > 0 ? requests.length - 1 : 0
+	)
 	const id = useId()
+
+	const handlePrevMonth = () => {
+		setCurrentMonthIndex(prev => (prev > 0 ? prev - 1 : prev))
+	}
+
+	const handleNextMonth = () => {
+		setCurrentMonthIndex(prev => (prev < requests.length - 1 ? prev + 1 : prev))
+	}
+
+	const currentRequest = requests[currentMonthIndex]
 
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
 			<div className='flex items-center justify-between mb-4'>
-				<h3 className='text-lg font-semibold text-gray-900'>Requisições</h3>
+				<div>
+					<h3 className='text-lg font-semibold text-gray-900'>Requisições</h3>
+					<p className='text-sm text-gray-500'>Requisições por período</p>
+				</div>
 				<div className='flex items-center space-x-2'>
 					<div className='bg-gray-100 rounded p-1'>
 						<button
 							className='p-1 text-gray-400 hover:text-gray-600'
+							onClick={handlePrevMonth}
 							type='button'
 						>
 							<svg
@@ -56,6 +75,7 @@ export function RequestsCard() {
 					<div className='bg-gray-100 rounded p-1'>
 						<button
 							className='p-1 text-gray-400 hover:text-gray-600'
+							onClick={handleNextMonth}
 							type='button'
 						>
 							<svg
@@ -76,29 +96,38 @@ export function RequestsCard() {
 					</div>
 				</div>
 			</div>
-			<div className='text-sm text-[#A1A5B7] mb-2'>Requisições por período</div>
-			<div className='mb-4'>
-				<div className='text-base font-semibold text-[#1F2A37] mb-1'>
-					Novas neste mês
-				</div>
-				<div className='flex items-center space-x-2'>
-					<span className='text-4xl font-bold text-gray-900'>6</span>
-					<div className='flex-1 bg-gray-200 rounded-full h-2'>
-						<div
-							className='h-2 rounded-full'
-							style={{width: '62%', backgroundColor: '#008980'}}
-						/>
+			{currentRequest && (
+				<div className='mb-4'>
+					<div className='text-base font-semibold text-gray-800 mb-1'>
+						{currentMonthIndex === requests.length - 1
+							? 'Novas neste mês'
+							: `Novas em ${currentRequest.month}`}
 					</div>
-					<span className='text-sm font-medium text-[#A1A5B7]'>62%</span>
+					<div className='flex items-center space-x-2'>
+						<span className='text-4xl font-bold text-gray-800'>
+							{currentRequest.new}
+						</span>
+						<div className='flex-1 bg-gray-200 rounded-full h-2'>
+							<div
+								className='h-2 rounded-full bg-teal-500'
+								style={{
+									width: `${currentRequest.percentage}%`
+								}}
+							/>
+						</div>
+						<span className='text-sm font-medium text-gray-500'>
+							{`${Math.round(currentRequest.percentage)}%`}
+						</span>
+					</div>
 				</div>
-			</div>
-			<div className='h-48'>
+			)}
+			<div className='h-64'>
 				<ResponsiveContainer height='100%' width='100%'>
 					<AreaChart data={requests}>
 						<defs>
 							<linearGradient id={id} x1='0' x2='0' y1='0' y2='1'>
-								<stop offset='5%' stopColor='#EC6553' stopOpacity={0.8} />
-								<stop offset='95%' stopColor='#EC6553' stopOpacity={0} />
+								<stop offset='5%' stopColor='#F43F5E' stopOpacity={0.8} />
+								<stop offset='95%' stopColor='#F43F5E' stopOpacity={0} />
 							</linearGradient>
 						</defs>
 						<XAxis
@@ -110,15 +139,16 @@ export function RequestsCard() {
 						<CartesianGrid strokeDasharray='3 3' vertical={false} />
 						<YAxis
 							axisLine={false}
+							domain={[10, 24]}
 							tick={{fontSize: 12, fill: '#6B7280'}}
 							tickLine={false}
 						/>
 						<Tooltip />
 						<Area
 							dataKey='value'
-							dot={{fill: '#EC6553', strokeWidth: 2, r: 4}}
+							dot={{fill: '#F43F5E', strokeWidth: 2, r: 4}}
 							fill={`url(#${id})`}
-							stroke='#EC6553'
+							stroke='#F43F5E'
 							strokeWidth={2}
 							type='monotone'
 						/>
