@@ -3,9 +3,24 @@ import bellIcon from '/icons/bell.svg'
 import calendarIcon from '/icons/calendar.svg'
 import exitIcon from '/icons/exit-right.svg'
 import messagesIcon from '/icons/messages.svg'
+import {messages} from '../../../mocks/data/messages'
+import {notifications} from '../../../mocks/data/notifications'
+import {useDetectOutsideClick} from '../../../utils/useDetectOutsideClick'
+import {MessagesDropdown} from './MessagesDropdown'
+import {NotificationsDropdown} from './NotificationsDropdown'
 
 export function Header() {
 	const navigate = useNavigate()
+	const {
+		isActive: showNotifications,
+		nodeRef: notificationsRef,
+		triggerRef: notificationsTriggerRef
+	} = useDetectOutsideClick(false)
+	const {
+		isActive: showMessages,
+		nodeRef: messagesRef,
+		triggerRef: messagesTriggerRef
+	} = useDetectOutsideClick(false)
 
 	const handleLogout = () => {
 		navigate('/')
@@ -21,16 +36,23 @@ export function Header() {
 					</p>
 				</div>
 				<div className='flex items-center space-x-4'>
-					<button
-						className='p-2 text-gray-400 hover:text-gray-600'
-						type='button'
-					>
-						<img
-							alt='Notifications'
-							className='w-5 h-5'
-							src={bellIcon || '/placeholder.svg'}
-						/>
-					</button>
+					<div className='relative' ref={notificationsRef}>
+						<button
+							className='p-2 text-gray-400 hover:text-gray-600'
+							ref={notificationsTriggerRef}
+							type='button'
+						>
+							<img
+								alt='Notifications'
+								className='w-5 h-5'
+								src={bellIcon || '/placeholder.svg'}
+							/>
+							{notifications.unread > 0 && (
+								<span className='absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-white' />
+							)}
+						</button>
+						{showNotifications && <NotificationsDropdown />}
+					</div>
 					<button
 						className='p-2 text-gray-400 hover:text-gray-600'
 						type='button'
@@ -41,16 +63,23 @@ export function Header() {
 							src={calendarIcon || '/placeholder.svg'}
 						/>
 					</button>
-					<button
-						className='p-2 text-gray-400 hover:text-gray-600'
-						type='button'
-					>
-						<img
-							alt='messages'
-							className='w-5 h-5'
-							src={messagesIcon || '/placeholder.svg'}
-						/>
-					</button>
+					<div className='relative' ref={messagesRef}>
+						<button
+							className='p-2 text-gray-400 hover:text-gray-600'
+							ref={messagesTriggerRef}
+							type='button'
+						>
+							<img
+								alt='messages'
+								className='w-5 h-5'
+								src={messagesIcon || '/placeholder.svg'}
+							/>
+							{messages.unread > 0 && (
+								<span className='absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-white' />
+							)}
+						</button>
+						{showMessages && <MessagesDropdown />}
+					</div>
 					<img
 						alt='User Avatar'
 						className='w-8 h-8 rounded-full'
