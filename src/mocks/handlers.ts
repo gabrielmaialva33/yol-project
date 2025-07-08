@@ -1,6 +1,7 @@
 import {HttpResponse, http} from 'msw'
 import {birthdays} from './data/birthdays'
 import {areaDivision, folderActivity, folders} from './data/folders'
+import {hearings} from './data/hearings'
 import {requests} from './data/requests'
 import {tasks} from './data/tasks'
 
@@ -34,6 +35,10 @@ export const handlers = [
 
 	http.get('/api/birthdays', () => {
 		return HttpResponse.json(birthdays)
+	}),
+
+	http.get('/api/hearings', () => {
+		return HttpResponse.json(hearings)
 	}),
 
 	http.get('https://avatars.githubusercontent.com/*', () => {
