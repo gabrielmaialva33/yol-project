@@ -54,10 +54,8 @@ export function TasksCard() {
 					<DayPicker
 						className='bg-gray-50'
 						classNames={{
-							// biome-ignore lint/style/useNamingConvention: <explanation>
 							day_selected:
 								'bg-blue-500 text-white hover:bg-blue-600 focus:bg-blue-600',
-							// biome-ignore lint/style/useNamingConvention: <explanation>
 							day_today: 'bg-blue-100 text-blue-600'
 						}}
 						mode='range'
