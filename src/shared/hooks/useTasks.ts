@@ -17,6 +17,8 @@ async function getTasks(): Promise<Task[]> {
 	return response.json()
 }
 
+const DISPLAY_TASKS_LIMIT = 5
+
 export function useTasks() {
 	const {data: tasks = []} = useQuery<Task[]>({
 		queryKey: ['tasks'],
@@ -66,7 +68,7 @@ export function useTasks() {
 	})
 
 	return {
-		displayTasks: displayTasks.slice(0, 5),
+		displayTasks: displayTasks.slice(0, DISPLAY_TASKS_LIMIT),
 		dateRange,
 		setDateRange: handleDateRangeChange,
 		toggleTask

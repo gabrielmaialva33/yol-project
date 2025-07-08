@@ -3,12 +3,16 @@ import {server} from 'mocks/server'
 import {HttpResponse, http} from 'msw'
 import {queryClient, render, screen} from 'test-utils'
 
+const EXPECTED_LINKS = 6
+
 it('renders apple', async () => {
 	const {user} = render(<App />)
 
 	expect(screen.getByText('Loading...')).toBeInTheDocument()
 
-	await expect(screen.findAllByRole('link')).resolves.toHaveLength(6)
+	await expect(screen.findAllByRole('link')).resolves.toHaveLength(
+		EXPECTED_LINKS
+	)
 
 	const button = await screen.findByRole('link', {name: /Apple/})
 	await user.click(button)
@@ -19,7 +23,9 @@ it('renders apple', async () => {
 it('renders home page when trying to access an invalid fruit', async () => {
 	render(<App />, {route: '/invalid-fruit'})
 
-	await expect(screen.findAllByRole('link')).resolves.toHaveLength(6)
+	await expect(screen.findAllByRole('link')).resolves.toHaveLength(
+		EXPECTED_LINKS
+	)
 })
 
 it('renders error', async () => {
