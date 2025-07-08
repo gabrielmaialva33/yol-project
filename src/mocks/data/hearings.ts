@@ -1,4 +1,5 @@
 import {faker} from '@faker-js/faker'
+import {DateTime} from 'luxon'
 
 const generateHearingData = (label: string, color: string) => {
 	const total = faker.number.int({min: 1, max: 20})
@@ -10,13 +11,17 @@ const generateHearingData = (label: string, color: string) => {
 		percentage: Math.round(percentage),
 		total,
 		completed,
-		color
+		color,
+		date: faker.date.recent({
+			days: DateTime.now().diff(DateTime.now().minus({days: 8}), 'days').days,
+			refDate: DateTime.now().toJSDate()
+		})
 	}
 }
 
 export const hearings = [
-	generateHearingData('Audiências', '#008980'),
-	generateHearingData('Prazos Jud.', '#BAE3E0'),
-	generateHearingData('Extra Jud.', '#BAE3E0'),
-	generateHearingData('Fatais', '#008980')
+	generateHearingData('Audiências', '#004B50'),
+	generateHearingData('Prazos Jud.', '#92D7CF'),
+	generateHearingData('Extra Jud.', '#92D7CF'),
+	generateHearingData('Fatais', '#004B50')
 ]

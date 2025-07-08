@@ -1,4 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
+import {DateTime} from 'luxon'
 import {useState} from 'react'
 import type {DateRange} from 'react-day-picker'
 import {DateRangePicker} from '../../../../components/DateRangePicker'
@@ -9,6 +10,7 @@ interface Hearing {
 	total: number
 	completed: number
 	color: string
+	date: string
 }
 
 async function getHearings(): Promise<Hearing[]> {
@@ -29,6 +31,19 @@ export function HearingsCard() {
 		setShowDatePicker(!showDatePicker)
 	}
 
+	const filteredHearings = hearings.filter(hearing => {
+		if (!dateRange?.from) {
+			return true
+		}
+		const from = DateTime.fromJSDate(dateRange.from).startOf('day')
+		const to = dateRange.to
+			? DateTime.fromJSDate(dateRange.to).endOf('day')
+			: from.endOf('day')
+		const hearingDate = DateTime.fromISO(hearing.date)
+
+		return hearingDate >= from && hearingDate <= to
+	})
+
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200 relative'>
 			<div className='flex items-center justify-between mb-4'>
@@ -43,7 +58,7 @@ export function HearingsCard() {
 				/>
 			</div>
 			<div className='space-y-6'>
-				{hearings.map(item => (
+				{filteredHearings.map(item => (
 					<div className='flex items-center' key={item.label}>
 						<div className='w-1/4 pr-4'>
 							<div className='text-3xl font-bold text-gray-900'>
