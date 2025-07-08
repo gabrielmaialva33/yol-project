@@ -23,7 +23,7 @@ export function Header() {
 	} = useDetectOutsideClick(false)
 
 	const handleLogout = () => {
-		navigate('/')
+		void navigate('/')
 	}
 
 	return (

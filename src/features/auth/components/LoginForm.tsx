@@ -10,7 +10,7 @@ export function LoginForm() {
 	const {mutateAsync} = useMutation({
 		mutationFn: login,
 		onSuccess: () => {
-			navigate('/dashboard')
+			void navigate('/dashboard')
 		}
 	})
 

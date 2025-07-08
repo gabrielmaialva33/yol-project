@@ -12,6 +12,11 @@ async function getAreaDivision(): Promise<AreaDivision[]> {
 	return response.json()
 }
 
+const DEGREES_IN_HALF_CIRCLE = 180
+const LABEL_POSITION_RATIO = 0.5
+const OUTER_RADIUS = 60
+const MINIMUM_PERCENTAGE_TO_DISPLAY = 2
+
 export function AreaDivisionCard() {
 	const {data: areaDivision = []} = useQuery<AreaDivision[]>({
 		queryKey: ['areaDivision'],
@@ -41,13 +46,18 @@ export function AreaDivisionCard() {
 									outerRadius,
 									value
 								}) => {
-									if (midAngle === undefined) {
+									if (midAngle === undefined || value === undefined) {
 										return null
 									}
-									const Radian = Math.PI / 180
-									const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-									const x = cx + radius * Math.cos(-midAngle * Radian)
-									const y = cy + radius * Math.sin(-midAngle * Radian)
+									if (value < MINIMUM_PERCENTAGE_TO_DISPLAY) {
+										return null
+									}
+									const radian = Math.PI / DEGREES_IN_HALF_CIRCLE
+									const radius =
+										innerRadius +
+										(outerRadius - innerRadius) * LABEL_POSITION_RATIO
+									const x = cx + radius * Math.cos(-midAngle * radian)
+									const y = cy + radius * Math.sin(-midAngle * radian)
 									return (
 										<text
 											className='text-sm font-semibold'
@@ -62,7 +72,7 @@ export function AreaDivisionCard() {
 									)
 								}}
 								labelLine={false}
-								outerRadius={60}
+								outerRadius={OUTER_RADIUS}
 							>
 								{areaDivision.map(entry => (
 									<Cell fill={entry.color} key={entry.name} stroke='white' />

@@ -69,6 +69,8 @@ const favorites: MenuItem[] = [
 	}
 ]
 
+const DROPDOWN_VISIBLE_ITEMS_LIMIT = 3
+
 const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 	<div
 		className={`flex items-center ${
@@ -164,7 +166,7 @@ const MenuList = (props: {
 
 	let visibleItems = props.items
 	if (props.isDropdown && !showAll && !props.isCollapsed) {
-		visibleItems = props.items.slice(0, 3)
+		visibleItems = props.items.slice(0, DROPDOWN_VISIBLE_ITEMS_LIMIT)
 	}
 
 	return (
@@ -185,24 +187,26 @@ const MenuList = (props: {
 					openDropdown={openDropdown}
 				/>
 			))}
-			{props.isDropdown && !props.isCollapsed && props.items.length > 3 && (
-				<button
-					className='flex items-center pl-3 mt-2 cursor-pointer'
-					onClick={() => setShowAll(!showAll)}
-					type='button'
-				>
-					<img
-						alt='Show more'
-						className={`w-4 h-4 transition-transform ${
-							showAll ? 'rotate-180' : ''
-						}`}
-						src={downIcon || '/placeholder.svg'}
-					/>
-					<span className='ml-2 text-sm text-[#A1A5B7] font-semibold'>
-						{showAll ? 'Show less' : 'Show more'}
-					</span>
-				</button>
-			)}
+			{props.isDropdown &&
+				!props.isCollapsed &&
+				props.items.length > DROPDOWN_VISIBLE_ITEMS_LIMIT && (
+					<button
+						className='flex items-center pl-3 mt-2 cursor-pointer'
+						onClick={() => setShowAll(!showAll)}
+						type='button'
+					>
+						<img
+							alt='Show more'
+							className={`w-4 h-4 transition-transform ${
+								showAll ? 'rotate-180' : ''
+							}`}
+							src={downIcon || '/placeholder.svg'}
+						/>
+						<span className='ml-2 text-sm text-[#A1A5B7] font-semibold'>
+							{showAll ? 'Show less' : 'Show more'}
+						</span>
+					</button>
+				)}
 		</ul>
 	)
 }
