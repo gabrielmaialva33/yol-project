@@ -3,7 +3,6 @@ import bellIcon from '/icons/bell.svg'
 import calendarIcon from '/icons/calendar.svg'
 import exitIcon from '/icons/exit-right.svg'
 import messagesIcon from '/icons/messages.svg'
-import userIcon from '/icons/user.png'
 
 export function Header() {
 	const navigate = useNavigate()
@@ -52,17 +51,11 @@ export function Header() {
 							src={messagesIcon || '/placeholder.svg'}
 						/>
 					</button>
-					<button
-						className='p-2 text-gray-400 hover:text-gray-600'
-						type='button'
-					>
-						<img
-							alt='Settings'
-							className='w-5 h-5'
-							src={userIcon || '/placeholder.svg'}
-						/>
-					</button>
-					<div className='w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full' />
+					<img
+						alt='User Avatar'
+						className='w-8 h-8 rounded-full'
+						src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly&accessoriesType=Prescription01&hairColor=Blonde&facialHairType=MoustacheMagnum&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=Red&graphicType=Skull&eyeType=EyeRoll&eyebrowType=FlatNatural&mouthType=Sad&skinColor=Pale'
+					/>
 					<button
 						className='p-2 text-gray-400 hover:text-gray-600'
 						onClick={handleLogout}
