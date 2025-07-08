@@ -10,3 +10,8 @@
 		border-color: #e1e3ea;
 	}
 }
+
+.filter-orange {
+	filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg)
+		brightness(101%) contrast(101%);
+}
