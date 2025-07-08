@@ -60,7 +60,7 @@ const SidebarItem = (props: SidebarItemProps) => {
 				<img
 					alt='Dropdown'
 					className={`w-5 h-5 ml-auto transition-transform ${
-						props.isOpen && 'rotate-180'
+						props.isOpen ? 'rotate-180' : ''
 					}`}
 					src={downIcon}
 				/>

@@ -1,12 +1,17 @@
+import {DashboardContent} from './components/DashboardContent'
+import {Header} from './components/Header'
 import {Sidebar} from './components/Sidebar'
 
 const Dashboard = () => {
 	return (
-		<div className='flex h-screen'>
+		<div className='flex h-screen bg-gray-50'>
 			<Sidebar />
-			<main className='flex-1 p-6'>
-				<h1 className='text-2xl font-bold'>Dashboard</h1>
-			</main>
+			<div className='flex-1 flex flex-col overflow-hidden'>
+				<Header />
+				<main className='flex-1 overflow-y-auto'>
+					<DashboardContent />
+				</main>
+			</div>
 		</div>
 	)
 }
