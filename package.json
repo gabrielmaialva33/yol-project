@@ -38,7 +38,7 @@
 		"valibot": "1.1.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.1.0",
+		"@biomejs/biome": "2.1.1",
 		"@playwright/test": "1.53.2",
 		"@tailwindcss/vite": "4.1.11",
 		"@testing-library/dom": "10.4.0",
