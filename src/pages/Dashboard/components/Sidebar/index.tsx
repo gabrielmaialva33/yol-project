@@ -1,5 +1,3 @@
-
-
 import {useState} from 'react'
 import downIcon from '/icons/down.svg'
 import foldersIcon from '/icons/folders.svg'
