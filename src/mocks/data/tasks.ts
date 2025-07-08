@@ -5,5 +5,5 @@ export const tasks = Array.from({length: 5}, () => ({
 	title: faker.lorem.sentence(),
 	category: faker.lorem.word(),
 	completed: faker.datatype.boolean(),
-	color: faker.internet.color()
+	color: faker.color.rgb()
 }))
