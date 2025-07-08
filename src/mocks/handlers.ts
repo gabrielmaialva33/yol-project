@@ -34,5 +34,11 @@ export const handlers = [
 
 	http.get('/api/birthdays', () => {
 		return HttpResponse.json(birthdays)
+	}),
+
+	http.get('https://avatars.githubusercontent.com/*', () => {
+		return new HttpResponse(null, {
+			status: 200
+		})
 	})
 ]
