@@ -1,5 +1,5 @@
 import {faker} from '@faker-js/faker'
-import {generateAvatar} from '../../utils/generateAvatar'
+import {generateAvatar} from '../../shared/utils/generateAvatar'
 
 export const notifications = {
 	unread: faker.number.int({min: 1, max: 10}),

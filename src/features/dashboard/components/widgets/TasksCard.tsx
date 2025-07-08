@@ -1,7 +1,7 @@
 import {useState} from 'react'
-import {DateRangePicker} from '../../../../components/DateRangePicker'
+import {useTasks} from '../../../../shared/hooks/useTasks'
+import {DateRangePicker} from '../../../../shared/ui/DateRangePicker'
 import {TaskItem} from './TaskItem'
-import {useTasks} from './useTasks'
 
 export function TasksCard() {
 	const {displayTasks, dateRange, setDateRange, toggleTask} = useTasks()

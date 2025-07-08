@@ -2,7 +2,7 @@ import {useQuery} from '@tanstack/react-query'
 import {DateTime} from 'luxon'
 import {useState} from 'react'
 import type {DateRange} from 'react-day-picker'
-import {DateRangePicker} from '../../../../components/DateRangePicker'
+import {DateRangePicker} from '../../../../shared/ui/DateRangePicker'
 
 interface Hearing {
 	label: string

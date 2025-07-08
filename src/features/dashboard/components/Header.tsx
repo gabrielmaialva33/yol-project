@@ -5,7 +5,7 @@ import exitIcon from '/icons/exit-right.svg'
 import messagesIcon from '/icons/messages.svg'
 import {messages} from '../../../mocks/data/messages'
 import {notifications} from '../../../mocks/data/notifications'
-import {useDetectOutsideClick} from '../../../utils/useDetectOutsideClick'
+import {useDetectOutsideClick} from '../../../shared/utils/useDetectOutsideClick'
 import {MessagesDropdown} from './MessagesDropdown'
 import {NotificationsDropdown} from './NotificationsDropdown'
 

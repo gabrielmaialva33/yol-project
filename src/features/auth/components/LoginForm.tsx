@@ -1,7 +1,7 @@
 import {useMutation} from '@tanstack/react-query'
-import {login} from 'api/auth'
 import {useId} from 'react'
 import {useNavigate} from 'react-router'
+import {login} from '../../../shared/api/auth'
 
 export function LoginForm() {
 	const emailId = useId()
