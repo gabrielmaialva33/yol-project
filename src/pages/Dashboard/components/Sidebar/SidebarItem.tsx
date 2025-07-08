@@ -21,7 +21,7 @@ const getHoverClasses = (isCollapsed: boolean) => {
 		: 'hover:bg-[#EC6553] hover:text-white'
 }
 
-const getIconClasses = (active: boolean, isCollapsed: boolean) => {
+const getIconClasses = (isCollapsed: boolean, active = false) => {
 	if (active && !isCollapsed) {
 		return 'w-6 h-6 brightness-0 invert'
 	}
@@ -44,7 +44,7 @@ const renderIcon = (props: SidebarItemProps) => {
 	return (
 		<img
 			alt={props.text}
-			className={getIconClasses(props.active, props.isCollapsed)}
+			className={getIconClasses(props.isCollapsed, props.active)}
 			src={props.icon || '/placeholder.svg'}
 		/>
 	)

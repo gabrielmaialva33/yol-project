@@ -1,4 +1,5 @@
 import {useQuery} from '@tanstack/react-query'
+import {useId} from 'react'
 import {
 	Area,
 	AreaChart,
@@ -24,6 +25,7 @@ export function RequestsCard() {
 		queryKey: ['requests'],
 		queryFn: getRequests
 	})
+	const id = useId()
 
 	return (
 		<div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
@@ -94,7 +96,7 @@ export function RequestsCard() {
 				<ResponsiveContainer height='100%' width='100%'>
 					<AreaChart data={requests}>
 						<defs>
-							<linearGradient id='colorUv' x1='0' x2='0' y1='0' y2='1'>
+							<linearGradient id={id} x1='0' x2='0' y1='0' y2='1'>
 								<stop offset='5%' stopColor='#EC6553' stopOpacity={0.8} />
 								<stop offset='95%' stopColor='#EC6553' stopOpacity={0} />
 							</linearGradient>
@@ -115,7 +117,7 @@ export function RequestsCard() {
 						<Area
 							dataKey='value'
 							dot={{fill: '#EC6553', strokeWidth: 2, r: 4}}
-							fill='url(#colorUv)'
+							fill={`url(#${id})`}
 							stroke='#EC6553'
 							strokeWidth={2}
 							type='monotone'

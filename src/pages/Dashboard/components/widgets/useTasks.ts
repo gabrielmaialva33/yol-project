@@ -25,6 +25,10 @@ export function useTasks() {
 	const [optimisticTasks, setOptimisticTasks] = useState<Task[]>([])
 	const [dateRange, setDateRange] = useState<DateRange | undefined>()
 
+	const handleDateRangeChange = (range: DateRange | undefined) => {
+		setDateRange(range)
+	}
+
 	const toggleTask = (id: string) => {
 		setOptimisticTasks(prev => {
 			const existingTask = prev.find(task => task.id === id)
@@ -64,7 +68,7 @@ export function useTasks() {
 	return {
 		displayTasks: displayTasks.slice(0, 5),
 		dateRange,
-		setDateRange,
+		setDateRange: handleDateRangeChange,
 		toggleTask
 	}
 }
