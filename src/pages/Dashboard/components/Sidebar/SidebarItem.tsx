@@ -16,12 +16,18 @@ const getActiveClasses = (isCollapsed: boolean) => {
 }
 
 const getHoverClasses = (isCollapsed: boolean) => {
-	return isCollapsed ? 'hover:text-[#EC6553]' : 'hover:bg-[#EC6553] hover:text-white'
+	return isCollapsed
+		? 'hover:text-[#EC6553]'
+		: 'hover:bg-[#EC6553] hover:text-white'
 }
 
 const getIconClasses = (active: boolean, isCollapsed: boolean) => {
-	if (active && !isCollapsed) return 'w-6 h-6 brightness-0 invert'
-	if (active && isCollapsed) return 'w-6 h-6 filter-orange'
+	if (active && !isCollapsed) {
+		return 'w-6 h-6 brightness-0 invert'
+	}
+	if (active && isCollapsed) {
+		return 'w-6 h-6 filter-orange'
+	}
 	return 'w-6 h-6'
 }
 
@@ -38,7 +44,7 @@ const renderIcon = (props: SidebarItemProps) => {
 	return (
 		<img
 			alt={props.text}
-			className={getIconClasses(props.active || false, props.isCollapsed)}
+			className={getIconClasses(props.active, props.isCollapsed)}
 			src={props.icon || '/placeholder.svg'}
 		/>
 	)
