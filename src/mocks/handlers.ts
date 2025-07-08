@@ -5,7 +5,20 @@ import {hearings} from './data/hearings'
 import {requests} from './data/requests'
 import {tasks} from './data/tasks'
 
+const fruits = [
+	{id: 1, name: 'Apple', vitamins: ['Vitamin A', 'Vitamin B', 'Vitamin K']},
+	{id: 2, name: 'Banana', vitamins: ['Vitamin B6', 'Vitamin C']},
+	{id: 3, name: 'Orange', vitamins: ['Vitamin C']},
+	{id: 4, name: 'Strawberry', vitamins: ['Vitamin C', 'Folate']},
+	{id: 5, name: 'Blueberry', vitamins: ['Vitamin K', 'Vitamin C']},
+	{id: 6, name: 'Mango', vitamins: ['Vitamin A', 'Vitamin C']}
+]
+
 export const handlers = [
+	http.get('/fruits', () => {
+		return HttpResponse.json(fruits)
+	}),
+
 	http.post('/api/login', () => {
 		return HttpResponse.json({
 			email: 'test@benicio.com.br',

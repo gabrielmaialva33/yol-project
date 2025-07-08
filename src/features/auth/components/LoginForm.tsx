@@ -1,13 +1,16 @@
 import {useMutation} from '@tanstack/react-query'
-import {useId} from 'react'
+import {useId, useState} from 'react'
 import {useNavigate} from 'react-router'
 import {login} from '../../../shared/api/auth'
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function LoginForm() {
 	const emailId = useId()
 	const passwordId = useId()
 	const navigate = useNavigate()
-	const {mutateAsync} = useMutation({
+	const [errors, setErrors] = useState({email: '', password: ''})
+	const {mutateAsync, isError} = useMutation({
 		mutationFn: login,
 		onSuccess: () => {
 			void navigate('/dashboard')
@@ -19,7 +22,28 @@ export function LoginForm() {
 		const formData = new FormData(event.currentTarget)
 		const email = formData.get('email') as string
 		const password = formData.get('password') as string
-		await mutateAsync({email, password})
+
+		const newErrors = {email: '', password: ''}
+		if (!email) {
+			newErrors.email = 'E-mail é obrigatório'
+		} else if (!EMAIL_REGEX.test(email)) {
+			newErrors.email = 'E-mail inválido'
+		}
+		if (!password) {
+			newErrors.password = 'Senha é obrigatória'
+		}
+
+		if (newErrors.email || newErrors.password) {
+			setErrors(newErrors)
+			return
+		}
+
+		setErrors({email: '', password: ''})
+		try {
+			await mutateAsync({email, password})
+		} catch {
+			// error is indicated by isError, swallow to prevent unhandled rejection
+		}
 	}
 
 	return (
@@ -31,6 +55,7 @@ export function LoginForm() {
 			</div>
 			<form
 				className='flex flex-col items-start gap-5 self-stretch'
+				noValidate={true}
 				onSubmit={handleSubmit}
 			>
 				<div className='flex flex-col items-start gap-5 self-stretch'>
@@ -45,11 +70,11 @@ export function LoginForm() {
 								id={emailId}
 								name='email'
 								placeholder='E-mail'
-								required={true}
 								type='email'
 							/>
 						</div>
 					</div>
+					{errors.email && <p className='text-red-500'>{errors.email}</p>}
 					<div className='flex h-[50px] items-center gap-2.5 self-stretch rounded-md border border-default px-3 py-2.5'>
 						<div className='flex w-full flex-col items-start justify-center'>
 							<label className='sr-only' htmlFor={passwordId}>
@@ -61,11 +86,12 @@ export function LoginForm() {
 								id={passwordId}
 								name='password'
 								placeholder='Senha'
-								required={true}
 								type='password'
 							/>
 						</div>
 					</div>
+					{errors.password && <p className='text-red-500'>{errors.password}</p>}
+					{isError && <p className='text-red-500'>E-mail ou senha inválidos</p>}
 					<a
 						className='self-stretch text-right text-base font-medium text-gray-500 underline'
 						href='/#'

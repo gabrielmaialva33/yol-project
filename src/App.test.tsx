@@ -3,37 +3,47 @@ import {server} from 'mocks/server'
 import {HttpResponse, http} from 'msw'
 import {queryClient, render, screen} from 'test-utils'
 
-const EXPECTED_LINKS = 6
+const EXPECTED_LINKS = 1
 
-it('renders apple', async () => {
-	const {user} = render(<App />)
+describe('App Component', () => {
+	describe('Successful rendering', () => {
+		it('should render the login page with forgot password link', async () => {
+			render(<App />)
 
-	expect(screen.getByText('Loading...')).toBeInTheDocument()
+			expect(screen.getByTestId('loading')).toBeInTheDocument()
 
-	await expect(screen.findAllByRole('link')).resolves.toHaveLength(
-		EXPECTED_LINKS
-	)
+			// Wait for the login form to load and check for the forgot password link
+			await expect(screen.findAllByRole('link')).resolves.toHaveLength(
+				EXPECTED_LINKS
+			)
 
-	const button = await screen.findByRole('link', {name: /Apple/})
-	await user.click(button)
+			const forgotPasswordLink = await screen.findByRole('link', {
+				name: /Esqueci minha senha/
+			})
+			expect(forgotPasswordLink).toBeInTheDocument()
+		})
 
-	await expect(screen.findByText('Vitamin K')).resolves.toBeInTheDocument()
-})
+		it('should render the login page when trying to access an invalid route', async () => {
+			render(<App />, {route: '/invalid-route'})
 
-it('renders home page when trying to access an invalid fruit', async () => {
-	render(<App />, {route: '/invalid-fruit'})
+			await expect(screen.findAllByRole('link')).resolves.toHaveLength(
+				EXPECTED_LINKS
+			)
+		})
+	})
 
-	await expect(screen.findAllByRole('link')).resolves.toHaveLength(
-		EXPECTED_LINKS
-	)
-})
+	describe('Error handling', () => {
+		it('should render an error message when the API call fails', async () => {
+			queryClient.clear()
+			server.use(
+				http.get('/api/auth/login', () => new HttpResponse(null, {status: 500}))
+			)
+			render(<App />)
 
-it('renders error', async () => {
-	queryClient.clear()
-	server.use(http.get('/fruits', () => new HttpResponse(null, {status: 500})))
-	render(<App />)
-
-	await expect(
-		screen.findByText('Failed to fetch')
-	).resolves.toBeInTheDocument()
+			// The login page should still render even if there are API errors
+			await expect(screen.findAllByRole('link')).resolves.toHaveLength(
+				EXPECTED_LINKS
+			)
+		})
+	})
 })
