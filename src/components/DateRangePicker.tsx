@@ -1,46 +1,37 @@
-'use client'
-import {DateTime} from 'luxon'
-import {DayPicker, type SelectRangeEventHandler} from 'react-day-picker'
+import {
+	DayPicker,
+	getDefaultClassNames,
+	type SelectRangeEventHandler
+} from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 
+import type {DateRange} from 'react-day-picker'
+import {formatDateRange} from '../utils/formatDateRange'
+
 interface DateRangePickerProps {
-	dateRange: {from: Date; to?: Date} | undefined
-	onDateRangeChange: SelectRangeEventHandler
+	dateRange: DateRange | undefined
+	onDateRangeChange?: SelectRangeEventHandler
 	isOpen: boolean
 	onToggle: () => void
 }
 
-export function formatDateRange(
-	dateRange: {from: Date; to?: Date} | undefined
-) {
-	if (!dateRange?.from) {
-		return 'Selecione um período'
-	}
-
-	const fromFormatted = DateTime.fromJSDate(dateRange.from).toFormat(
-		'dd/MM/yyyy'
-	)
-	const toFormatted = dateRange.to
-		? DateTime.fromJSDate(dateRange.to).toFormat('dd/MM/yyyy')
-		: ''
-
-	return toFormatted ? `${fromFormatted} - ${toFormatted}` : fromFormatted
-}
-
 export function DateRangePicker({
 	dateRange,
-	onDateRangeChange,
+	onDateRangeChange = () => null,
 	isOpen,
 	onToggle
 }: DateRangePickerProps) {
+	const defaultClassNames = getDefaultClassNames()
+
 	return (
 		<div className='relative'>
-			<div
+			<button
 				className='flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 rounded-md p-2 cursor-pointer'
 				onClick={onToggle}
+				type='button'
 			>
 				<span>{formatDateRange(dateRange)}</span>
-				<button className='p-1' type='button'>
+				<div className='p-1'>
 					<svg
 						className='w-4 h-4'
 						fill='none'
@@ -55,20 +46,28 @@ export function DateRangePicker({
 							strokeWidth={2}
 						/>
 					</svg>
-				</button>
-			</div>
+				</div>
+			</button>
 
 			{isOpen && (
-				<div className='absolute top-12 right-0 bg-white border rounded-lg shadow-lg z-10'>
+				<div className='absolute top-12 right-0 bg-white border rounded-lg shadow-lg z-10 p-4'>
 					<DayPicker
-						className='custom-day-picker'
 						classNames={{
-							day_selected: 'bg-blue-500 text-white hover:bg-blue-600',
-							day_today: 'text-blue-600 font-bold',
-							day: 'text-gray-700'
+							...defaultClassNames,
+							root: `${defaultClassNames.root} bg-white`,
+							caption_label: 'text-lg font-semibold text-gray-800',
+							cell: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected])]:bg-blue-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+							day: `${defaultClassNames.day} h-9 w-9 p-0 font-normal text-gray-800`,
+							selected:
+								'bg-blue-500 text-white hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white',
+							today: `${defaultClassNames.today} bg-gray-100 text-gray-900 font-bold`,
+							outside: `${defaultClassNames.outside} text-gray-400 opacity-50`,
+							range_middle: `${defaultClassNames.range_middle} aria-selected:bg-blue-100 aria-selected:text-blue-700`,
+							weekdays: `${defaultClassNames.weekdays} text-gray-600`
 						}}
 						mode='range'
 						onSelect={onDateRangeChange}
+						required={false}
 						selected={dateRange}
 					/>
 				</div>
