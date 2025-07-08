@@ -1,3 +1,6 @@
+import commentIcon from '/icons/comment.svg'
+import attachmentIcon from '/icons/paperclip.svg'
+
 interface Task {
 	id: string
 	title: string
@@ -14,20 +17,21 @@ interface TaskItemProps {
 export function TaskItem({task, toggleTask}: TaskItemProps) {
 	return (
 		<div
-			className={`flex items-center space-x-3 p-3 border-l-4 ${task.color} bg-gray-50 rounded-r`}
+			className='flex items-center space-x-3 p-3 border-l-4 rounded-r'
 			key={task.id}
+			style={{borderColor: task.color}}
 		>
 			<button
-				className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+				className={`w-6 h-6 rounded-md flex items-center justify-center ${
 					task.completed
 						? 'bg-green-500 border-green-500 text-white'
-						: 'border-gray-300 hover:border-gray-400'
+						: 'bg-gray-100 border-gray-100'
 				}`}
 				onClick={() => toggleTask(task.id)}
 				type='button'
 			>
 				{task.completed && (
-					<svg className='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'>
+					<svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
 						<title>Completed</title>
 						<path
 							clipRule='evenodd'
@@ -46,37 +50,25 @@ export function TaskItem({task, toggleTask}: TaskItemProps) {
 				<div className='text-sm text-gray-500'>{task.category}</div>
 			</div>
 			<div className='flex space-x-2'>
-				<button className='p-1 text-gray-400 hover:text-gray-600' type='button'>
-					<svg
+				<button
+					className='p-2 bg-gray-100 rounded-md hover:bg-gray-200'
+					type='button'
+				>
+					<img
+						alt='Comment'
 						className='w-4 h-4'
-						fill='none'
-						stroke='currentColor'
-						viewBox='0 0 24 24'
-					>
-						<title>Comment</title>
-						<path
-							d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							strokeWidth={2}
-						/>
-					</svg>
+						src={commentIcon || '/placeholder.svg'}
+					/>
 				</button>
-				<button className='p-1 text-gray-400 hover:text-gray-600' type='button'>
-					<svg
+				<button
+					className='p-2 bg-gray-100 rounded-md hover:bg-gray-200'
+					type='button'
+				>
+					<img
+						alt='Attachment'
 						className='w-4 h-4'
-						fill='none'
-						stroke='currentColor'
-						viewBox='0 0 24 24'
-					>
-						<title>Edit</title>
-						<path
-							d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z'
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							strokeWidth={2}
-						/>
-					</svg>
+						src={attachmentIcon || '/placeholder.svg'}
+					/>
 				</button>
 			</div>
 		</div>

@@ -1,5 +1,13 @@
 import {useQuery} from '@tanstack/react-query'
-import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis} from 'recharts'
+import {
+	CartesianGrid,
+	Line,
+	LineChart,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis
+} from 'recharts'
 
 interface Request {
 	month: string
@@ -84,6 +92,18 @@ export function RequestsCard() {
 						<XAxis
 							axisLine={false}
 							dataKey='month'
+							tick={{fontSize: 12, fill: '#6B7280'}}
+							tickLine={false}
+						/>
+						<CartesianGrid strokeDasharray='3 3' vertical={false} />
+						<XAxis
+							axisLine={false}
+							dataKey='month'
+							tick={{fontSize: 12, fill: '#6B7280'}}
+							tickLine={false}
+						/>
+						<YAxis
+							axisLine={false}
 							tick={{fontSize: 12, fill: '#6B7280'}}
 							tickLine={false}
 						/>

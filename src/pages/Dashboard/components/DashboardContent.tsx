@@ -25,8 +25,10 @@ export function DashboardContent() {
 				<div className='lg:col-span-2'>
 					<HearingsCard />
 				</div>
-				<BillingCard />
-				<BirthdaysCard />
+				<div className='flex flex-col gap-6'>
+					<BillingCard />
+					<BirthdaysCard />
+				</div>
 			</div>
 		</div>
 	)

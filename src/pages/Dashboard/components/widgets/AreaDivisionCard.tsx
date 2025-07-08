@@ -32,11 +32,37 @@ export function AreaDivisionCard() {
 								cy='50%'
 								data={areaDivision}
 								dataKey='value'
-								innerRadius={30}
-								outerRadius={60}
+								innerRadius={0}
+								label={({
+									cx,
+									cy,
+									midAngle,
+									innerRadius,
+									outerRadius,
+									value
+								}) => {
+									if (midAngle === undefined) return null
+									const Radian = Math.PI / 180
+									const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+									const x = cx + radius * Math.cos(-midAngle * Radian)
+									const y = cy + radius * Math.sin(-midAngle * Radian)
+									return (
+										<text
+											dominantBaseline='central'
+											fill='white'
+											textAnchor='middle'
+											x={x}
+											y={y}
+										>
+											{`${value}%`}
+										</text>
+									)
+								}}
+								labelLine={false}
+								outerRadius={70}
 							>
 								{areaDivision.map(entry => (
-									<Cell fill={entry.color} key={entry.name} />
+									<Cell fill={entry.color} key={entry.name} stroke='white' />
 								))}
 							</Pie>
 							<Tooltip />
@@ -51,9 +77,6 @@ export function AreaDivisionCard() {
 								style={{backgroundColor: item.color}}
 							/>
 							<span className='text-sm text-gray-600'>{item.name}</span>
-							<span className='text-sm font-medium text-gray-900'>
-								{item.value}%
-							</span>
 						</div>
 					))}
 				</div>
