@@ -19,11 +19,22 @@ export const handlers = [
 		return HttpResponse.json(fruits)
 	}),
 
-	http.post('/api/login', () => {
-		return HttpResponse.json({
-			email: 'test@benicio.com.br',
-			password: 'benicio123'
-		})
+	http.post('/api/login', async ({request}) => {
+		const body = (await request.json()) as {email: string; password: string}
+
+		// Valid credentials
+		if (
+			body.email === 'test@benicio.com.br' &&
+			body.password === 'benicio123'
+		) {
+			return HttpResponse.json({
+				email: 'test@benicio.com.br',
+				password: 'benicio123'
+			})
+		}
+
+		// Invalid credentials - return error response
+		return HttpResponse.json({error: 'Invalid credentials'}, {status: 401})
 	}),
 
 	http.get('/api/tasks', () => {

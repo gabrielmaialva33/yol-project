@@ -11,7 +11,7 @@ test.describe('Login Flow', () => {
 
 		await page.getByRole('button', {name: 'Entrar'}).click()
 
-		await expect(page).toHaveURL('/dashboard')
+		await expect(page).toHaveURL('/yol-project/dashboard')
 	})
 
 	test('should show an error message with invalid credentials', async ({
