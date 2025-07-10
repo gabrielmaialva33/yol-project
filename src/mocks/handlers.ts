@@ -1,5 +1,7 @@
+import {DateTime} from 'luxon'
 import {HttpResponse, http} from 'msw'
 import {birthdays} from './data/birthdays'
+import {folderConsultationData} from './data/folder-consultation'
 import {areaDivision, folderActivity, folders} from './data/folders'
 import {hearings} from './data/hearings'
 import {requests} from './data/requests'
@@ -13,6 +15,100 @@ const fruits = [
 	{id: 5, name: 'Blueberry', vitamins: ['Vitamin K', 'Vitamin C']},
 	{id: 6, name: 'Mango', vitamins: ['Vitamin A', 'Vitamin C']}
 ]
+
+const applyFilters = (
+	data: typeof folderConsultationData,
+	params: URLSearchParams
+) => {
+	let filteredData = data
+	const clientNumber = params.get('clientNumber')
+	const dateRange = params.get('dateRange')
+	const area = params.get('area')
+	const status = params.get('status')
+
+	if (clientNumber) {
+		filteredData = filteredData.filter(item => item.id.includes(clientNumber))
+	}
+
+	if (area) {
+		filteredData = filteredData.filter(item => item.area === area)
+	}
+
+	if (status && status !== 'Total') {
+		filteredData = filteredData.filter(item => item.status === status)
+	}
+
+	if (dateRange) {
+		const [startDateStr, endDateStr] = dateRange.split('to')
+		if (startDateStr && endDateStr) {
+			const startDate = DateTime.fromISO(startDateStr.trim())
+			const endDate = DateTime.fromISO(endDateStr.trim())
+
+			if (startDate.isValid && endDate.isValid) {
+				filteredData = filteredData.filter(item => {
+					const itemDate = DateTime.fromISO(item.inclusionDate)
+					return itemDate >= startDate && itemDate <= endDate
+				})
+			}
+		}
+	}
+
+	return filteredData
+}
+
+const applySorting = (
+	data: typeof folderConsultationData,
+	params: URLSearchParams
+) => {
+	const sort = params.get('sort')
+	const direction = params.get('direction')
+
+	if (sort && direction) {
+		data.sort((a, b) => {
+			const aValue = a[sort as keyof typeof a]
+			const bValue = b[sort as keyof typeof b]
+
+			if (aValue < bValue) {
+				return direction === 'asc' ? -1 : 1
+			}
+			if (aValue > bValue) {
+				return direction === 'asc' ? 1 : -1
+			}
+			return 0
+		})
+	}
+
+	return data
+}
+
+const filterAndSortFolders = (
+	url: URL
+): {
+	paginatedData: typeof folderConsultationData
+	total: number
+	page: number
+	limit: number
+	totalPages: number
+} => {
+	const page = Number(url.searchParams.get('page') || '1')
+	const limit = Number(url.searchParams.get('limit') || '10')
+
+	let filteredData = applyFilters(folderConsultationData, url.searchParams)
+	filteredData = applySorting(filteredData, url.searchParams)
+
+	const start = (page - 1) * limit
+	const end = start + limit
+
+	const paginatedData = filteredData.slice(start, end)
+
+	return {
+		paginatedData,
+		total: filteredData.length,
+		page,
+		limit,
+		totalPages: Math.ceil(filteredData.length / limit)
+	}
+}
 
 export const handlers = [
 	http.get('/fruits', () => {
@@ -47,6 +143,20 @@ export const handlers = [
 
 	http.get('/api/folders', () => {
 		return HttpResponse.json(folders)
+	}),
+
+	http.get('/api/folders/consultation', ({request}) => {
+		const url = new URL(request.url)
+		const {paginatedData, total, page, limit, totalPages} =
+			filterAndSortFolders(url)
+
+		return HttpResponse.json({
+			data: paginatedData,
+			total,
+			page,
+			limit,
+			totalPages
+		})
 	}),
 
 	http.get('/api/area-division', () => {
