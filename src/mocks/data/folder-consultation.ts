@@ -1,15 +1,15 @@
 import {faker} from '@faker-js/faker'
-import {generateAvatar} from '../../shared/utils/generateAvatar'
 
 const CLIENT_NUMBER_LENGTH = 4
 
 const createFolder = () => ({
 	id: faker.string.uuid(),
+	favorite: faker.datatype.boolean(),
 	clientNumber: faker.string.numeric(CLIENT_NUMBER_LENGTH),
 	responsible: {
 		name: faker.person.fullName(),
 		email: faker.internet.email(),
-		avatar: generateAvatar()
+		avatar: `https://i.pravatar.cc/150?u=${faker.string.uuid()}`
 	},
 	inclusionDate: faker.date.past().toLocaleDateString('en-GB', {
 		day: '2-digit',

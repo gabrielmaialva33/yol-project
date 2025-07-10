@@ -145,6 +145,17 @@ export const handlers = [
 		return HttpResponse.json(folders)
 	}),
 
+	http.get('/api/folders/favorites', () => {
+		const favoriteFolders = folderConsultationData
+			.filter(folder => folder.favorite)
+			.map(folder => ({
+				id: folder.id,
+				name: folder.responsible.name,
+				count: folder.docs
+			}))
+		return HttpResponse.json(favoriteFolders)
+	}),
+
 	http.get('/api/folders/consultation', ({request}) => {
 		const url = new URL(request.url)
 		const {paginatedData, total, page, limit, totalPages} =
@@ -157,6 +168,18 @@ export const handlers = [
 			limit,
 			totalPages
 		})
+	}),
+
+	http.patch('/api/folders/:id/favorite', ({params}) => {
+		const {id} = params
+		const folder = folderConsultationData.find(f => f.id === id)
+
+		if (folder) {
+			folder.favorite = !folder.favorite
+			return HttpResponse.json(folder)
+		}
+
+		return new HttpResponse(null, {status: 404})
 	}),
 
 	http.get('/api/area-division', () => {
