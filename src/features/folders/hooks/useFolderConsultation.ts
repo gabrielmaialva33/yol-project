@@ -16,6 +16,7 @@ interface Folder {
 	docs: number
 	area: string
 	status: 'Completed' | 'Pending' | 'Refunded' | 'Cancelled'
+	favorite: boolean
 }
 
 interface PaginatedFoldersResponse {

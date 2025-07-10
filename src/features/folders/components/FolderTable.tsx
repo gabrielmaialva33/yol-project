@@ -1,3 +1,4 @@
+import {Star} from 'lucide-react'
 import arrowRightIcon from '/icons/arrow-right.svg'
 import downIcon from '/icons/down.svg'
 import moreIcon from '/icons/more-horizontal.svg'
@@ -15,6 +16,7 @@ interface Folder {
 	docs: number
 	area: string
 	status: 'Completed' | 'Pending' | 'Refunded' | 'Cancelled'
+	favorite: boolean
 }
 
 interface FolderTableProps {
@@ -201,6 +203,21 @@ export function FolderTable({
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
 									<div className='flex items-center justify-end space-x-2'>
+										<button
+											className='p-2 rounded-full hover:bg-gray-200'
+											onClick={() =>
+												fetch(`/api/folders/${folder.id}/favorite`, {
+													method: 'PATCH'
+												})
+											}
+											type='button'
+										>
+											<Star
+												className={`w-5 h-5 ${
+													folder.favorite ? 'text-yellow-400' : 'text-gray-300'
+												}`}
+											/>
+										</button>
 										<button
 											className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'
 											type='button'

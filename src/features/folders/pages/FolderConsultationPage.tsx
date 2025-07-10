@@ -32,8 +32,8 @@ export function FolderConsultationPage() {
 		<div className='p-6 bg-gray-50 min-h-full'>
 			<div className='bg-white p-8 rounded-lg shadow-sm'>
 				<FolderTabs filters={filters} setFilters={setFilters} />
-				<FolderFilters filters={filters} setFilters={setFilters} />
 				<div className='mt-6'>
+					<FolderFilters filters={filters} setFilters={setFilters} />
 					<div className='flex items-center justify-between mb-4'>
 						<p className='text-sm text-gray-600'>
 							{pagination.total} resultados encontrados
