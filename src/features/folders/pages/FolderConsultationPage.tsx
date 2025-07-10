@@ -3,7 +3,7 @@ import {FolderFilters} from '../components/FolderFilters'
 import {FolderTable} from '../components/FolderTable'
 import {FolderTabs} from '../components/FolderTabs'
 import {Pagination} from '../components/Pagination'
-import {useFolderConsultation} from '../hooks/useFolderConsultation'
+import {useFolderConsultation} from '../hooks/use-folder-consultation'
 
 export function FolderConsultationPage() {
 	const {
