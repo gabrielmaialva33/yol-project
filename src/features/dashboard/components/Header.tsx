@@ -1,4 +1,6 @@
-import {useNavigate} from 'react-router'
+'use client'
+
+import {useLocation, useNavigate} from 'react-router'
 import bellIcon from '/icons/bell.svg'
 import calendarIcon from '/icons/calendar.svg'
 import exitIcon from '/icons/exit-right.svg'
@@ -9,8 +11,20 @@ import {useDetectOutsideClick} from '../../../shared/utils/useDetectOutsideClick
 import {MessagesDropdown} from './MessagesDropdown'
 import {NotificationsDropdown} from './NotificationsDropdown'
 
+const pageTitles: Record<string, {title: string; description: string}> = {
+	'/dashboard': {
+		title: 'Visão Geral',
+		description: 'Suas tarefas principais estão nessa sessão.'
+	},
+	'/dashboard/folders/consultation': {
+		title: 'Consulta de pastas',
+		description: ''
+	}
+}
+
 export function Header() {
 	const navigate = useNavigate()
+	const location = useLocation()
 	const {
 		isActive: showNotifications,
 		nodeRef: notificationsRef,
@@ -26,14 +40,15 @@ export function Header() {
 		void navigate('/')
 	}
 
+	const {title, description} =
+		pageTitles[location.pathname] || pageTitles['/dashboard']
+
 	return (
 		<header className='bg-white border-b border-gray-200 px-6 py-4'>
 			<div className='flex items-center justify-between'>
 				<div>
-					<h1 className='text-2xl font-semibold text-gray-900'>Visão Geral</h1>
-					<p className='text-gray-500 mt-1'>
-						Suas tarefas principais estão nessa sessão.
-					</p>
+					<h1 className='text-2xl font-semibold text-gray-900'>{title}</h1>
+					{description && <p className='text-gray-500 mt-1'>{description}</p>}
 				</div>
 				<div className='flex items-center space-x-4'>
 					<div className='relative' ref={notificationsRef}>

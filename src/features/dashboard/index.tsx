@@ -1,4 +1,4 @@
-import {DashboardContent} from './components/DashboardContent'
+import {Outlet} from 'react-router'
 import {Header} from './components/Header'
 import {Sidebar} from './components/Sidebar'
 
@@ -9,7 +9,7 @@ const Dashboard = () => {
 			<div className='flex-1 flex flex-col overflow-hidden'>
 				<Header />
 				<main className='flex-1 overflow-y-auto'>
-					<DashboardContent />
+					<Outlet />
 				</main>
 			</div>
 		</div>

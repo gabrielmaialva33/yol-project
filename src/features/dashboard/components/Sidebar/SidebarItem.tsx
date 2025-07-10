@@ -11,16 +11,6 @@ interface SidebarItemProps {
 	isOpen?: boolean
 }
 
-const getActiveClasses = (isCollapsed: boolean) => {
-	return isCollapsed ? 'text-[#EC6553]' : 'bg-[#EC6553] text-white'
-}
-
-const getHoverClasses = (isCollapsed: boolean) => {
-	return isCollapsed
-		? 'hover:text-[#EC6553]'
-		: 'hover:bg-[#EC6553] hover:text-white'
-}
-
 const getIconClasses = (isCollapsed: boolean, active = false) => {
 	if (active && !isCollapsed) {
 		return 'w-6 h-6 brightness-0 invert'
@@ -51,40 +41,38 @@ const renderIcon = (props: SidebarItemProps) => {
 }
 
 const SidebarItem = (props: SidebarItemProps) => {
-	const activeClasses = getActiveClasses(props.isCollapsed)
-	const hoverClasses = getHoverClasses(props.isCollapsed)
+	const activeClasses = props.active
+		? 'bg-orange-500 text-white'
+		: 'text-white hover:bg-gray-700'
 
 	return (
 		<>
 			<style>
 				{`
-        .filter-orange {
-          filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg) brightness(101%) contrast(101%);
-        }
-      `}
+      .filter-orange {
+        filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg) brightness(101%) contrast(101%);
+      }
+    `}
 			</style>
-			<li
+			<div
 				className={`
-      relative flex items-center py-2 px-3 my-1
-      font-semibold rounded-md cursor-pointer
-      transition-colors group text-base
-      ${props.active ? activeClasses : `text-white ${hoverClasses}`}
-  `}
+    relative flex items-center py-2 px-3 my-1
+    font-semibold rounded-md cursor-pointer
+    transition-colors group text-base w-full
+    ${props.isCollapsed ? 'justify-center' : ''}
+    ${activeClasses}
+`}
 			>
 				{renderIcon(props)}
 				<span
-					className={`overflow-hidden transition-all ${
-						props.isCollapsed ? 'w-0' : 'w-52 ml-4'
-					}`}
+					className={`overflow-hidden transition-all ${props.isCollapsed ? 'w-0' : 'w-52 ml-4'}`}
 				>
 					{props.text}
 				</span>
 				{props.hasSubItems && !props.isCollapsed && (
 					<img
 						alt='Dropdown'
-						className={`w-5 h-5 ml-auto transition-transform ${
-							props.isOpen ? 'rotate-180' : ''
-						}`}
+						className={`w-5 h-5 ml-auto transition-transform ${props.isOpen ? 'rotate-180' : ''}`}
 						src={downIcon || '/placeholder.svg'}
 					/>
 				)}
@@ -93,7 +81,7 @@ const SidebarItem = (props: SidebarItemProps) => {
 						{props.badge}
 					</div>
 				)}
-			</li>
+			</div>
 		</>
 	)
 }
