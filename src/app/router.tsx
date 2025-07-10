@@ -17,6 +17,11 @@ const FolderConsultationPage = lazy(() =>
 		default: m.FolderConsultationPage
 	}))
 )
+const FolderDetailPage = lazy(() =>
+	import('../features/folders/components/FolderDetailPage').then(m => ({
+		default: m.FolderDetailPage
+	}))
+)
 
 const PlaceholderPage = ({title}: {title: string}) => (
 	<div className='p-6'>
@@ -34,6 +39,10 @@ export function AppRouter() {
 					<Route
 						element={<FolderConsultationPage />}
 						path='folders/consultation'
+					/>
+					<Route
+						element={<FolderDetailPage />}
+						path='folders/consultation/:folderId'
 					/>
 					<Route
 						element={<PlaceholderPage title='Cadastro de Pastas' />}
