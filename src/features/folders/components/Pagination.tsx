@@ -3,7 +3,6 @@
 interface PaginationProps {
 	page: number
 	limit: number
-	total: number
 	totalPages: number
 	setPage: (page: number) => void
 	setLimit: (limit: number) => void
@@ -12,14 +11,10 @@ interface PaginationProps {
 export function Pagination({
 	page,
 	limit,
-	total,
 	totalPages,
 	setPage,
 	setLimit
 }: PaginationProps) {
-	const _startItem = total > 0 ? (page - 1) * limit + 1 : 0
-	const _endItem = Math.min(page * limit, total)
-
 	return (
 		<div className='flex items-center justify-between mt-4'>
 			<div className='flex items-center space-x-2 text-sm text-gray-600'>
