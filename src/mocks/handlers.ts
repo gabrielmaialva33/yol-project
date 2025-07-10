@@ -2,6 +2,7 @@ import {DateTime} from 'luxon'
 import {HttpResponse, http} from 'msw'
 import {birthdays} from './data/birthdays'
 import {folderConsultationData} from './data/folder-consultation'
+import {folderDetailData} from './data/folder-detail'
 import {areaDivision, folderActivity, folders} from './data/folders'
 import {hearings} from './data/hearings'
 import {requests} from './data/requests'
@@ -168,6 +169,13 @@ export const handlers = [
 			limit,
 			totalPages
 		})
+	}),
+
+	http.get('/api/folders/consultation/:folderId', ({params}) => {
+		const {folderId} = params
+		// In a real app, you would fetch the specific folder data
+		// For this mock, we return the same detail data for any ID
+		return HttpResponse.json({...folderDetailData, id: folderId})
 	}),
 
 	http.patch('/api/folders/:id/favorite', ({params}) => {
