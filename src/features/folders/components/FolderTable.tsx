@@ -1,4 +1,8 @@
+'use client'
+
 import {Star} from 'lucide-react'
+import type React from 'react'
+import {Link} from 'react-router'
 import arrowRightIcon from '/icons/arrow-right.svg'
 import downIcon from '/icons/down.svg'
 import moreIcon from '/icons/more-horizontal.svg'
@@ -213,21 +217,19 @@ export function FolderTable({
 											type='button'
 										>
 											<Star
-												className={`w-5 h-5 ${
-													folder.favorite ? 'text-yellow-400' : 'text-gray-300'
-												}`}
+												className={`w-5 h-5 ${folder.favorite ? 'text-yellow-400' : 'text-gray-300'}`}
 											/>
 										</button>
-										<button
+										<Link
 											className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'
-											type='button'
+											to={`/dashboard/folders/consultation/${folder.id}`}
 										>
 											<img
 												alt='Go'
 												className='w-4 h-4'
 												src={arrowRightIcon || '/placeholder.svg'}
 											/>
-										</button>
+										</Link>
 										<button
 											className='text-gray-400 hover:text-gray-600'
 											type='button'
