@@ -50,12 +50,14 @@ export function HearingsCard() {
 				<h3 className='text-lg font-semibold text-gray-900'>
 					Audiências e Prazos
 				</h3>
-				<DateRangePicker
-					dateRange={dateRange}
-					isOpen={showDatePicker}
-					onDateRangeChange={setDateRange}
-					onToggle={handleToggleDatePicker}
-				/>
+				<div className='cursor-pointer'>
+					<DateRangePicker
+						dateRange={dateRange}
+						isOpen={showDatePicker}
+						onDateRangeChange={setDateRange}
+						onToggle={handleToggleDatePicker}
+					/>
+				</div>
 			</div>
 			<div className='space-y-6'>
 				{filteredHearings.map(item => (
