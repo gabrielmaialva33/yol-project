@@ -259,7 +259,7 @@ const Sidebar = () => {
 					/>
 				</button>
 			)}
-			<div className='w-full'>
+			<nav className='w-full'>
 				<div className={`${isCollapsed ? '' : 'px-10'}`}>
 					<SearchInput isCollapsed={isCollapsed} />
 				</div>
@@ -281,7 +281,7 @@ const Sidebar = () => {
 						</div>
 					</>
 				)}
-			</div>
+			</nav>
 		</aside>
 	)
 }

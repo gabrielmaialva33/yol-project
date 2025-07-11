@@ -18,7 +18,10 @@ interface FolderDetailSidebarProps {
 	onTabChange: (tabId: string) => void
 }
 
-export function FolderDetailSidebar({ activeTab, onTabChange }: FolderDetailSidebarProps) {
+export function FolderDetailSidebar({
+	activeTab,
+	onTabChange
+}: FolderDetailSidebarProps) {
 	return (
 		<div className='w-64 bg-white rounded-lg p-4 shadow-sm'>
 			<div className='relative mb-4'>
@@ -39,8 +42,8 @@ export function FolderDetailSidebar({ activeTab, onTabChange }: FolderDetailSide
 										? 'bg-cyan-500 text-white'
 										: 'text-gray-700 hover:bg-gray-100'
 								}`}
-								type='button'
 								onClick={() => onTabChange(item.id)}
+								type='button'
 							>
 								{item.name}
 							</button>

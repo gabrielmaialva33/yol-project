@@ -28,14 +28,18 @@ export function FolderDetailPage() {
 			case 'informacoes':
 				return (
 					<div className='bg-white rounded-lg p-6 shadow-sm'>
-						<h3 className='text-lg font-semibold text-gray-900 mb-4'>Informações Gerais</h3>
+						<h3 className='text-lg font-semibold text-gray-900 mb-4'>
+							Informações Gerais
+						</h3>
 						<p className='text-gray-600'>Conteúdo das informações gerais...</p>
 					</div>
 				)
 			case 'publicacoes':
 				return (
 					<div className='bg-white rounded-lg p-6 shadow-sm'>
-						<h3 className='text-lg font-semibold text-gray-900 mb-4'>Publicações</h3>
+						<h3 className='text-lg font-semibold text-gray-900 mb-4'>
+							Publicações
+						</h3>
 						<p className='text-gray-600'>Lista de publicações...</p>
 					</div>
 				)
@@ -46,7 +50,6 @@ export function FolderDetailPage() {
 						<p className='text-gray-600'>Eventos agendados...</p>
 					</div>
 				)
-			case 'processo':
 			default:
 				return <FolderDetailForm folder={folder} />
 		}
@@ -57,9 +60,7 @@ export function FolderDetailPage() {
 			<FolderDetailHeader folder={folder} />
 			<div className='mt-6 flex gap-6'>
 				<FolderDetailSidebar activeTab={activeTab} onTabChange={setActiveTab} />
-				<div className='flex-1'>
-					{renderContent()}
-				</div>
+				<div className='flex-1'>{renderContent()}</div>
 			</div>
 		</div>
 	)

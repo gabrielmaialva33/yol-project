@@ -30,7 +30,13 @@ const FolderRegisterPage = lazy(() =>
 
 export function AppRouter() {
 	return (
-		<Suspense fallback={<div data-testid='loading'>Loading...</div>}>
+		<Suspense
+			fallback={
+				<main>
+					<div data-testid='loading'>Loading...</div>
+				</main>
+			}
+		>
 			<Routes>
 				<Route element={<LoginPage />} index={true} />
 				<Route element={<Dashboard />} path='/dashboard'>

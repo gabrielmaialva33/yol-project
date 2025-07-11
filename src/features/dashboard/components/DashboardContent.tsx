@@ -1,11 +1,11 @@
-import {ActiveFoldersCard} from './widgets/ActiveFoldersCard'
-import {AreaDivisionCard} from './widgets/AreaDivisionCard'
-import {BillingCard} from './widgets/BillingCard'
-import {BirthdaysCard} from './widgets/BirthdaysCard'
-import {FolderActivityCard} from './widgets/FolderActivityCard'
-import {HearingsCard} from './widgets/HearingsCard'
-import {RequestsCard} from './widgets/RequestsCard'
-import {TasksCard} from './widgets/TasksCard'
+import {ActiveFoldersCard} from './Widgets/ActiveFoldersCard'
+import {AreaDivisionCard} from './Widgets/AreaDivisionCard'
+import {BillingCard} from './Widgets/BillingCard'
+import {BirthdaysCard} from './Widgets/BirthdaysCard'
+import {FolderActivityCard} from './Widgets/FolderActivityCard'
+import {HearingsCard} from './Widgets/HearingsCard'
+import {RequestsCard} from './Widgets/RequestsCard'
+import {TasksCard} from './Widgets/TasksCard'
 
 export function DashboardContent() {
 	return (

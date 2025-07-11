@@ -1,187 +1,265 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
-import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { useParams } from 'react-router'
-import { FolderDetailPage } from './FolderDetailPage'
+import {fireEvent, render, screen} from '@testing-library/react'
+import {useParams} from 'react-router'
+import {beforeEach, describe, expect, it, vi} from 'vitest'
+import {FolderDetailPage} from './FolderDetailPage'
 
 // Mock react-router
 vi.mock('react-router', () => ({
-  useParams: vi.fn()
+	useParams: vi.fn()
 }))
 
 // Mock hooks
 vi.mock('../hooks/use-folder-detail', () => ({
-  useFolderDetail: vi.fn()
+	useFolderDetail: vi.fn()
 }))
 
 // Mock components
 vi.mock('./FolderDetailHeader', () => ({
-  FolderDetailHeader: ({ folder }: any) => (
-    <div data-testid="folder-detail-header">Header for {folder.id}</div>
-  )
+	FolderDetailHeader: ({folder}: {folder: {id: string}}) => (
+		<div data-testid='folder-detail-header'>Header for {folder.id}</div>
+	)
 }))
 
 vi.mock('./FolderDetailSidebar', () => ({
-  FolderDetailSidebar: ({ activeTab, onTabChange }: any) => (
-    <div data-testid="folder-detail-sidebar">
-      <button onClick={() => onTabChange('processo')}>Processo</button>
-      <button onClick={() => onTabChange('andamento')}>Andamento</button>
-      <button onClick={() => onTabChange('informacoes')}>Informações Gerais</button>
-      <button onClick={() => onTabChange('publicacoes')}>Publicações</button>
-      <button onClick={() => onTabChange('agenda')}>Agenda</button>
-      <div>Active: {activeTab}</div>
-    </div>
-  )
+	FolderDetailSidebar: ({
+		activeTab,
+		onTabChange
+	}: {
+		activeTab: string
+		onTabChange: (tab: string) => void
+	}) => (
+		<div data-testid='folder-detail-sidebar'>
+			<button onClick={() => onTabChange('processo')} type='button'>
+				Processo
+			</button>
+			<button onClick={() => onTabChange('andamento')} type='button'>
+				Andamento
+			</button>
+			<button onClick={() => onTabChange('informacoes')} type='button'>
+				Informações Gerais
+			</button>
+			<button onClick={() => onTabChange('publicacoes')} type='button'>
+				Publicações
+			</button>
+			<button onClick={() => onTabChange('agenda')} type='button'>
+				Agenda
+			</button>
+			<div>Active: {activeTab}</div>
+		</div>
+	)
 }))
 
 vi.mock('./FolderDetailForm', () => ({
-  FolderDetailForm: ({ folder }: any) => (
-    <div data-testid="folder-detail-form">Form for {folder.id}</div>
-  )
+	FolderDetailForm: ({folder}: {folder: {id: string}}) => (
+		<div data-testid='folder-detail-form'>Form for {folder.id}</div>
+	)
 }))
 
 vi.mock('./ProcessTimeline', () => ({
-  ProcessTimeline: ({ folderId }: any) => (
-    <div data-testid="process-timeline">Timeline for {folderId}</div>
-  )
+	ProcessTimeline: ({folderId}: {folderId: string}) => (
+		<div data-testid='process-timeline'>Timeline for {folderId}</div>
+	)
 }))
 
-import { useFolderDetail } from '../hooks/use-folder-detail'
+import {useFolderDetail} from '../hooks/use-folder-detail'
+import type {FolderDetail} from '../types/folder.types'
 
 describe('FolderDetailPage', () => {
-  const mockFolder = {
-    id: '123',
-    code: 'TEST-123',
-    title: 'Test Folder'
-  }
+	const mockFolder: FolderDetail = {
+		id: '123',
+		clientNumber: 'CN001',
+		status: 'Ativo',
+		date: '2024-01-15',
+		time: '14:30',
+		processNumber: 'PROC-2024-001',
+		cnjNumber: '0000000-00.2024.0.00.0000',
+		instance: 'Primeira Instância',
+		nature: 'Cível',
+		actionType: 'Indenização',
+		phase: 'Conhecimento',
+		electronic: 'Sim',
+		clientCode: 'TC001',
+		folder: 'FOLDER-001',
+		defaultBillingCase: 'Sim',
+		totus: true,
+		migrated: false,
+		organ: 'Tribunal de Justiça',
+		distribution: 'Sorteio',
+		entryDate: '2024-01-15',
+		internalCode: 'INT-001',
+		searchType: 'Normal',
+		code: 'TEST-123',
+		judge: 'Dr. João Silva',
+		area: 'Cível',
+		subArea: 'Contratos',
+		core: 'Core 1',
+		district: 'Centro',
+		court: '1ª Vara Cível',
+		courtDivision: 'Divisão A',
+		partner: 'Dr. Partner',
+		coordinator: 'Dr. Coordinator',
+		lawyer: 'Dr. Lawyer',
+		plaintiff: {
+			name: 'João da Silva',
+			cpf: '123.456.789-00',
+			type: 'Autor'
+		},
+		defendant: {
+			name: 'Empresa XYZ Ltda',
+			cnpj: '00.000.000/0001-00',
+			type: 'Réu'
+		},
+		observation: 'Observações do processo',
+		objectDetail: 'Detalhes do objeto',
+		lastMovement: 'Último movimento',
+		caseValue: 50_000,
+		distributionDate: '2024-01-15',
+		responsible: {
+			name: 'Dr. Responsável',
+			email: 'responsavel@example.com',
+			avatar: 'https://example.com/avatar.jpg',
+			position: 'Advogado Sênior'
+		},
+		documents: [],
+		movements: []
+	}
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    vi.mocked(useParams).mockReturnValue({ folderId: '123' })
-  })
+	beforeEach(() => {
+		vi.clearAllMocks()
+		vi.mocked(useParams).mockReturnValue({folderId: '123'})
+	})
 
-  it('should render loading state', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: null,
-      isLoading: true,
-      isError: false
-    } as any)
+	it('should render loading state', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: undefined,
+			isLoading: true,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
 
-    render(<FolderDetailPage />)
-    
-    expect(screen.getByText('Carregando...')).toBeInTheDocument()
-  })
+		render(<FolderDetailPage />)
 
-  it('should render error state', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: null,
-      isLoading: false,
-      isError: true
-    } as any)
+		expect(screen.getByText('Carregando...')).toBeInTheDocument()
+	})
 
-    render(<FolderDetailPage />)
-    
-    expect(screen.getByText('Erro ao buscar os detalhes da pasta.')).toBeInTheDocument()
-  })
+	it('should render error state', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: undefined,
+			isLoading: false,
+			isError: true
+		} as ReturnType<typeof useFolderDetail>)
 
-  it('should render folder details with default processo tab', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+		render(<FolderDetailPage />)
 
-    render(<FolderDetailPage />)
-    
-    expect(screen.getByTestId('folder-detail-header')).toBeInTheDocument()
-    expect(screen.getByTestId('folder-detail-sidebar')).toBeInTheDocument()
-    expect(screen.getByTestId('folder-detail-form')).toBeInTheDocument()
-    expect(screen.getByText('Active: processo')).toBeInTheDocument()
-  })
+		expect(
+			screen.getByText('Erro ao buscar os detalhes da pasta.')
+		).toBeInTheDocument()
+	})
 
-  it('should handle special folder ID 1830', () => {
-    vi.mocked(useParams).mockReturnValue({ folderId: '1830' })
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+	it('should render folder details with default processo tab', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
 
-    render(<FolderDetailPage />)
-    
-    expect(useFolderDetail).toHaveBeenCalledWith('1830')
-  })
+		render(<FolderDetailPage />)
 
-  it('should switch to andamento tab and show timeline', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+		expect(screen.getByTestId('folder-detail-header')).toBeInTheDocument()
+		expect(screen.getByTestId('folder-detail-sidebar')).toBeInTheDocument()
+		expect(screen.getByTestId('folder-detail-form')).toBeInTheDocument()
+		expect(screen.getByText('Active: processo')).toBeInTheDocument()
+	})
 
-    render(<FolderDetailPage />)
-    
-    const andamentoButton = screen.getByText('Andamento')
-    fireEvent.click(andamentoButton)
-    
-    expect(screen.getByTestId('process-timeline')).toBeInTheDocument()
-    expect(screen.getByText('Timeline for 123')).toBeInTheDocument()
-  })
+	it('should handle special folder ID 1830', () => {
+		vi.mocked(useParams).mockReturnValue({folderId: '1830'})
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
 
-  it('should switch to informacoes tab', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+		render(<FolderDetailPage />)
 
-    render(<FolderDetailPage />)
-    
-    const infoButton = screen.getByRole('button', { name: 'Informações Gerais' })
-    fireEvent.click(infoButton)
-    
-    expect(screen.getByRole('heading', { name: 'Informações Gerais' })).toBeInTheDocument()
-    expect(screen.getByText('Conteúdo das informações gerais...')).toBeInTheDocument()
-  })
+		expect(useFolderDetail).toHaveBeenCalledWith('1830')
+	})
 
-  it('should switch to publicacoes tab', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+	it('should switch to andamento tab and show timeline', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
 
-    render(<FolderDetailPage />)
-    
-    const pubButton = screen.getByText('Publicações')
-    fireEvent.click(pubButton)
-    
-    expect(screen.getByText('Lista de publicações...')).toBeInTheDocument()
-  })
+		render(<FolderDetailPage />)
 
-  it('should switch to agenda tab', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: mockFolder,
-      isLoading: false,
-      isError: false
-    } as any)
+		const andamentoButton = screen.getByText('Andamento')
+		fireEvent.click(andamentoButton)
 
-    render(<FolderDetailPage />)
-    
-    const agendaButton = screen.getByText('Agenda')
-    fireEvent.click(agendaButton)
-    
-    expect(screen.getByText('Eventos agendados...')).toBeInTheDocument()
-  })
+		expect(screen.getByTestId('process-timeline')).toBeInTheDocument()
+		expect(screen.getByText('Timeline for 123')).toBeInTheDocument()
+	})
 
-  it('should handle null folder error state', () => {
-    vi.mocked(useFolderDetail).mockReturnValue({
-      folder: null,
-      isLoading: false,
-      isError: false
-    } as any)
+	it('should switch to informacoes tab', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
 
-    render(<FolderDetailPage />)
-    
-    expect(screen.getByText('Erro ao buscar os detalhes da pasta.')).toBeInTheDocument()
-  })
+		render(<FolderDetailPage />)
+
+		const infoButton = screen.getByRole('button', {name: 'Informações Gerais'})
+		fireEvent.click(infoButton)
+
+		expect(
+			screen.getByRole('heading', {name: 'Informações Gerais'})
+		).toBeInTheDocument()
+		expect(
+			screen.getByText('Conteúdo das informações gerais...')
+		).toBeInTheDocument()
+	})
+
+	it('should switch to publicacoes tab', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
+
+		render(<FolderDetailPage />)
+
+		const pubButton = screen.getByText('Publicações')
+		fireEvent.click(pubButton)
+
+		expect(screen.getByText('Lista de publicações...')).toBeInTheDocument()
+	})
+
+	it('should switch to agenda tab', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: mockFolder,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
+
+		render(<FolderDetailPage />)
+
+		const agendaButton = screen.getByText('Agenda')
+		fireEvent.click(agendaButton)
+
+		expect(screen.getByText('Eventos agendados...')).toBeInTheDocument()
+	})
+
+	it('should handle null folder error state', () => {
+		vi.mocked(useFolderDetail).mockReturnValue({
+			folder: undefined,
+			isLoading: false,
+			isError: false
+		} as ReturnType<typeof useFolderDetail>)
+
+		render(<FolderDetailPage />)
+
+		expect(
+			screen.getByText('Erro ao buscar os detalhes da pasta.')
+		).toBeInTheDocument()
+	})
 })
