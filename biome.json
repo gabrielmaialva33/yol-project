@@ -68,7 +68,8 @@
 						"useExportsLast": "off",
 						"useSortedClasses": "off",
 						"noSecrets": "off",
-						"noExcessiveLinesPerFunction": "off"
+						"noExcessiveLinesPerFunction": "off",
+						"useIterableCallbackReturn": "off"
 					},
 					"suspicious": {
 						"noReactSpecificProps": "off"
