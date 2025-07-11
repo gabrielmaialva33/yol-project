@@ -40,7 +40,7 @@ export async function logout(): Promise<void> {
 		}
 	})
 
-	// Limpar token local
+	// Clear the stored token
 	clearStoredToken()
 }
 
@@ -59,12 +59,17 @@ export async function getMe(): Promise<User> {
 	return result.data
 }
 
-// Helpers para gerenciar token (em produção seria mais seguro)
 function getStoredToken(): string {
-	// Em produção, usar contexto ou estado global seguro
+	// todo: implements function to get token from storage
+	// This is a mock function, in a real app you would retrieve the token from localStorage or cookies
 	return 'mock-jwt-token'
 }
 
 function clearStoredToken(): void {
-	// Em produção, limpar do estado global
+	//todo: implements function to clear token from storage
+	// This is a mock function, in a real app you would clear the token from localStorage or cookies
+	// localStorage.removeItem('token')
+	// or
+	// document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
+	// For this mock, we do nothing
 }

@@ -63,7 +63,7 @@ export interface User extends Timestamps {
 	username: string
 	avatar_url?: string
 	phone?: string
-	oab_number?: string // Número da OAB para advogados
+	oab_number?: string // OAB number for lawyers
 	metadata: {
 		email_verified: boolean
 		email_verified_at: string | null
@@ -90,15 +90,15 @@ export interface Permission extends Timestamps {
 
 export interface Folder extends Timestamps {
 	id: number
-	code: string // Número do processo/pasta
+	code: string // Process/folder number
 	title: string
 	description?: string
 	status: FolderStatus
 	area: FolderArea
-	court?: string // Vara/Tribunal
-	case_number?: string // Número do processo judicial
-	opposing_party?: string // Parte contrária
-	value?: number // Valor da causa
+	court?: string // Court/Tribunal
+	case_number?: string // Legal case number
+	opposing_party?: string // Opposing party
+	value?: number // Case value
 	client: Client
 	responsible_lawyer: User
 	team_members: User[]

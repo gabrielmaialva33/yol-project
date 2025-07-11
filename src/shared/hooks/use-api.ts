@@ -46,7 +46,6 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		}
 	}
 
-	// Função para construir URL com query params
 	const buildUrl = (endpoint: string, params?: QueryParams) => {
 		const cleanBase = cleanBaseUrl(baseUrl)
 		const cleanEnd = cleanEndpoint(endpoint)
@@ -59,7 +58,6 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		return url.toString()
 	}
 
-	// Função genérica para fazer requisições
 	const fetcher = async (url: string, options?: RequestInit) => {
 		const response = await fetch(url, {
 			...options,
@@ -77,7 +75,7 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		return response.json()
 	}
 
-	// Hook para listar com paginação
+	// Hook for listing with pagination
 	const useList = (params?: QueryParams) => {
 		return useQuery<PaginatedResponse<T>>({
 			queryKey: [baseUrl, 'list', params],
@@ -85,7 +83,7 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		})
 	}
 
-	// Hook para buscar por ID
+	// Hook for searching by ID
 	const useGet = (id: number | string) => {
 		return useQuery<ApiResponse<T>>({
 			queryKey: [baseUrl, 'get', id],
@@ -94,7 +92,7 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		})
 	}
 
-	// Hook para criar
+	// Hook for creating
 	const useCreate = () => {
 		const queryClient = useQueryClient()
 
@@ -110,7 +108,7 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		})
 	}
 
-	// Hook para atualizar
+	// Hook for updating
 	const useUpdate = () => {
 		const queryClient = useQueryClient()
 
@@ -133,7 +131,7 @@ export function createApiHooks<T>({baseUrl, token}: UseApiOptions) {
 		})
 	}
 
-	// Hook para deletar
+	// Hook for deleting
 	const useDelete = () => {
 		const queryClient = useQueryClient()
 
