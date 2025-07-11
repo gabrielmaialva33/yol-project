@@ -106,9 +106,12 @@
 			}
 		},
 		{
-			"includes": ["src/**/*.test.tsx"],
+			"includes": ["src/**/*.test.tsx", "tests/**/*.spec.ts"],
 			"linter": {
 				"rules": {
+					"nursery": {
+						"noAwaitInLoop": "off"
+					},
 					"performance": {
 						"useTopLevelRegex": "off"
 					}
