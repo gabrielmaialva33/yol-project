@@ -1,8 +1,8 @@
 import {useParams} from 'react-router'
+import {useFolderDetail} from '../hooks/use-folder-detail'
 import {FolderDetailForm} from './FolderDetailForm'
 import {FolderDetailHeader} from './FolderDetailHeader'
 import {FolderDetailSidebar} from './FolderDetailSidebar'
-import {useFolderDetail} from '../hooks/use-folder-detail'
 
 export function FolderDetailPage() {
 	const {folderId} = useParams<{folderId: string}>()
