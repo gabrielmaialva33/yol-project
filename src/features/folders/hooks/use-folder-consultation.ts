@@ -1,5 +1,3 @@
-'use client'
-
 import {useState} from 'react'
 import type {QueryParams} from '../../../shared/types/api'
 import {useFolderConsultation as useFolderConsultationApi} from './use-folders-api'
