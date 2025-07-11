@@ -28,16 +28,16 @@ export function FolderDetailSidebar() {
 				<ul>
 					{menuItems.map(item => (
 						<li key={item.name}>
-							<a
+							<button
 								className={`block w-full text-left px-4 py-2 rounded-md text-sm font-medium ${
 									item.active
 										? 'bg-cyan-500 text-white'
 										: 'text-gray-700 hover:bg-gray-100'
 								}`}
-								href='#'
+								type='button'
 							>
 								{item.name}
-							</a>
+							</button>
 						</li>
 					))}
 				</ul>

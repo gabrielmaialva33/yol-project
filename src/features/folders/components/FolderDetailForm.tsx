@@ -1,22 +1,21 @@
 import {Calendar, ChevronDown} from 'lucide-react'
 
-const SelectInput = ({
-	label,
-	options,
-	defaultValue
-}: {
+const SelectInput = (props: {
 	label: string
 	options: string[]
 	defaultValue?: string
 }) => (
 	<div className='flex flex-col gap-1'>
-		<label className='text-sm font-medium text-gray-700'>{label}</label>
+		<label className='text-sm font-medium text-gray-700' htmlFor={props.label}>
+			{props.label}
+		</label>
 		<div className='relative'>
 			<select
 				className='w-full appearance-none bg-white border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-cyan-500'
-				defaultValue={defaultValue}
+				defaultValue={props.defaultValue}
+				id={props.label}
 			>
-				{options.map(option => (
+				{props.options.map(option => (
 					<option key={option} value={option}>
 						{option}
 					</option>
@@ -27,29 +26,29 @@ const SelectInput = ({
 	</div>
 )
 
-const TextInput = ({
-	label,
-	placeholder
-}: {
-	label: string
-	placeholder?: string
-}) => (
+const TextInput = (props: {label: string; placeholder?: string}) => (
 	<div className='flex flex-col gap-1'>
-		<label className='text-sm font-medium text-gray-700'>{label}</label>
+		<label className='text-sm font-medium text-gray-700' htmlFor={props.label}>
+			{props.label}
+		</label>
 		<input
 			className='w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-cyan-500'
-			placeholder={placeholder}
+			id={props.label}
+			placeholder={props.placeholder}
 			type='text'
 		/>
 	</div>
 )
 
-const DateInput = ({label}: {label: string}) => (
+const DateInput = (props: {label: string}) => (
 	<div className='flex flex-col gap-1'>
-		<label className='text-sm font-medium text-gray-700'>{label}</label>
+		<label className='text-sm font-medium text-gray-700' htmlFor={props.label}>
+			{props.label}
+		</label>
 		<div className='relative'>
 			<input
 				className='w-full bg-white border border-gray-300 rounded-md pl-3 pr-10 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-cyan-500'
+				id={props.label}
 				type='text'
 			/>
 			<Calendar className='absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none' />
@@ -57,11 +56,14 @@ const DateInput = ({label}: {label: string}) => (
 	</div>
 )
 
-const TextareaInput = ({label}: {label: string}) => (
+const TextareaInput = (props: {label: string}) => (
 	<div className='flex flex-col gap-1'>
-		<label className='text-sm font-medium text-gray-700'>{label}</label>
+		<label className='text-sm font-medium text-gray-700' htmlFor={props.label}>
+			{props.label}
+		</label>
 		<textarea
 			className='w-full bg-gray-100 border border-gray-200 rounded-md px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-cyan-500 h-24 resize-none'
+			id={props.label}
 			placeholder='Digite aqui...'
 		/>
 	</div>

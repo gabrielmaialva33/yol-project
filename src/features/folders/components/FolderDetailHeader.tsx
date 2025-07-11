@@ -14,7 +14,7 @@ interface FolderDetailHeaderProps {
 	folder: Folder
 }
 
-const StatusBadge = ({status}: {status: string}) => {
+const StatusBadge = (props: {status: string}) => {
 	const baseClasses =
 		'px-2.5 py-0.5 text-xs font-semibold rounded-full inline-block'
 	const statusClasses = {
@@ -23,15 +23,16 @@ const StatusBadge = ({status}: {status: string}) => {
 	}
 	return (
 		<span
-			className={`${baseClasses} ${statusClasses[status as keyof typeof statusClasses] || 'bg-gray-100 text-gray-800'}`}
+			className={`${baseClasses} ${statusClasses[props.status as keyof typeof statusClasses] || 'bg-gray-100 text-gray-800'}`}
 		>
-			{status}
+			{props.status}
 		</span>
 	)
 }
 
-export function FolderDetailHeader({folder}: FolderDetailHeaderProps) {
+export function FolderDetailHeader(props: FolderDetailHeaderProps) {
 	const navigate = useNavigate()
+	const FOLDER_ID_LENGTH = 4
 
 	return (
 		<div className='flex items-center justify-between'>
@@ -46,12 +47,12 @@ export function FolderDetailHeader({folder}: FolderDetailHeaderProps) {
 				<div>
 					<div className='flex items-center gap-2'>
 						<h1 className='text-2xl font-semibold text-gray-900'>
-							Pasta #{folder.id.substring(0, 4)}
+							Pasta #{props.folder.id.substring(0, FOLDER_ID_LENGTH)}
 						</h1>
-						<StatusBadge status={folder.status} />
+						<StatusBadge status={props.folder.status} />
 					</div>
 					<p className='text-sm text-gray-500'>
-						{folder.date} {folder.time}
+						{props.folder.date} {props.folder.time}
 					</p>
 				</div>
 			</div>
