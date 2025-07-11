@@ -141,7 +141,7 @@ This project is under the **MIT** license.
     <p>Gabriel Maia</p>
   </a>
 
-  &copy; 2017-present <a href="https://github.com/gabrielmaialva33/" target="_blank">Maia</a>
+&copy; 2017-present <a href="https://github.com/gabrielmaialva33/" target="_blank">Maia</a>
 
   <p>
     <a href="https://github.com/gabrielmaialva33/yol-project" target="_blank">GitHub</a> |
