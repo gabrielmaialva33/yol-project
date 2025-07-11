@@ -1,19 +1,24 @@
 import {Search} from 'lucide-react'
 
 const menuItems = [
-	{name: 'Processo', active: true},
-	{name: 'Andamento'},
-	{name: 'Informações Gerais'},
-	{name: 'Publicações'},
-	{name: 'Agenda'},
-	{name: 'Instância'},
-	{name: 'Verbas'},
-	{name: 'Garantias'},
-	{name: 'Desdobramento'},
-	{name: 'Honorários'}
+	{name: 'Processo', id: 'processo'},
+	{name: 'Andamento', id: 'andamento'},
+	{name: 'Informações Gerais', id: 'informacoes'},
+	{name: 'Publicações', id: 'publicacoes'},
+	{name: 'Agenda', id: 'agenda'},
+	{name: 'Instância', id: 'instancia'},
+	{name: 'Verbas', id: 'verbas'},
+	{name: 'Garantias', id: 'garantias'},
+	{name: 'Desdobramento', id: 'desdobramento'},
+	{name: 'Honorários', id: 'honorarios'}
 ]
 
-export function FolderDetailSidebar() {
+interface FolderDetailSidebarProps {
+	activeTab: string
+	onTabChange: (tabId: string) => void
+}
+
+export function FolderDetailSidebar({ activeTab, onTabChange }: FolderDetailSidebarProps) {
 	return (
 		<div className='w-64 bg-white rounded-lg p-4 shadow-sm'>
 			<div className='relative mb-4'>
@@ -27,14 +32,15 @@ export function FolderDetailSidebar() {
 			<nav>
 				<ul>
 					{menuItems.map(item => (
-						<li key={item.name}>
+						<li key={item.id}>
 							<button
-								className={`block w-full text-left px-4 py-2 rounded-md text-sm font-medium ${
-									item.active
+								className={`block w-full text-left px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+									activeTab === item.id
 										? 'bg-cyan-500 text-white'
 										: 'text-gray-700 hover:bg-gray-100'
 								}`}
 								type='button'
+								onClick={() => onTabChange(item.id)}
 							>
 								{item.name}
 							</button>
