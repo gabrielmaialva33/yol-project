@@ -22,11 +22,10 @@ const FolderDetailPage = lazy(() =>
 		default: m.FolderDetailPage
 	}))
 )
-
-const PlaceholderPage = ({title}: {title: string}) => (
-	<div className='p-6'>
-		<h1 className='text-2xl font-semibold'>{title}</h1>
-	</div>
+const FolderRegisterPage = lazy(() =>
+	import('../features/folders/pages/FolderRegisterPage').then(m => ({
+		default: m.FolderRegisterPage
+	}))
 )
 
 export function AppRouter() {
@@ -44,10 +43,7 @@ export function AppRouter() {
 						element={<FolderDetailPage />}
 						path='folders/consultation/:folderId'
 					/>
-					<Route
-						element={<PlaceholderPage title='Cadastro de Pastas' />}
-						path='folders/register'
-					/>
+					<Route element={<FolderRegisterPage />} path='folders/register' />
 				</Route>
 				{/* Catch-all route that redirects to home */}
 				<Route element={<Navigate replace={true} to='/' />} path='*' />
