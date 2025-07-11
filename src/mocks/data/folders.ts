@@ -1,4 +1,5 @@
 import {faker} from '@faker-js/faker'
+import {DateTime} from 'luxon'
 
 const getPastMonths = (count: number) => {
 	const months = [
@@ -15,12 +16,12 @@ const getPastMonths = (count: number) => {
 		'Nov',
 		'Dez'
 	]
-	const today = new Date()
+	const today = DateTime.now()
 	const pastMonths: string[] = []
 
 	for (let i = count - 1; i >= 0; i--) {
-		const date = new Date(today.getFullYear(), today.getMonth() - i, 1)
-		const month = months[date.getMonth()]
+		const date = today.minus({months: i}).startOf('month')
+		const month = months[date.month - 1]
 		if (month) {
 			pastMonths.push(month)
 		}
