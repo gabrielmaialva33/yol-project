@@ -4,7 +4,7 @@ test.describe('Login Flow', () => {
 	test('should fill the login form and submit it successfully', async ({
 		page
 	}) => {
-		await page.goto('/')
+		await page.goto('/yol-project/')
 
 		await page.getByPlaceholder('E-mail').fill('test@benicio.com.br')
 		await page.getByPlaceholder('Senha').fill('benicio123')
@@ -17,7 +17,7 @@ test.describe('Login Flow', () => {
 	test('should show an error message with invalid credentials', async ({
 		page
 	}) => {
-		await page.goto('/')
+		await page.goto('/yol-project/')
 
 		await page.getByPlaceholder('E-mail').fill('invalid@user.com')
 		await page.getByPlaceholder('Senha').fill('invalidpassword')
@@ -29,7 +29,7 @@ test.describe('Login Flow', () => {
 	})
 
 	test('should show validation errors for empty fields', async ({page}) => {
-		await page.goto('/')
+		await page.goto('/yol-project/')
 
 		await page.getByRole('button', {name: 'Entrar'}).click()
 
