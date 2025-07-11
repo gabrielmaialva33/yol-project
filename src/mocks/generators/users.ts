@@ -95,7 +95,6 @@ export function generateUser(overrides?: Partial<User>): User {
 	}
 }
 
-// Criar usuários pré-definidos para o sistema
 export const systemUsers = {
 	admin: generateUser({
 		id: 1,

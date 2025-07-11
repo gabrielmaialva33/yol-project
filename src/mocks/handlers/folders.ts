@@ -1,9 +1,10 @@
 import {DateTime} from 'luxon'
 import {HttpResponse, http} from 'msw'
+import type {FolderDetail} from '../../features/folders/types/folder.types'
 import type {ApiResponse} from '../../shared/types/api'
 import type {Folder} from '../../shared/types/domain'
 import {FolderArea, FolderStatus} from '../../shared/types/domain'
-import {generateFolders} from '../generators/folders'
+import {generateFolder, generateFolders} from '../generators/folders'
 import {
 	applyFilters,
 	applySorting,
@@ -11,9 +12,102 @@ import {
 	parseQueryParams
 } from '../helpers/pagination'
 
+// Transform Folder to FolderDetail
+function transformToFolderDetail(folder: Folder): FolderDetail {
+	const createdDate = DateTime.fromISO(folder.created_at)
+	return {
+		// Identification
+		id: folder.id.toString(),
+		clientNumber: folder.client.id.toString(),
+		status: 'Ativo' as const,
+		date: createdDate.toFormat('dd/MM/yyyy'),
+		time: createdDate.toFormat('HH:mm'),
+
+		// Process Information
+		processNumber: folder.case_number || '',
+		cnjNumber: folder.code,
+		instance: 'Primeira Instância' as const,
+		nature: 'Cível' as const,
+		actionType: 'Ordinária',
+		phase: 'Conhecimento' as const,
+		electronic: 'Sim' as const,
+		clientCode: folder.client.id.toString(),
+		folder: folder.code,
+		defaultBillingCase: 'Sim' as const,
+		totus: false,
+		migrated: false,
+
+		// Court Information
+		organ: 'TJSP',
+		distribution: 'Sorteio' as const,
+		entryDate: createdDate.toFormat('dd/MM/yyyy'),
+		internalCode: folder.code,
+		searchType: 'Padrão',
+		code: folder.code,
+		judge: 'Dr. João Silva',
+
+		// Location and Responsibles
+		area: 'Cível Contencioso',
+		subArea: 'Contratos',
+		core: 'Equipe 1',
+		district: 'São Paulo',
+		court: 'Foro Central Cível',
+		courtDivision: '1ª Vara Cível',
+		partner: 'Dr. João',
+		coordinator: 'Dra. Maria',
+		lawyer: folder.responsible_lawyer.full_name,
+
+		// Parties
+		plaintiff: {
+			name: folder.client.name,
+			cpf: folder.client.document,
+			type: 'Autor' as const
+		},
+		defendant: {
+			name: folder.opposing_party || 'Empresa XYZ',
+			cnpj: '12.345.678/0001-90',
+			type: 'Réu' as const
+		},
+
+		// Detailed Information
+		observation: folder.description || '',
+		objectDetail: folder.metadata?.last_movement || '',
+		lastMovement: folder.metadata?.last_movement || '',
+
+		// Values
+		caseValue: folder.value || 0,
+		convictionValue: 0,
+		costs: 0,
+		fees: 0,
+
+		// Important Dates
+		distributionDate: createdDate.toFormat('dd/MM/yyyy'),
+		...(folder.metadata?.next_deadline && {
+			nextHearing: folder.metadata.next_deadline
+		}),
+
+		// Responsible for the folder
+		responsible: {
+			name: folder.responsible_lawyer.full_name,
+			email: folder.responsible_lawyer.email,
+			...(folder.responsible_lawyer.avatar_url && {
+				avatar: folder.responsible_lawyer.avatar_url
+			}),
+			position: 'Advogado'
+		},
+
+		// Attached Documents
+		documents: [],
+
+		// Movements
+		movements: []
+	}
+}
+
 // Generate mock data
 const TOTAL_FOLDERS = 150
 const allFolders = generateFolders(TOTAL_FOLDERS)
+allFolders.push(generateFolder({id: 1830}))
 
 // Filter functions
 const folderFilters = {
@@ -212,6 +306,21 @@ export const folderHandlers = [
 		}
 
 		const response: ApiResponse<typeof stats> = {data: stats}
+		return HttpResponse.json(response)
+	}),
+	http.get('/api/folders/consultation/:id', ({params}) => {
+		const {id} = params
+		const folder = allFolders.find(f => f.id === Number(id))
+
+		if (!folder) {
+			return HttpResponse.json(
+				{errors: [{message: 'Folder not found'}]},
+				{status: 404}
+			)
+		}
+
+		const folderDetail = transformToFolderDetail(folder)
+		const response: ApiResponse<FolderDetail> = {data: folderDetail}
 		return HttpResponse.json(response)
 	})
 ]

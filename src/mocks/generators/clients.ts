@@ -68,7 +68,7 @@ export function generateClients(count: number): Client[] {
 	return Array.from({length: count}, () => generateClient())
 }
 
-// Clientes pré-definidos para testes
+// Pre-defined clients for testing
 export const testClients = [
 	generateClient({
 		id: 1,

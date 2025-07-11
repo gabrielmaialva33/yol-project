@@ -64,7 +64,7 @@ export function generateFolder(overrides?: Partial<Folder>): Folder {
 	const caseNumber = faker.helpers.replaceSymbols('####.##.#.######-#')
 
 	return {
-		id: faker.number.int({min: 1, max: 10_000}),
+		id: overrides?.id || faker.number.int({min: 1, max: 10_000}),
 		code,
 		title: generateFolderTitle(area, client.name),
 		description: faker.lorem.paragraph(),
