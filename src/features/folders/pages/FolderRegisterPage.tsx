@@ -3,61 +3,61 @@ import {useState} from 'react'
 import {useNavigate} from 'react-router'
 
 interface FormData {
-	// Informações básicas
-	numeroProcesso: string
-	numeroCNJ: string
-	instancia: string
-	natureza: string
-	tipoAcao: string
-	fase: string
-	eletronico: string
-	codigoCliente: string
-	pasta: string
-	casoPadraoFaturamento: string
+	// Basic information
+	processNumber: string
+	cnjNumber: string
+	instance: string
+	nature: string
+	actionType: string
+	phase: string
+	electronic: string
+	clientCode: string
+	folder: string
+	standardBillingCase: string
 	totus: boolean
-	migrado: boolean
+	migrated: boolean
 
-	// Informações do Tribunal
-	orgao: string
-	distribuicao: string
-	dataEntrada: string
+	// Court information
+	organ: string
+	distribution: string
+	entryDate: string
 	status: string
-	codigoInterno: string
-	tipoPesquisa: string
-	codigo: string
-	juiz: string
+	internalCode: string
+	searchType: string
+	code: string
+	judge: string
 
-	// Localização e Responsáveis
+	// Location and Responsible parties
 	area: string
 	subArea: string
-	nucleo: string
-	comarca: string
-	foro: string
-	vara: string
-	socio: string
-	coordenador: string
-	advogado: string
+	nucleus: string
+	district: string
+	forum: string
+	court: string
+	partner: string
+	coordinator: string
+	lawyer: string
 
-	// Partes
-	poloAtivo: {
-		nome: string
-		documento: string
-		tipo: string
+	// Parties
+	activePole: {
+		name: string
+		document: string
+		type: string
 	}
-	poloPassivo: {
-		nome: string
-		documento: string
-		tipo: string
+	passivePole: {
+		name: string
+		document: string
+		type: string
 	}
 
-	// Valores
-	valorCausa: string
-	custas: string
-	honorarios: string
+	// Values
+	caseValue: string
+	costs: string
+	fees: string
 
-	// Informações Detalhadas
-	observacao: string
-	detalhamentoObjeto: string
+	// Detailed information
+	observation: string
+	objectDetails: string
 }
 
 const toKebabCase = (str: string) =>
@@ -194,55 +194,55 @@ const ToggleSwitch = (props: {
 export function FolderRegisterPage() {
 	const navigate = useNavigate()
 	const [formData, setFormData] = useState<FormData>({
-		numeroProcesso: '',
-		numeroCNJ: '',
-		instancia: '',
-		natureza: '',
-		tipoAcao: '',
-		fase: '',
-		eletronico: 'Sim',
-		codigoCliente: '',
-		pasta: '',
-		casoPadraoFaturamento: 'Sim',
+		processNumber: '',
+		cnjNumber: '',
+		instance: '',
+		nature: '',
+		actionType: '',
+		phase: '',
+		electronic: 'Sim',
+		clientCode: '',
+		folder: '',
+		standardBillingCase: 'Sim',
 		totus: false,
-		migrado: false,
-		orgao: '',
-		distribuicao: '',
-		dataEntrada: '',
+		migrated: false,
+		organ: '',
+		distribution: '',
+		entryDate: '',
 		status: 'Ativo',
-		codigoInterno: '',
-		tipoPesquisa: 'Padrão',
-		codigo: '',
-		juiz: '',
+		internalCode: '',
+		searchType: 'Padrão',
+		code: '',
+		judge: '',
 		area: '',
 		subArea: '',
-		nucleo: '',
-		comarca: '',
-		foro: '',
-		vara: '',
-		socio: '',
-		coordenador: '',
-		advogado: '',
-		poloAtivo: {
-			nome: '',
-			documento: '',
-			tipo: 'Autor'
+		nucleus: '',
+		district: '',
+		forum: '',
+		court: '',
+		partner: '',
+		coordinator: '',
+		lawyer: '',
+		activePole: {
+			name: '',
+			document: '',
+			type: 'Autor'
 		},
-		poloPassivo: {
-			nome: '',
-			documento: '',
-			tipo: 'Réu'
+		passivePole: {
+			name: '',
+			document: '',
+			type: 'Réu'
 		},
-		valorCausa: '',
-		custas: '',
-		honorarios: '',
-		observacao: '',
-		detalhamentoObjeto: ''
+		caseValue: '',
+		costs: '',
+		fees: '',
+		observation: '',
+		objectDetails: ''
 	})
 
 	const updateField = (
 		field: keyof FormData,
-		value: string | boolean | {nome: string; documento: string; tipo: string}
+		value: string | boolean | {name: string; document: string; type: string}
 	) => {
 		setFormData(prev => ({
 			...prev,
@@ -251,8 +251,8 @@ export function FolderRegisterPage() {
 	}
 
 	const updateNestedField = (
-		parent: 'poloAtivo' | 'poloPassivo',
-		field: 'nome' | 'documento' | 'tipo',
+		parent: 'activePole' | 'passivePole',
+		field: 'name' | 'document' | 'type',
 		value: string
 	) => {
 		setFormData(prev => ({
@@ -290,27 +290,27 @@ export function FolderRegisterPage() {
 					<div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
 						<TextInput
 							label='Nº Processo'
-							onChange={value => updateField('numeroProcesso', value)}
-							value={formData.numeroProcesso}
+							onChange={value => updateField('processNumber', value)}
+							value={formData.processNumber}
 						/>
 						<TextInput
 							label='Nº CNJ'
-							onChange={value => updateField('numeroCNJ', value)}
-							value={formData.numeroCNJ}
+							onChange={value => updateField('cnjNumber', value)}
+							value={formData.cnjNumber}
 						/>
 						<SelectInput
 							label='Instância'
-							onChange={value => updateField('instancia', value)}
+							onChange={value => updateField('instance', value)}
 							options={[
 								'Primeira Instância',
 								'Segunda Instância',
 								'Tribunais Superiores'
 							]}
-							value={formData.instancia}
+							value={formData.instance}
 						/>
 						<SelectInput
 							label='Natureza'
-							onChange={value => updateField('natureza', value)}
+							onChange={value => updateField('nature', value)}
 							options={[
 								'Cível',
 								'Criminal',
@@ -318,45 +318,45 @@ export function FolderRegisterPage() {
 								'Tributário',
 								'Administrativo'
 							]}
-							value={formData.natureza}
+							value={formData.nature}
 						/>
 						<TextInput
 							label='Tipo de Ação'
-							onChange={value => updateField('tipoAcao', value)}
-							value={formData.tipoAcao}
+							onChange={value => updateField('actionType', value)}
+							value={formData.actionType}
 						/>
 						<SelectInput
 							label='Fase'
-							onChange={value => updateField('fase', value)}
+							onChange={value => updateField('phase', value)}
 							options={[
 								'Conhecimento',
 								'Execução',
 								'Recurso',
 								'Cumprimento de Sentença'
 							]}
-							value={formData.fase}
+							value={formData.phase}
 						/>
 						<SelectInput
 							label='Eletrônico'
-							onChange={value => updateField('eletronico', value)}
+							onChange={value => updateField('electronic', value)}
 							options={['Sim', 'Não']}
-							value={formData.eletronico}
+							value={formData.electronic}
 						/>
 						<TextInput
 							label='Código do Cliente'
-							onChange={value => updateField('codigoCliente', value)}
-							value={formData.codigoCliente}
+							onChange={value => updateField('clientCode', value)}
+							value={formData.clientCode}
 						/>
 						<TextInput
 							label='Pasta'
-							onChange={value => updateField('pasta', value)}
-							value={formData.pasta}
+							onChange={value => updateField('folder', value)}
+							value={formData.folder}
 						/>
 						<SelectInput
 							label='Caso Padrão Faturamento'
-							onChange={value => updateField('casoPadraoFaturamento', value)}
+							onChange={value => updateField('standardBillingCase', value)}
 							options={['Sim', 'Não']}
-							value={formData.casoPadraoFaturamento}
+							value={formData.standardBillingCase}
 						/>
 						<div className='flex items-end'>
 							<ToggleSwitch
@@ -367,9 +367,9 @@ export function FolderRegisterPage() {
 						</div>
 						<div className='flex items-end'>
 							<ToggleSwitch
-								checked={formData.migrado}
+								checked={formData.migrated}
 								label='Migrado'
-								onChange={value => updateField('migrado', value)}
+								onChange={value => updateField('migrated', value)}
 							/>
 						</div>
 					</div>
@@ -383,7 +383,7 @@ export function FolderRegisterPage() {
 					<div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
 						<SelectInput
 							label='Órgão'
-							onChange={value => updateField('orgao', value)}
+							onChange={value => updateField('organ', value)}
 							options={[
 								'TJSP',
 								'TJRJ',
@@ -395,18 +395,18 @@ export function FolderRegisterPage() {
 								'STJ',
 								'STF'
 							]}
-							value={formData.orgao}
+							value={formData.organ}
 						/>
 						<SelectInput
 							label='Distribuição'
-							onChange={value => updateField('distribuicao', value)}
+							onChange={value => updateField('distribution', value)}
 							options={['Sorteio', 'Dependência', 'Prevenção']}
-							value={formData.distribuicao}
+							value={formData.distribution}
 						/>
 						<DateInput
 							label='Data de Entrada'
-							onChange={value => updateField('dataEntrada', value)}
-							value={formData.dataEntrada}
+							onChange={value => updateField('entryDate', value)}
+							value={formData.entryDate}
 						/>
 						<SelectInput
 							label='Status'
@@ -416,24 +416,24 @@ export function FolderRegisterPage() {
 						/>
 						<TextInput
 							label='Código Interno'
-							onChange={value => updateField('codigoInterno', value)}
-							value={formData.codigoInterno}
+							onChange={value => updateField('internalCode', value)}
+							value={formData.internalCode}
 						/>
 						<SelectInput
 							label='Tipo de Pesquisa'
-							onChange={value => updateField('tipoPesquisa', value)}
+							onChange={value => updateField('searchType', value)}
 							options={['Padrão', 'Especial']}
-							value={formData.tipoPesquisa}
+							value={formData.searchType}
 						/>
 						<TextInput
 							label='Código'
-							onChange={value => updateField('codigo', value)}
-							value={formData.codigo}
+							onChange={value => updateField('code', value)}
+							value={formData.code}
 						/>
 						<TextInput
 							label='Juiz'
-							onChange={value => updateField('juiz', value)}
-							value={formData.juiz}
+							onChange={value => updateField('judge', value)}
+							value={formData.judge}
 						/>
 					</div>
 				</div>
@@ -466,38 +466,38 @@ export function FolderRegisterPage() {
 						/>
 						<TextInput
 							label='Núcleo'
-							onChange={value => updateField('nucleo', value)}
-							value={formData.nucleo}
+							onChange={value => updateField('nucleus', value)}
+							value={formData.nucleus}
 						/>
 						<TextInput
 							label='Comarca'
-							onChange={value => updateField('comarca', value)}
-							value={formData.comarca}
+							onChange={value => updateField('district', value)}
+							value={formData.district}
 						/>
 						<TextInput
 							label='Foro'
-							onChange={value => updateField('foro', value)}
-							value={formData.foro}
+							onChange={value => updateField('forum', value)}
+							value={formData.forum}
 						/>
 						<TextInput
 							label='Vara'
-							onChange={value => updateField('vara', value)}
-							value={formData.vara}
+							onChange={value => updateField('court', value)}
+							value={formData.court}
 						/>
 						<TextInput
 							label='Sócio'
-							onChange={value => updateField('socio', value)}
-							value={formData.socio}
+							onChange={value => updateField('partner', value)}
+							value={formData.partner}
 						/>
 						<TextInput
 							label='Coordenador'
-							onChange={value => updateField('coordenador', value)}
-							value={formData.coordenador}
+							onChange={value => updateField('coordinator', value)}
+							value={formData.coordinator}
 						/>
 						<TextInput
 							label='Advogado'
-							onChange={value => updateField('advogado', value)}
-							value={formData.advogado}
+							onChange={value => updateField('lawyer', value)}
+							value={formData.lawyer}
 						/>
 					</div>
 				</div>
@@ -516,24 +516,24 @@ export function FolderRegisterPage() {
 							<TextInput
 								label='Nome'
 								onChange={value =>
-									updateNestedField('poloAtivo', 'nome', value)
+									updateNestedField('activePole', 'name', value)
 								}
-								value={formData.poloAtivo.nome}
+								value={formData.activePole.name}
 							/>
 							<TextInput
 								label='CPF/CNPJ'
 								onChange={value =>
-									updateNestedField('poloAtivo', 'documento', value)
+									updateNestedField('activePole', 'document', value)
 								}
-								value={formData.poloAtivo.documento}
+								value={formData.activePole.document}
 							/>
 							<SelectInput
 								label='Tipo'
 								onChange={value =>
-									updateNestedField('poloAtivo', 'tipo', value)
+									updateNestedField('activePole', 'type', value)
 								}
 								options={['Autor', 'Requerente', 'Exequente', 'Impetrante']}
-								value={formData.poloAtivo.tipo}
+								value={formData.activePole.type}
 							/>
 						</div>
 					</div>
@@ -546,24 +546,24 @@ export function FolderRegisterPage() {
 							<TextInput
 								label='Nome'
 								onChange={value =>
-									updateNestedField('poloPassivo', 'nome', value)
+									updateNestedField('passivePole', 'name', value)
 								}
-								value={formData.poloPassivo.nome}
+								value={formData.passivePole.name}
 							/>
 							<TextInput
 								label='CPF/CNPJ'
 								onChange={value =>
-									updateNestedField('poloPassivo', 'documento', value)
+									updateNestedField('passivePole', 'document', value)
 								}
-								value={formData.poloPassivo.documento}
+								value={formData.passivePole.document}
 							/>
 							<SelectInput
 								label='Tipo'
 								onChange={value =>
-									updateNestedField('poloPassivo', 'tipo', value)
+									updateNestedField('passivePole', 'type', value)
 								}
 								options={['Réu', 'Requerido', 'Executado', 'Impetrado']}
-								value={formData.poloPassivo.tipo}
+								value={formData.passivePole.type}
 							/>
 						</div>
 					</div>
@@ -575,21 +575,21 @@ export function FolderRegisterPage() {
 					<div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
 						<TextInput
 							label='Valor da Causa'
-							onChange={value => updateField('valorCausa', value)}
+							onChange={value => updateField('caseValue', value)}
 							placeholder='R$ 0,00'
-							value={formData.valorCausa}
+							value={formData.caseValue}
 						/>
 						<TextInput
 							label='Custas'
-							onChange={value => updateField('custas', value)}
+							onChange={value => updateField('costs', value)}
 							placeholder='R$ 0,00'
-							value={formData.custas}
+							value={formData.costs}
 						/>
 						<TextInput
 							label='Honorários'
-							onChange={value => updateField('honorarios', value)}
+							onChange={value => updateField('fees', value)}
 							placeholder='R$ 0,00'
-							value={formData.honorarios}
+							value={formData.fees}
 						/>
 					</div>
 				</div>
@@ -602,13 +602,13 @@ export function FolderRegisterPage() {
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 						<TextareaInput
 							label='Observação'
-							onChange={value => updateField('observacao', value)}
-							value={formData.observacao}
+							onChange={value => updateField('observation', value)}
+							value={formData.observation}
 						/>
 						<TextareaInput
 							label='Detalhamento do Objeto'
-							onChange={value => updateField('detalhamentoObjeto', value)}
-							value={formData.detalhamentoObjeto}
+							onChange={value => updateField('objectDetails', value)}
+							value={formData.objectDetails}
 						/>
 					</div>
 				</div>

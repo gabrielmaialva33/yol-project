@@ -1,13 +1,8 @@
 import {useQuery} from '@tanstack/react-query'
+import type {ApiResponse} from '../../../shared/types/api'
+import type {FolderDetail} from '../types/folder.types'
 
-interface Folder {
-	id: string
-	status: string
-	date: string
-	time: string
-}
-
-async function getFolderDetail(folderId?: string): Promise<Folder> {
+async function getFolderDetail(folderId?: string): Promise<FolderDetail> {
 	if (!folderId) {
 		throw new Error('Folder ID is required')
 	}
@@ -15,7 +10,8 @@ async function getFolderDetail(folderId?: string): Promise<Folder> {
 	if (!response.ok) {
 		throw new Error('Failed to fetch folder details')
 	}
-	return response.json()
+	const data: ApiResponse<FolderDetail> = await response.json()
+	return data.data
 }
 
 export function useFolderDetail(folderId?: string) {
@@ -23,7 +19,7 @@ export function useFolderDetail(folderId?: string) {
 		data: folder,
 		isLoading,
 		isError
-	} = useQuery<Folder>({
+	} = useQuery({
 		queryKey: ['folderDetail', folderId],
 		queryFn: () => getFolderDetail(folderId),
 		enabled: Boolean(folderId)

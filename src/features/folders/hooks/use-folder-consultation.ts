@@ -16,7 +16,7 @@ export function useFolderConsultation() {
 		direction: 'desc'
 	})
 
-	// Converter filtros para o padrão da API
+	// Convert filters to API standard
 	const queryParams: QueryParams = {
 		page,
 		per_page: limit,

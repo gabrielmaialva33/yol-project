@@ -44,7 +44,7 @@ export function FolderFilters({filters, setFilters}: FolderFiltersProps) {
 		<div className='p-4 bg-white rounded-lg'>
 			<div className='grid grid-cols-1 md:grid-cols-5 gap-4'>
 				<input
-					className='p-2 border border-gray-300 rounded-md'
+					className='p-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500'
 					name='clientNumber'
 					onChange={handleInputChange}
 					placeholder='N° Cliente'
@@ -52,7 +52,7 @@ export function FolderFilters({filters, setFilters}: FolderFiltersProps) {
 					value={filters.clientNumber}
 				/>
 				<input
-					className='p-2 border border-gray-300 rounded-md'
+					className='p-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500'
 					name='dateRange'
 					onChange={handleInputChange}
 					placeholder='Data de inclusão'
@@ -60,7 +60,7 @@ export function FolderFilters({filters, setFilters}: FolderFiltersProps) {
 					value={filters.dateRange}
 				/>
 				<select
-					className='p-2 border border-gray-300 rounded-md'
+					className='p-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500'
 					name='area'
 					onChange={handleInputChange}
 					value={filters.area}
@@ -69,7 +69,7 @@ export function FolderFilters({filters, setFilters}: FolderFiltersProps) {
 					<option value='Civel contencioso'>Civel contencioso</option>
 				</select>
 				<input
-					className='p-2 border border-gray-300 rounded-md'
+					className='p-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500'
 					placeholder='Buscar'
 					type='text'
 				/>

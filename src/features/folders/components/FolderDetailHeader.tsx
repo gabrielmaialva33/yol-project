@@ -1,15 +1,9 @@
 import {ChevronLeft} from 'lucide-react'
 import {useNavigate} from 'react-router'
-
-interface Folder {
-	id: string
-	status: string
-	date: string
-	time: string
-}
+import type {FolderDetail} from '../types/folder.types'
 
 interface FolderDetailHeaderProps {
-	folder: Folder
+	folder: FolderDetail
 }
 
 const StatusBadge = (props: {status: string}) => {
@@ -45,7 +39,7 @@ export function FolderDetailHeader(props: FolderDetailHeaderProps) {
 				<div>
 					<div className='flex items-center gap-2'>
 						<h1 className='text-2xl font-semibold text-gray-900'>
-							Pasta #{props.folder.id.substring(0, FOLDER_ID_LENGTH)}
+							Pasta #{String(props.folder.id).substring(0, FOLDER_ID_LENGTH)}
 						</h1>
 						<StatusBadge status={props.folder.status} />
 					</div>

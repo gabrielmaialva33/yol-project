@@ -7,14 +7,14 @@ import type {
 } from '../../../shared/types/api'
 import type {Folder} from '../../../shared/types/domain'
 
-// Criar hooks base
+// Create base hooks
 const folderApi = createApiHooks<Folder>({
 	baseUrl: '/api/folders',
-	// token seria obtido do contexto de autenticação em produção
+	// token would be obtained from authentication context in production
 	token: 'mock-jwt-token'
 })
 
-// Exportar hooks base
+// Export base hooks
 export const {
 	useList: useFoldersList,
 	useGet: useFolder,
@@ -23,7 +23,7 @@ export const {
 	useDelete: useDeleteFolder
 } = folderApi
 
-// Hook customizado para alternar favorito
+// Custom hook to toggle favorite
 export function useToggleFolderFavorite() {
 	const queryClient = useQueryClient()
 
@@ -44,7 +44,7 @@ export function useToggleFolderFavorite() {
 			return response.json()
 		},
 		onSuccess: data => {
-			// Atualizar cache da lista
+			// Update list cache
 			queryClient.setQueryData<PaginatedResponse<Folder>>(
 				['folders', 'list'],
 				old => {
@@ -78,7 +78,7 @@ interface FolderStats {
 	}[]
 }
 
-// Hook para estatísticas
+// Hook for statistics
 export function useFolderStats() {
 	return useQuery({
 		queryKey: ['folders', 'stats'],
@@ -98,7 +98,7 @@ export function useFolderStats() {
 	})
 }
 
-// Hook de consulta com filtros avançados
+// Consultation hook with advanced filters
 export function useFolderConsultation(filters?: QueryParams) {
 	const queryParams: QueryParams = {
 		per_page: 10,

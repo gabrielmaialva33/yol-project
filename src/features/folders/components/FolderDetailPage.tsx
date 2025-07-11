@@ -6,14 +6,16 @@ import {FolderDetailSidebar} from './FolderDetailSidebar'
 
 export function FolderDetailPage() {
 	const {folderId} = useParams<{folderId: string}>()
-	const {folder, isLoading, isError} = useFolderDetail(folderId)
+	const {folder, isLoading, isError} = useFolderDetail(
+		folderId === '1830' ? '1830' : folderId
+	)
 
 	if (isLoading) {
 		return <div>Carregando...</div>
 	}
 
 	if (isError || !folder) {
-		return <div>Ocorreu um erro ao buscar os detalhes da pasta.</div>
+		return <div>Erro ao buscar os detalhes da pasta.</div>
 	}
 
 	return (
@@ -22,7 +24,7 @@ export function FolderDetailPage() {
 			<div className='mt-6 flex gap-6'>
 				<FolderDetailSidebar />
 				<div className='flex-1'>
-					<FolderDetailForm />
+					<FolderDetailForm folder={folder} />
 				</div>
 			</div>
 		</div>

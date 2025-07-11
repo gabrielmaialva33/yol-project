@@ -1,119 +1,114 @@
-// Tipos relacionados a Pastas/Processos no sistema YOL
+// Types related to Folders/Processes in the YOL system
 
 export interface FolderParty {
-	nome: string
+	name: string
 	cpf?: string
 	cnpj?: string
-	tipo: 'Autor' | 'Réu' | 'Terceiro'
+	type: 'Autor' | 'Réu' | 'Terceiro'
 }
 
 export interface FolderDocument {
 	id: string
-	nome: string
-	tipo:
+	name: string
+	type:
 		| 'Petição'
 		| 'Contrato'
 		| 'Procuração'
 		| 'Decisão'
 		| 'Sentença'
 		| 'Outros'
-	dataUpload: string
-	tamanho: string
+	uploadDate: string
+	size: string
 	url?: string
 }
 
 export interface FolderMovement {
-	data: string
-	descricao: string
-	responsavel: string
-	tipo?: string
+	date: string
+	description: string
+	responsible: string
+	type?: string
 }
 
 export interface FolderResponsible {
-	nome: string
+	name: string
 	email: string
 	avatar?: string
-	cargo?: string
+	position?: string
 }
 
 export interface FolderDetail {
-	// Identificação
+	// Identification
 	id: string
 	clientNumber: string
 	status: 'Ativo' | 'Arquivado' | 'Suspenso' | 'Encerrado'
 	date: string
 	time: string
 
-	// Informações do Processo
-	numeroProcesso: string
-	numeroCNJ: string
-	instancia: 'Primeira Instância' | 'Segunda Instância' | 'Tribunais Superiores'
-	natureza:
-		| 'Cível'
-		| 'Criminal'
-		| 'Trabalhista'
-		| 'Tributário'
-		| 'Administrativo'
-	tipoAcao: string
-	fase: 'Conhecimento' | 'Execução' | 'Recurso' | 'Cumprimento de Sentença'
-	eletronico: 'Sim' | 'Não'
-	codigoCliente: string
-	pasta: string
-	casoPadraoFaturamento: 'Sim' | 'Não'
+	// Process Information
+	processNumber: string
+	cnjNumber: string
+	instance: 'Primeira Instância' | 'Segunda Instância' | 'Tribunais Superiores'
+	nature: 'Cível' | 'Criminal' | 'Trabalhista' | 'Tributário' | 'Administrativo'
+	actionType: string
+	phase: 'Conhecimento' | 'Execução' | 'Recurso' | 'Cumprimento de Sentença'
+	electronic: 'Sim' | 'Não'
+	clientCode: string
+	folder: string
+	defaultBillingCase: 'Sim' | 'Não'
 	totus: boolean
-	migrado: boolean
+	migrated: boolean
 
-	// Informações do Tribunal
-	orgao: string
-	distribuicao: 'Sorteio' | 'Dependência' | 'Prevenção'
-	dataEntrada: string
-	codigoInterno: string
-	tipoPesquisa: string
-	codigo: string
-	juiz: string
+	// Court Information
+	organ: string
+	distribution: 'Sorteio' | 'Dependência' | 'Prevenção'
+	entryDate: string
+	internalCode: string
+	searchType: string
+	code: string
+	judge: string
 
-	// Localização e Responsáveis
+	// Location and Responsibles
 	area: string
 	subArea: string
-	nucleo: string
-	comarca: string
-	foro: string
-	vara: string
-	socio: string
-	coordenador: string
-	advogado: string
+	core: string
+	district: string
+	court: string
+	courtDivision: string
+	partner: string
+	coordinator: string
+	lawyer: string
 
-	// Partes
-	poloAtivo: FolderParty
-	poloPassivo: FolderParty
+	// Parties
+	plaintiff: FolderParty
+	defendant: FolderParty
 
-	// Informações Detalhadas
-	observacao: string
-	detalhamentoObjeto: string
-	ultimoAndamento: string
+	// Detailed Information
+	observation: string
+	objectDetail: string
+	lastMovement: string
 
-	// Valores
-	valorCausa: number
-	valorCondenacao?: number
-	custas?: number
-	honorarios?: number
+	// Values
+	caseValue: number
+	convictionValue?: number
+	costs?: number
+	fees?: number
 
-	// Datas importantes
-	dataDistribuicao: string
-	dataCitacao?: string
-	proximaAudiencia?: string
+	// Important Dates
+	distributionDate: string
+	citationDate?: string
+	nextHearing?: string
 
-	// Responsável pela pasta
-	responsavel: FolderResponsible
+	// Responsible for the folder
+	responsible: FolderResponsible
 
-	// Documentos anexados
-	documentos: FolderDocument[]
+	// Attached Documents
+	documents: FolderDocument[]
 
-	// Andamentos
-	andamentos: FolderMovement[]
+	// Movements
+	movements: FolderMovement[]
 }
 
-// Tipo simplificado para listagem
+// Simplified type for listing
 export interface FolderSummary {
 	id: string
 	favorite: boolean
@@ -123,21 +118,21 @@ export interface FolderSummary {
 	inclusionTime: string
 	docs: number
 	area: string
-	status: 'Completed' | 'Pending' | 'Refunded' | 'Cancelled'
+	status: 'Concluído' | 'Pendente' | 'Reembolsado' | 'Cancelado'
 }
 
-// Filtros para consulta
+// Filters for consultation
 export interface FolderFilters {
 	clientNumber?: string
 	dateRange?: string
 	area?: string
 	status?: string
-	socio?: string
-	advogado?: string
-	comarca?: string
+	partner?: string
+	lawyer?: string
+	district?: string
 }
 
-// Paginação
+// Pagination
 export interface FolderPagination {
 	page: number
 	limit: number
@@ -145,7 +140,7 @@ export interface FolderPagination {
 	totalPages: number
 }
 
-// Resposta da API de consulta
+// Consultation API Response
 export interface FolderConsultationResponse {
 	data: FolderSummary[]
 	pagination: FolderPagination
