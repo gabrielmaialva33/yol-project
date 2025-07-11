@@ -2,17 +2,10 @@ import {useQuery} from '@tanstack/react-query'
 import {DateTime} from 'luxon'
 import {useState} from 'react'
 import type {DateRange} from 'react-day-picker'
+import type {PaginatedResponse} from '../types/api'
+import type {Task} from '../types/domain'
 
-interface Task {
-	id: string
-	title: string
-	category: string
-	completed: boolean
-	color: string
-	dueDate: string
-}
-
-async function getTasks(): Promise<Task[]> {
+async function getTasks(): Promise<PaginatedResponse<Task>> {
 	const response = await fetch('/api/tasks')
 	return response.json()
 }
@@ -20,10 +13,11 @@ async function getTasks(): Promise<Task[]> {
 const DISPLAY_TASKS_LIMIT = 5
 
 export function useTasks() {
-	const {data: tasks = []} = useQuery<Task[]>({
+	const {data} = useQuery<PaginatedResponse<Task>>({
 		queryKey: ['tasks'],
 		queryFn: getTasks
 	})
+	const tasks = data?.data ?? []
 	const [optimisticTasks, setOptimisticTasks] = useState<Task[]>([])
 	const [dateRange, setDateRange] = useState<DateRange | undefined>()
 
@@ -31,17 +25,29 @@ export function useTasks() {
 		setDateRange(range)
 	}
 
-	const toggleTask = (id: string) => {
+	const toggleTask = (id: number) => {
 		setOptimisticTasks(prev => {
 			const existingTask = prev.find(task => task.id === id)
 			if (existingTask) {
 				return prev.map(task =>
-					task.id === id ? {...task, completed: !task.completed} : task
+					task.id === id
+						? {
+								...task,
+								status: task.status === 'completed' ? 'pending' : 'completed'
+							}
+						: task
 				)
 			}
 			const originalTask = tasks.find(task => task.id === id)
 			if (originalTask) {
-				return [...prev, {...originalTask, completed: !originalTask.completed}]
+				return [
+					...prev,
+					{
+						...originalTask,
+						status:
+							originalTask.status === 'completed' ? 'pending' : 'completed'
+					}
+				]
 			}
 			return prev
 		})
@@ -55,7 +61,7 @@ export function useTasks() {
 		const to = dateRange.to
 			? DateTime.fromJSDate(dateRange.to).endOf('day')
 			: from.endOf('day')
-		const taskDate = DateTime.fromISO(task.dueDate)
+		const taskDate = DateTime.fromISO(task.due_date)
 
 		return taskDate >= from && taskDate <= to
 	})
