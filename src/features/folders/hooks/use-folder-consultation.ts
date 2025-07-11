@@ -1,56 +1,8 @@
 'use client'
 
-import {useQuery} from '@tanstack/react-query'
 import {useState} from 'react'
-
-interface Folder {
-	id: string
-	clientNumber: string
-	responsible: {
-		name: string
-		email: string
-		avatar: string
-	}
-	inclusionDate: string
-	inclusionTime: string
-	docs: number
-	area: string
-	status: 'Completed' | 'Pending' | 'Refunded' | 'Cancelled'
-	favorite: boolean
-}
-
-interface PaginatedFoldersResponse {
-	data: Folder[]
-	total: number
-	page: number
-	limit: number
-	totalPages: number
-}
-
-async function getFolders(
-	page: number,
-	limit: number,
-	filters: {
-		clientNumber: string
-		dateRange: string
-		area: string
-		status: string
-	},
-	sort: {column: string; direction: string}
-): Promise<PaginatedFoldersResponse> {
-	const params = new URLSearchParams({
-		page: String(page),
-		limit: String(limit),
-		...filters,
-		sort: sort.column,
-		direction: sort.direction
-	})
-	const response = await fetch(`/api/folders/consultation?${params.toString()}`)
-	if (!response.ok) {
-		throw new Error('Failed to fetch folders')
-	}
-	return response.json()
-}
+import type {QueryParams} from '../../../shared/types/api'
+import {useFolderConsultation as useFolderConsultationApi} from './use-folders-api'
 
 export function useFolderConsultation() {
 	const [page, setPage] = useState(1)
@@ -62,23 +14,32 @@ export function useFolderConsultation() {
 		status: 'Total'
 	})
 	const [sort, setSort] = useState({
-		column: 'clientNumber',
-		direction: 'asc'
+		column: 'created_at',
+		direction: 'desc'
 	})
 
-	const {data, isLoading, isError} = useQuery<PaginatedFoldersResponse>({
-		queryKey: ['folderConsultation', page, limit, filters, sort],
-		queryFn: () => getFolders(page, limit, filters, sort),
-		placeholderData: previousData => previousData
-	})
+	// Converter filtros para o padrão da API
+	const queryParams: QueryParams = {
+		page,
+		per_page: limit,
+		sort_by: sort.column,
+		order: sort.direction as 'asc' | 'desc',
+		...(filters.clientNumber && {search: filters.clientNumber}),
+		...(filters.area && filters.area !== 'Total' && {area: filters.area}),
+		...(filters.status &&
+			filters.status !== 'Total' && {status: filters.status}),
+		...(filters.dateRange && parseDateRange(filters.dateRange))
+	}
+
+	const {data, isLoading, isError} = useFolderConsultationApi(queryParams)
 
 	return {
 		folders: data?.data ?? [],
 		pagination: {
-			page: data?.page ?? 1,
-			limit: data?.limit ?? 10,
-			total: data?.total ?? 0,
-			totalPages: data?.totalPages ?? 1
+			page: data?.meta.current_page ?? 1,
+			limit: data?.meta.per_page ?? 10,
+			total: data?.meta.total ?? 0,
+			totalPages: data?.meta.last_page ?? 1
 		},
 		filters,
 		setFilters,
@@ -88,5 +49,13 @@ export function useFolderConsultation() {
 		isError,
 		setPage,
 		setLimit
+	}
+}
+
+function parseDateRange(dateRange: string) {
+	const [startDate, endDate] = dateRange.split(' to ')
+	return {
+		...(startDate && {date_from: startDate.trim()}),
+		...(endDate && {date_to: endDate.trim()})
 	}
 }

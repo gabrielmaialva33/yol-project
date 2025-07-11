@@ -10,15 +10,15 @@ interface FolderData {
 	}[]
 }
 
-async function getFolders(): Promise<FolderData> {
-	const response = await fetch('/api/folders')
+async function getActiveFoldersStats(): Promise<FolderData> {
+	const response = await fetch('/api/dashboard/active-folders')
 	return response.json()
 }
 
 export function ActiveFoldersCard() {
 	const {data: folders} = useQuery<FolderData>({
-		queryKey: ['folders'],
-		queryFn: getFolders,
+		queryKey: ['active-folders-stats'],
+		queryFn: getActiveFoldersStats,
 		initialData: {
 			active: 0,
 			newThisMonth: 0,

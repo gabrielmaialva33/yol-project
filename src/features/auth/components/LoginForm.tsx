@@ -10,7 +10,7 @@ export function LoginForm() {
 	const passwordId = useId()
 	const navigate = useNavigate()
 	const [errors, setErrors] = useState({email: '', password: ''})
-	const {mutateAsync, isError} = useMutation({
+	const {mutateAsync, isError, error} = useMutation({
 		mutationFn: login,
 		onSuccess: () => {
 			void navigate('/dashboard')
@@ -91,7 +91,11 @@ export function LoginForm() {
 						</div>
 					</div>
 					{errors.password && <p className='text-red-500'>{errors.password}</p>}
-					{isError && <p className='text-red-500'>E-mail ou senha inválidos</p>}
+					{isError && (
+						<p className='text-red-500'>
+							{error?.message || 'E-mail ou senha inválidos'}
+						</p>
+					)}
 					<a
 						className='self-stretch text-right text-base font-medium text-gray-500 underline'
 						href='/#'

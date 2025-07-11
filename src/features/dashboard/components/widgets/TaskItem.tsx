@@ -1,36 +1,31 @@
 import commentIcon from '/icons/comment.svg'
 import attachmentIcon from '/icons/paperclip.svg'
-
-interface Task {
-	id: string
-	title: string
-	category: string
-	completed: boolean
-	color: string
-}
+import type {Task} from '../../../../shared/types/domain'
 
 interface TaskItemProps {
 	task: Task
-	toggleTask: (id: string) => void
+	toggleTask: (id: number) => void
 }
 
 export function TaskItem({task, toggleTask}: TaskItemProps) {
+	const isCompleted = task.status === 'completed'
+
 	return (
 		<div
 			className='flex items-center space-x-3 p-3 border-l-4 rounded-r'
 			key={task.id}
-			style={{borderColor: task.color}}
+			style={{borderColor: task.priority === 'high' ? 'red' : 'gray'}}
 		>
 			<button
 				className={`w-6 h-6 rounded-md flex items-center justify-center ${
-					task.completed
+					isCompleted
 						? 'bg-green-500 border-green-500 text-white'
 						: 'bg-gray-100 border-gray-100'
 				}`}
 				onClick={() => toggleTask(task.id)}
 				type='button'
 			>
-				{task.completed && (
+				{isCompleted && (
 					<svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
 						<title>Completed</title>
 						<path
@@ -43,11 +38,11 @@ export function TaskItem({task, toggleTask}: TaskItemProps) {
 			</button>
 			<div className='flex-1'>
 				<div
-					className={`font-medium ${task.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}
+					className={`font-medium ${isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}`}
 				>
 					{task.title}
 				</div>
-				<div className='text-sm text-gray-500'>{task.category}</div>
+				<div className='text-sm text-gray-500'>{task.folder?.title}</div>
 			</div>
 			<div className='flex space-x-2'>
 				<button

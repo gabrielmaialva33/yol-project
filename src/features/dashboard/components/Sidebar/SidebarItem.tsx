@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import downIcon from '/icons/down.svg'
 
 interface SidebarItemProps {
@@ -41,6 +42,7 @@ const renderIcon = (props: SidebarItemProps) => {
 }
 
 const SidebarItem = (props: SidebarItemProps) => {
+	const [showTooltip, setShowTooltip] = useState(false)
 	const activeClasses = props.active
 		? 'bg-orange-500 text-white'
 		: 'text-white hover:bg-gray-700'
@@ -54,7 +56,7 @@ const SidebarItem = (props: SidebarItemProps) => {
       }
     `}
 			</style>
-			<div
+			<button
 				className={`
     relative flex items-center py-2 px-3 my-1
     font-semibold rounded-md cursor-pointer
@@ -62,6 +64,9 @@ const SidebarItem = (props: SidebarItemProps) => {
     ${props.isCollapsed ? 'justify-center' : ''}
     ${activeClasses}
 `}
+				onMouseEnter={() => props.isCollapsed && setShowTooltip(true)}
+				onMouseLeave={() => setShowTooltip(false)}
+				type='button'
 			>
 				{renderIcon(props)}
 				<span
@@ -81,7 +86,14 @@ const SidebarItem = (props: SidebarItemProps) => {
 						{props.badge}
 					</div>
 				)}
-			</div>
+				{/* Tooltip */}
+				{showTooltip && props.isCollapsed && (
+					<div className='absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded whitespace-nowrap z-50'>
+						{props.text}
+						{props.badge && <span className='ml-2'>({props.badge})</span>}
+					</div>
+				)}
+			</button>
 		</>
 	)
 }

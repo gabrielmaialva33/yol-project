@@ -1,26 +1,46 @@
 'use client'
 
 import {Star} from 'lucide-react'
+import {DateTime} from 'luxon'
 import type React from 'react'
 import {Link} from 'react-router'
 import arrowRightIcon from '/icons/arrow-right.svg'
 import downIcon from '/icons/down.svg'
 import moreIcon from '/icons/more-horizontal.svg'
+import type {Folder} from '../../../shared/types/domain'
+import {FolderArea, FolderStatus} from '../../../shared/types/domain'
 
-interface Folder {
-	id: string
-	clientNumber: string
-	responsible: {
-		name: string
-		email: string
-		avatar: string
-	}
-	inclusionDate: string
-	inclusionTime: string
-	docs: number
-	area: string
-	status: 'Completed' | 'Pending' | 'Refunded' | 'Cancelled'
-	favorite: boolean
+// Mapeamento de áreas
+const areaNames: Record<FolderArea, string> = {
+	[FolderArea.CIVIL_LITIGATION]: 'Cível Contencioso',
+	[FolderArea.LABOR]: 'Trabalhista',
+	[FolderArea.TAX]: 'Tributário',
+	[FolderArea.CRIMINAL]: 'Criminal',
+	[FolderArea.ADMINISTRATIVE]: 'Administrativo',
+	[FolderArea.CONSUMER]: 'Consumidor',
+	[FolderArea.FAMILY]: 'Família',
+	[FolderArea.CORPORATE]: 'Empresarial',
+	[FolderArea.ENVIRONMENTAL]: 'Ambiental',
+	[FolderArea.INTELLECTUAL_PROPERTY]: 'Propriedade Intelectual',
+	[FolderArea.REAL_ESTATE]: 'Imobiliário',
+	[FolderArea.INTERNATIONAL]: 'Internacional'
+}
+
+// Mapeamento de status
+const statusNames: Record<FolderStatus, string> = {
+	[FolderStatus.ACTIVE]: 'Ativo',
+	[FolderStatus.COMPLETED]: 'Concluído',
+	[FolderStatus.PENDING]: 'Pendente',
+	[FolderStatus.CANCELLED]: 'Cancelado',
+	[FolderStatus.ARCHIVED]: 'Arquivado'
+}
+
+const statusColors: Record<FolderStatus, string> = {
+	[FolderStatus.ACTIVE]: 'bg-blue-100 text-blue-800',
+	[FolderStatus.COMPLETED]: 'bg-green-100 text-green-800',
+	[FolderStatus.PENDING]: 'bg-yellow-100 text-yellow-800',
+	[FolderStatus.CANCELLED]: 'bg-red-100 text-red-800',
+	[FolderStatus.ARCHIVED]: 'bg-gray-100 text-gray-800'
 }
 
 interface FolderTableProps {
@@ -34,18 +54,15 @@ interface FolderTableProps {
 	setSelectedFolders: (selectedFolders: string[]) => void
 }
 
-const StatusBadge = (props: {status: Folder['status']}) => {
+const StatusBadge = (props: {status: FolderStatus}) => {
 	const {status} = props
 	const baseClasses =
 		'px-2.5 py-0.5 text-xs font-semibold rounded-full inline-block'
-	const statusClasses = {
-		Completed: 'bg-green-100 text-green-800',
-		Pending: 'bg-yellow-100 text-yellow-800',
-		Refunded: 'bg-gray-100 text-gray-800',
-		Cancelled: 'bg-red-100 text-red-800'
-	}
+
 	return (
-		<span className={`${baseClasses} ${statusClasses[status]}`}>{status}</span>
+		<span className={`${baseClasses} ${statusColors[status]}`}>
+			{statusNames[status]}
+		</span>
 	)
 }
 
@@ -64,7 +81,7 @@ export function FolderTable({
 
 	const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) {
-			setSelectedFolders(folders.map(folder => folder.id))
+			setSelectedFolders(folders.map(folder => folder.id.toString()))
 		} else {
 			setSelectedFolders([])
 		}
@@ -105,11 +122,11 @@ export function FolderTable({
 						</th>
 						<th
 							className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer'
-							onClick={() => handleSort('clientNumber')}
+							onClick={() => handleSort('code')}
 							scope='col'
 						>
 							<div className='flex items-center'>
-								Nº Cliente
+								Código
 								<img
 									alt='Sort'
 									className='w-4 h-4 ml-1 opacity-50'
@@ -125,7 +142,7 @@ export function FolderTable({
 						</th>
 						<th
 							className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer'
-							onClick={() => handleSort('inclusionDate')}
+							onClick={() => handleSort('created_at')}
 							scope='col'
 						>
 							Data de inclusão
@@ -155,52 +172,58 @@ export function FolderTable({
 				</thead>
 				<tbody className='bg-white divide-y divide-gray-200'>
 					{folders.map(folder => {
-						const isSelected = selectedFolders.indexOf(folder.id) !== -1
+						const isSelected =
+							selectedFolders.indexOf(folder.id.toString()) !== -1
+						const createdDate = DateTime.fromISO(folder.created_at)
+						const dateStr = createdDate.toFormat('dd LLL yyyy', {
+							locale: 'pt-BR'
+						})
+						const timeStr = createdDate.toFormat('HH:mm')
+
 						return (
 							<tr className={isSelected ? 'bg-cyan-50' : ''} key={folder.id}>
 								<td className='px-6 py-4 whitespace-nowrap'>
 									<input
 										checked={isSelected}
 										className='h-4 w-4 text-cyan-600 border-gray-300 rounded focus:ring-cyan-500'
-										onChange={() => handleSelectOne(folder.id)}
+										onChange={() => handleSelectOne(folder.id.toString())}
 										type='checkbox'
 									/>
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-									#{folder.clientNumber}
+									#{folder.code}
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap'>
 									<div className='flex items-center'>
 										<div className='flex-shrink-0 h-10 w-10'>
 											<img
-												alt={folder.responsible.name}
+												alt={folder.responsible_lawyer.full_name}
 												className='h-10 w-10 rounded-full'
-												src={folder.responsible.avatar || '/placeholder.svg'}
+												src={
+													folder.responsible_lawyer.avatar_url ||
+													'/placeholder.svg'
+												}
 											/>
 										</div>
 										<div className='ml-4'>
 											<div className='text-sm font-medium text-gray-900'>
-												{folder.responsible.name}
+												{folder.responsible_lawyer.full_name}
 											</div>
 											<div className='text-sm text-gray-500'>
-												{folder.responsible.email}
+												{folder.responsible_lawyer.email}
 											</div>
 										</div>
 									</div>
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap'>
-									<div className='text-sm text-gray-900'>
-										{folder.inclusionDate}
-									</div>
-									<div className='text-sm text-gray-500'>
-										{folder.inclusionTime}
-									</div>
+									<div className='text-sm text-gray-900'>{dateStr}</div>
+									<div className='text-sm text-gray-500'>{timeStr}</div>
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-									{folder.docs}
+									{folder.documents_count}
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-									{folder.area}
+									{areaNames[folder.area]}
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap'>
 									<StatusBadge status={folder.status} />
@@ -217,7 +240,7 @@ export function FolderTable({
 											type='button'
 										>
 											<Star
-												className={`w-5 h-5 ${folder.favorite ? 'text-yellow-400' : 'text-gray-300'}`}
+												className={`w-5 h-5 ${folder.is_favorite ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
 											/>
 										</button>
 										<Link

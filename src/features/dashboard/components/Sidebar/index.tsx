@@ -1,5 +1,6 @@
 'use client'
 
+import {useQuery} from '@tanstack/react-query'
 import {useState} from 'react'
 import {Link, useLocation} from 'react-router'
 import downIcon from '/icons/down.svg'
@@ -26,6 +27,18 @@ interface MenuItem {
 	subItems?: SubMenuItem[]
 }
 
+interface FavoriteClient {
+	id: number
+	name: string
+	folderCount: number
+	color: string
+}
+
+async function getFavoriteClients(): Promise<FavoriteClient[]> {
+	const response = await fetch('/api/dashboard/favorite-clients')
+	return response.json()
+}
+
 const pages: MenuItem[] = [
 	{
 		icon: overviewIcon,
@@ -40,51 +53,6 @@ const pages: MenuItem[] = [
 			{text: 'Cadastro', path: '/dashboard/folders/register'},
 			{text: 'Consulta', path: '/dashboard/folders/consultation'}
 		]
-	}
-]
-
-const favorites: MenuItem[] = [
-	{
-		icon: '',
-		color: '#008980',
-		text: 'Cliente A',
-		badge: 6,
-		path: '#'
-	},
-	{
-		icon: '',
-		color: '#2FAC68',
-		text: 'Cliente B',
-		badge: 2,
-		path: '#'
-	},
-	{
-		icon: '',
-		color: '#F6C000',
-		text: 'Cliente C',
-		badge: 37,
-		path: '#'
-	},
-	{
-		icon: '',
-		color: '#5A5DFF',
-		text: 'Cliente D',
-		badge: 12,
-		path: '#'
-	},
-	{
-		icon: '',
-		color: '#FF5A5D',
-		text: 'Cliente E',
-		badge: 5,
-		path: '#'
-	},
-	{
-		icon: '',
-		color: '#FF8A00',
-		text: 'Cliente F',
-		badge: 10,
-		path: '#'
 	}
 ]
 
@@ -115,13 +83,13 @@ const SearchInput = (props: {isCollapsed: boolean}) =>
 	props.isCollapsed ? null : (
 		<div className='flex items-center rounded-md bg-[#475569] mt-6 px-4 py-2'>
 			<img
-				alt='Search'
+				alt='Buscar'
 				className='w-4 h-4 text-white'
 				src={magnifierIcon || '/placeholder.svg'}
 			/>
 			<input
 				className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
-				placeholder='Search'
+				placeholder='Buscar'
 				type='search'
 			/>
 		</div>
@@ -244,7 +212,7 @@ const MenuList = (props: {
 							src={downIcon || '/placeholder.svg'}
 						/>
 						<span className='ml-2 text-sm text-[#A1A5B7] font-semibold'>
-							{showAll ? 'Show less' : 'Show more'}
+							{showAll ? 'Mostrar menos' : 'Mostrar mais'}
 						</span>
 					</button>
 				)}
@@ -254,8 +222,21 @@ const MenuList = (props: {
 
 const Sidebar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false)
+	const {data: favoriteClients = []} = useQuery<FavoriteClient[]>({
+		queryKey: ['favorite-clients'],
+		queryFn: getFavoriteClients
+	})
 
 	const toggleSidebar = () => setIsCollapsed(!isCollapsed)
+
+	// Convert favorite clients to MenuItem format
+	const favorites: MenuItem[] = favoriteClients.map(client => ({
+		icon: '',
+		color: client.color,
+		text: client.name,
+		badge: client.folderCount,
+		path: `/dashboard/folders/consultation?clientId=${client.id}`
+	}))
 
 	return (
 		<aside
@@ -271,7 +252,7 @@ const Sidebar = () => {
 					type='button'
 				>
 					<img
-						alt='Toggle Sidebar'
+						alt='Alternar Sidebar'
 						className='transition-transform duration-300 rotate-180'
 						src={leftSquareIcon || '/placeholder.svg'}
 					/>
@@ -284,9 +265,9 @@ const Sidebar = () => {
 				<div
 					className={`${isCollapsed ? 'flex flex-col items-center' : 'px-10'}`}
 				>
-					<MenuList isCollapsed={isCollapsed} items={pages} title='PAGES' />
+					<MenuList isCollapsed={isCollapsed} items={pages} title='PÁGINAS' />
 				</div>
-				{!isCollapsed && (
+				{!isCollapsed && favorites.length > 0 && (
 					<>
 						<div className='border-b border-solid border-[#334155] mx-10 my-4' />
 						<div className='px-10'>
@@ -294,7 +275,7 @@ const Sidebar = () => {
 								isCollapsed={isCollapsed}
 								isDropdown={true}
 								items={favorites}
-								title='FAVORITOS'
+								title='CLIENTES FAVORITOS'
 							/>
 						</div>
 					</>

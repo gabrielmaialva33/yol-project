@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {useTasks} from '../../../../shared/hooks/useTasks'
+import {useTasks} from '../../../../shared/hooks/use-tasks'
 import {DateRangePicker} from '../../../../shared/ui/DateRangePicker'
 import {TaskItem} from './TaskItem'
 
