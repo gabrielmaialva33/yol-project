@@ -22,7 +22,7 @@ export function BirthdaysCard() {
 			<div className='flex items-center justify-between mb-4'>
 				<h3 className='text-lg font-semibold text-gray-900'>Aniversariantes</h3>
 				<button
-					className='text-sm font-medium text-cyan-500 hover:text-cyan-600'
+					className='text-sm font-medium text-cyan-500 hover:text-cyan-600 cursor-pointer'
 					type='button'
 				>
 					Ver todos
@@ -37,14 +37,14 @@ export function BirthdaysCard() {
 						<img
 							alt={user.name}
 							className='w-10 h-10 rounded-full'
-							src={user.avatar}
+							src={user.avatar || '/placeholder.svg'}
 						/>
 						<div className='flex-1'>
 							<div className='font-medium text-gray-900'>{user.name}</div>
 							<div className='text-sm text-gray-500'>{user.email}</div>
 						</div>
 						<button
-							className='p-1 text-gray-400 hover:text-gray-600'
+							className='p-1 text-gray-400 hover:text-gray-600 cursor-pointer'
 							type='button'
 						>
 							<svg
