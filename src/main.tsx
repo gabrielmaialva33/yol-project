@@ -13,7 +13,7 @@ const queryClient = new QueryClient()
 if (import.meta.env.DEV || window.location.hostname.includes('github.io')) {
 	worker.start({
 		serviceWorker: {
-			url: '/yol-project/mockServiceWorker.js'
+			url: '/yol-project/mock-service-worker.js'
 		}
 	})
 }
