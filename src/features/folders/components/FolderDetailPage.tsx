@@ -1,9 +1,7 @@
-'use client'
-
 import {useParams} from 'react-router'
-import {FolderDetailForm} from '../components/FolderDetailForm'
-import {FolderDetailHeader} from '../components/FolderDetailHeader'
-import {FolderDetailSidebar} from '../components/FolderDetailSidebar'
+import {FolderDetailForm} from './FolderDetailForm'
+import {FolderDetailHeader} from './FolderDetailHeader'
+import {FolderDetailSidebar} from './FolderDetailSidebar'
 import {useFolderDetail} from '../hooks/use-folder-detail'
 
 export function FolderDetailPage() {
