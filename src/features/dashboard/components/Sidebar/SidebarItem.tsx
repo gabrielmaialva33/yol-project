@@ -10,6 +10,7 @@ interface SidebarItemProps {
 	badge?: number | undefined
 	hasSubItems?: boolean
 	isOpen?: boolean
+	asButton?: boolean
 }
 
 const getIconClasses = (isCollapsed: boolean, active = false) => {
@@ -47,6 +48,44 @@ const SidebarItem = (props: SidebarItemProps) => {
 		? 'bg-orange-500 text-white'
 		: 'text-white hover:bg-gray-700'
 
+	const className = `
+    relative flex items-center py-2 px-3 my-1
+    font-semibold rounded-md cursor-pointer
+    transition-colors group text-base w-full
+    ${props.isCollapsed ? 'justify-center' : ''}
+    ${activeClasses}
+`
+
+	const content = (
+		<>
+			{renderIcon(props)}
+			<span
+				className={`overflow-hidden transition-all ${props.isCollapsed ? 'w-0' : 'w-52 ml-4'}`}
+			>
+				{props.text}
+			</span>
+			{props.hasSubItems && !props.isCollapsed && (
+				<img
+					alt='Dropdown'
+					className={`w-5 h-5 ml-auto transition-transform ${props.isOpen ? 'rotate-180' : ''}`}
+					src={downIcon || '/placeholder.svg'}
+				/>
+			)}
+			{!props.isCollapsed && props.badge && (
+				<div className='ml-auto text-xs bg-[#475569] text-white rounded-md px-2 py-1'>
+					{props.badge}
+				</div>
+			)}
+			{/* Tooltip */}
+			{showTooltip && props.isCollapsed && (
+				<div className='absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded whitespace-nowrap z-50'>
+					{props.text}
+					{props.badge && <span className='ml-2'>({props.badge})</span>}
+				</div>
+			)}
+		</>
+	)
+
 	return (
 		<>
 			<style>
@@ -56,44 +95,18 @@ const SidebarItem = (props: SidebarItemProps) => {
       }
     `}
 			</style>
-			<button
-				className={`
-    relative flex items-center py-2 px-3 my-1
-    font-semibold rounded-md cursor-pointer
-    transition-colors group text-base w-full
-    ${props.isCollapsed ? 'justify-center' : ''}
-    ${activeClasses}
-`}
-				onMouseEnter={() => props.isCollapsed && setShowTooltip(true)}
-				onMouseLeave={() => setShowTooltip(false)}
-				type='button'
-			>
-				{renderIcon(props)}
-				<span
-					className={`overflow-hidden transition-all ${props.isCollapsed ? 'w-0' : 'w-52 ml-4'}`}
+			{props.asButton !== false ? (
+				<button
+					className={className}
+					onMouseEnter={() => props.isCollapsed && setShowTooltip(true)}
+					onMouseLeave={() => setShowTooltip(false)}
+					type='button'
 				>
-					{props.text}
-				</span>
-				{props.hasSubItems && !props.isCollapsed && (
-					<img
-						alt='Dropdown'
-						className={`w-5 h-5 ml-auto transition-transform ${props.isOpen ? 'rotate-180' : ''}`}
-						src={downIcon || '/placeholder.svg'}
-					/>
-				)}
-				{!props.isCollapsed && props.badge && (
-					<div className='ml-auto text-xs bg-[#475569] text-white rounded-md px-2 py-1'>
-						{props.badge}
-					</div>
-				)}
-				{/* Tooltip */}
-				{showTooltip && props.isCollapsed && (
-					<div className='absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded whitespace-nowrap z-50'>
-						{props.text}
-						{props.badge && <span className='ml-2'>({props.badge})</span>}
-					</div>
-				)}
-			</button>
+					{content}
+				</button>
+			) : (
+				<div className={className}>{content}</div>
+			)}
 		</>
 	)
 }

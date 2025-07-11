@@ -50,7 +50,7 @@ const pages: MenuItem[] = [
 		text: 'Pastas',
 		path: '/dashboard/folders',
 		subItems: [
-			{text: 'Cadastro', path: '/dashboard/folders/register'},
+			{text: 'Cadastrar', path: '/dashboard/folders/register'},
 			{text: 'Consulta', path: '/dashboard/folders/consultation'}
 		]
 	}
@@ -70,7 +70,7 @@ const SidebarHeader = (props: {isCollapsed: boolean; toggle: () => void}) => (
 		{!props.isCollapsed && (
 			<button onClick={props.toggle} type='button'>
 				<img
-					alt='Toggle Sidebar'
+					alt='Alternar Barra Lateral'
 					className='transition-transform duration-300'
 					src={leftSquareIcon || '/placeholder.svg'}
 				/>
@@ -83,13 +83,13 @@ const SearchInput = (props: {isCollapsed: boolean}) =>
 	props.isCollapsed ? null : (
 		<div className='flex items-center rounded-md bg-[#475569] mt-6 px-4 py-2'>
 			<img
-				alt='Buscar'
+				alt='Pesquisar'
 				className='w-4 h-4 text-white'
 				src={magnifierIcon || '/placeholder.svg'}
 			/>
 			<input
 				className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
-				placeholder='Buscar'
+				placeholder='Pesquisar'
 				type='search'
 			/>
 		</div>
@@ -110,6 +110,7 @@ const MenuItemComponent = (props: {
 	const content = (
 		<SidebarItem
 			active={isActive}
+			asButton={!props.item.subItems}
 			badge={props.item.badge}
 			color={props.item.color}
 			hasSubItems={Boolean(props.item.subItems)}
@@ -207,7 +208,7 @@ const MenuList = (props: {
 						type='button'
 					>
 						<img
-							alt='Show more'
+							alt='Mostrar mais'
 							className={`w-4 h-4 transition-transform ${showAll ? 'rotate-180' : ''}`}
 							src={downIcon || '/placeholder.svg'}
 						/>

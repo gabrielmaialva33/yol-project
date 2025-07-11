@@ -58,7 +58,7 @@ export function Header() {
 							type='button'
 						>
 							<img
-								alt='Notifications'
+								alt='Notificações'
 								className='w-5 h-5'
 								src={bellIcon || '/placeholder.svg'}
 							/>
@@ -73,7 +73,7 @@ export function Header() {
 						type='button'
 					>
 						<img
-							alt='Calendar'
+							alt='Calendário'
 							className='w-5 h-5'
 							src={calendarIcon || '/placeholder.svg'}
 						/>
@@ -85,7 +85,7 @@ export function Header() {
 							type='button'
 						>
 							<img
-								alt='messages'
+								alt='mensagens'
 								className='w-5 h-5'
 								src={messagesIcon || '/placeholder.svg'}
 							/>
@@ -96,7 +96,7 @@ export function Header() {
 						{showMessages && <MessagesDropdown />}
 					</div>
 					<img
-						alt='User Avatar'
+						alt='Avatar do usuário'
 						className='w-8 h-8 rounded-full'
 						src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly&accessoriesType=Prescription01&hairColor=Blonde&facialHairType=MoustacheMagnum&facialHairColor=Blonde&clotheType=GraphicShirt&clotheColor=Red&graphicType=Skull&eyeType=EyeRoll&eyebrowType=FlatNatural&mouthType=Sad&skinColor=Pale'
 					/>
@@ -106,7 +106,7 @@ export function Header() {
 						type='button'
 					>
 						<img
-							alt='exit'
+							alt='sair'
 							className='w-5 h-5'
 							src={exitIcon || '/placeholder.svg'}
 						/>
