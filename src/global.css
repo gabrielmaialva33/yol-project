@@ -18,6 +18,10 @@
 		brightness(101%) contrast(101%);
 }
 
+.filter-white {
+	filter: brightness(0) invert(1);
+}
+
 @keyframes zoom-in-50 {
 	from {
 		opacity: 0;
